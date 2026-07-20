@@ -36,10 +36,10 @@
         ]
       },
       {
-        "group": "Resolve reviews",
+        "group": "Audiences",
         "pages": [
-          "api/resolve-reviews",
-          "api/get-job-status"
+          "api/audiences",
+          "api/competitor-reviews"
         ]
       },
       {

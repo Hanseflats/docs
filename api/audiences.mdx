@@ -1,0 +1,105 @@
+---
+title: "Audiences API"
+description: "Launch and manage Playbooks audiences — list plays, validate params, poll status, export CSV."
+---
+
+Authenticated control plane for audience plays. Use this for competitor reviews and every other audience play.
+
+## Auth
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+or `x-api-key: YOUR_API_KEY`.
+
+Optional launch safety header:
+
+```
+Idempotency-Key: my-agent-run-123
+```
+
+## Endpoints
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/v1/audiences/plays` | Catalog of active plays |
+| `GET` | `/api/v1/audiences/plays/:slug` | Play + `required_inputs` schema |
+| `POST` | `/api/v1/audiences/validate` | Dry-run param validation |
+| `POST` | `/api/v1/audiences` | Launch audience |
+| `GET` | `/api/v1/audiences` | List your audiences |
+| `GET` | `/api/v1/audiences/:id` | Detail + recent leads/companies |
+| `PATCH` | `/api/v1/audiences/:id` | Update cadence / delivery / title |
+| `POST` | `/api/v1/audiences/:id/sync` | Push to webhook / Instantly |
+| `GET` | `/api/v1/audiences/:id/export` | CSV (`?type=leads\|companies`) |
+
+JSON uses **snake_case**. Volume target is top-level `number_of_leads` (default `100`). Play-specific inputs go in `source_params`.
+
+## Credits
+
+Charged after successful finds (not at launch):
+
+| Result | Credits |
+| --- | --- |
+| Company found (no personas) | 1 |
+| Company found + matched buyer persona | 2 |
+| Person-first play (reviews, Substack, Upwork, new hires, etc.) | 1 per person |
+
+## Example flow
+
+```bash
+export API_KEY=YOUR_API_KEY
+export BASE=https://app.lens.ly
+
+# 1) List plays
+curl -s "$BASE/api/v1/audiences/plays" \
+  -H "Authorization: Bearer $API_KEY" | jq '.plays[] | {slug, name}'
+
+# 2) Inspect a play
+curl -s "$BASE/api/v1/audiences/plays/competitor-reviews" \
+  -H "Authorization: Bearer $API_KEY" | jq '.play.required_inputs'
+
+# 3) Launch
+curl -s -X POST "$BASE/api/v1/audiences" \
+  -H "Authorization: Bearer $API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: reviews-demo-1" \
+  -d '{
+    "play_slug": "competitor-reviews",
+    "source_params": {
+      "websites": "hubspot.com",
+      "max_rating": "3",
+      "find_work_email": "true"
+    },
+    "number_of_leads": 100,
+    "title": "HubSpot reviewer leads"
+  }' | jq
+
+# 4) Poll
+curl -s "$BASE/api/v1/audiences/AUDIENCE_ID" \
+  -H "Authorization: Bearer $API_KEY" \
+  | jq '.audience | {id, apify_status, leads_total}'
+
+# 5) Export
+curl -s "$BASE/api/v1/audiences/AUDIENCE_ID/export?type=leads" \
+  -H "Authorization: Bearer $API_KEY" -o leads.csv
+```
+
+## Launch response
+
+```json
+{
+  "audience": {
+    "id": "...",
+    "title": "HubSpot reviewer leads",
+    "play_slug": "competitor-reviews",
+    "apify_status": "pending",
+    "netrows_cadence": null
+  },
+  "status": "triggered"
+}
+```
+
+`status` is `"idempotent_replay"` when the same user + `Idempotency-Key` already launched that play.
+
+See [Competitor reviews](/api/competitor-reviews) for the review play inputs.
