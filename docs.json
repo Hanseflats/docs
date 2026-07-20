@@ -13,7 +13,7 @@
     "dark": "/logo/dark.svg"
   },
   "navigation": {
-    "pages": [
+    "groups": [
       {
         "group": "Getting started",
         "pages": [
