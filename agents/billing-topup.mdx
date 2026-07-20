@@ -1,0 +1,51 @@
+---
+title: "Top up"
+description: "Charge the saved card off-session. Usually unnecessary when auto-topup is on."
+---
+
+
+Charge the saved card off-session. Usually unnecessary when auto-topup is on.
+
+## Endpoint
+
+```
+POST https://app.lens.ly/api/v1/billing/topup
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `amount_cents` | No | Defaults to minimum $10 (1000¢). |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/billing/topup \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"amount_cents":1000}'
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "amount_cents": 1000,
+  "payment_intent_id": "pi_…",
+  "balance_cents": 3500,
+  "credits": 1166
+}
+```
+
+If no card is saved, returns **402** with `payment.setup_url`.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

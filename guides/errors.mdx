@@ -1,0 +1,30 @@
+---
+title: "Error codes"
+description: "Common API error codes and what to do."
+---
+
+| Status | Meaning | Action |
+| --- | --- | --- |
+| `401` | Invalid or missing API key | Check `Authorization` / `x-api-key` |
+| `402` | Insufficient balance / past due | Top up or open `payment.setup_url` |
+| `400` | Bad request | Fix required fields |
+| `404` | Not found | Check job id / domain |
+| `429` | Rate limited | Back off and retry |
+| `500` / `503` | Server / config error | Retry; contact support if persists |
+
+### Enriched 402 (agents)
+
+```json
+{
+  "error": "Insufficient balance. Top up on Billing.",
+  "credits_remaining": 0,
+  "credits_needed": 1,
+  "balance_cents": 0,
+  "payment": {
+    "status": "needs_setup",
+    "setup_url": "https://checkout.stripe.com/…",
+    "min_topup_cents": 1000,
+    "credit_cost_cents": 3
+  }
+}
+```

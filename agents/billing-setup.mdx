@@ -1,0 +1,51 @@
+---
+title: "Billing setup"
+description: "Create a Stripe Checkout link to add a card, buy credits, and enable auto-topup."
+---
+
+
+Create a Stripe Checkout link to add a card, buy credits, and enable auto-topup.
+
+## Endpoint
+
+```
+POST https://app.lens.ly/api/v1/billing/setup
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `amount_cents` | No | Default 2500 ($25). Minimum 1000 ($10). |
+| `enable_auto_topup` | No | Default true. Enables off-session auto-topup after checkout. |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/billing/setup \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"amount_cents":2500,"enable_auto_topup":true}'
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "setup_url": "https://checkout.stripe.com/c/pay/cs_…",
+  "amount_cents": 2500,
+  "credit_cost_cents": 3,
+  "min_topup_cents": 1000,
+  "enable_auto_topup": true
+}
+```
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

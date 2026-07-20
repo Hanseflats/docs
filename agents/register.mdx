@@ -1,0 +1,47 @@
+---
+title: "Register"
+description: "Send a 6-digit email verification code. Does not return an API key."
+---
+
+
+Send a 6-digit email verification code. Does not return an API key.
+
+## Endpoint
+
+```
+POST https://app.lens.ly/api/v1/agents/register
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `email` | Yes | Where the verification code is sent |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/agents/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"you@example.com"}'
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "email": "you@example.com",
+  "expires_at": "2026-07-20T14:30:00.000Z",
+  "message": "Verification code sent. Call POST /api/v1/agents/verify with email + code."
+}
+```
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

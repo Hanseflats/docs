@@ -1,47 +1,28 @@
 ---
 title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+description: "Make your first API call in minutes."
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
-
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
-
-## Prerequisites
-
-Before you begin, you must have:
-
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
-
-## Get started
-
 <Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
+  <Step title="Get an API key">
+    **Dashboard:** Sign up at [app.lens.ly](https://app.lens.ly), open Settings, generate a key.
 
-    ```bash
-    npm install your-package
-    ```
+    **Agents:** Follow [Agent self-serve](/agents/overview) — register, verify, then complete billing setup.
   </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
-
-    ```bash
-    your-cli init
-    ```
+  <Step title="Check balance">
+```bash
+curl https://app.lens.ly/api/v1/billing \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
   </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
-
-    ```bash
-    your-cli start
-    ```
+  <Step title="Call an enrichment">
+```bash
+curl -X POST https://app.lens.ly/api/v1/company/google-ad-spend \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"domain":"shopify.com"}'
+```
   </Step>
 </Steps>
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
-
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
-</Tip>
+On HTTP **402**, open `payment.setup_url` from the response (or call [Billing Setup](/agents/billing-setup)).

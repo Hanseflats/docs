@@ -1,0 +1,30 @@
+---
+title: "Authentication"
+description: "Authenticate API requests with an API key."
+---
+
+All authenticated endpoints require an API key.
+
+## Headers
+
+```bash
+Authorization: Bearer sk_live_…
+# or
+x-api-key: sk_live_…
+```
+
+## Example
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/company/technologies \
+  -H "Authorization: Bearer sk_live_…" \
+  -H "Content-Type: application/json" \
+  -d '{"company_domain":"hubspot.com"}'
+```
+
+## Getting a key
+
+1. **Human:** Dashboard → Settings → Generate API Key  
+2. **Agent:** [Register](/agents/register) → [Verify](/agents/verify) (key returned once)
+
+Store the key securely. Rotate if leaked.

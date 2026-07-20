@@ -1,0 +1,60 @@
+---
+title: "Estimate revenue"
+description: "Estimate company ARR from their domain."
+---
+
+
+Estimate company ARR from their domain.
+
+## Endpoint
+
+```
+POST https://app.lens.ly/api/v1/company/estimate-revenue
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `company_domain` | Yes | Company domain |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/company/estimate-revenue \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"company_domain":"wiza.co"}'
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "company": "Wiza",
+    "domain": "wiza.co",
+    "estimated_revenue": 4700000,
+    "revenue_bucket": "<$5M",
+    "currency": "USD",
+    "confidence": "high"
+  },
+  "credits_used": 1
+}
+```
+
+## Credits
+
+1 credit per estimation.
+
+Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger as Playbooks Enrichments.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

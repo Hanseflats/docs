@@ -1,0 +1,60 @@
+---
+title: "Find jobs"
+description: "Find open job positions at a company from their domain."
+---
+
+
+Find open job positions at a company from their domain.
+
+## Endpoint
+
+```
+POST https://app.lens.ly/api/v1/company/find-jobs
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `company_domain` | Yes | Company domain (e.g. clay.com) |
+| `department` | No | Filter by department |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/company/find-jobs \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"company_domain":"clay.com"}'
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "company": "Clay",
+    "domain": "clay.com",
+    "is_hiring": true,
+    "jobs": [{ "title": "Software Engineer, Backend", "department": "Engineering" }],
+    "total_openings": 15
+  },
+  "credits_used": 1
+}
+```
+
+## Credits
+
+1 credit per search.
+
+Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger as Playbooks Enrichments.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

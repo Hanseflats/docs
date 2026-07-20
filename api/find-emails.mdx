@@ -1,0 +1,56 @@
+---
+title: "Find emails"
+description: "Find email addresses by crawling a company website."
+---
+
+
+Find email addresses by crawling a company website.
+
+## Endpoint
+
+```
+POST https://app.lens.ly/api/v1/company/find-emails
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `url` | Yes | Domain or URL to scrape |
+| `limit` | No | Pages to crawl (default 10, max 20) |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/company/find-emails \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"url":"example.com"}'
+```
+
+## Response
+
+```json
+{
+  "url": "example.com",
+  "first_email": "contact@example.com",
+  "all_emails": ["contact@example.com", "info@example.com"],
+  "pages_crawled": 10,
+  "status": "success"
+}
+```
+
+## Credits
+
+1 credit per domain that returns emails; 0 if none found.
+
+Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger as Playbooks Enrichments.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

@@ -1,0 +1,47 @@
+---
+title: "Billing status"
+description: "Prepaid balance, card on file, and auto-topup status."
+---
+
+
+Prepaid balance, card on file, and auto-topup status.
+
+## Endpoint
+
+```
+GET https://app.lens.ly/api/v1/billing
+```
+
+## Example request
+
+```bash
+curl https://app.lens.ly/api/v1/billing \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Response
+
+```json
+{
+  "user_id": "…",
+  "balance_cents": 2500,
+  "balance_display": "$25.00",
+  "credits": 833,
+  "credit_cost_cents": 3,
+  "has_payment_method": true,
+  "past_due": false,
+  "auto_topup_enabled": true,
+  "auto_topup_threshold_cents": 500,
+  "auto_topup_amount_cents": 1000,
+  "min_topup_cents": 1000
+}
+```
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

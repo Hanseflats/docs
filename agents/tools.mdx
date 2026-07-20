@@ -1,0 +1,38 @@
+---
+title: "Tools catalog"
+description: "Machine-readable tool catalog for agents. Any valid API key."
+---
+
+
+Machine-readable tool catalog for agents. Any valid API key.
+
+## Endpoint
+
+```
+GET https://app.lens.ly/api/v1/tools
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `category` | No | Tools in a category |
+| `tool` | No | Full spec for one tool |
+| `search` | No | Fuzzy search |
+| `workflows` | No | Use workflows=list |
+
+## Example request
+
+```bash
+curl "https://app.lens.ly/api/v1/tools?search=traffic" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

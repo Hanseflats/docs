@@ -1,0 +1,19 @@
+---
+title: "Webhooks"
+description: "Receive real-time job completion notifications."
+---
+
+Include `webhook_url` when creating a job (e.g. review resolve). On completion we POST results to your URL.
+
+```json
+{
+  "job_id": "job_abc123",
+  "status": "completed",
+  "results": [],
+  "summary": { "totalReviews": 50, "profilesFound": 42 }
+}
+```
+
+<Info>
+Use HTTPS. Return **200** within 30 seconds.
+</Info>

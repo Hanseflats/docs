@@ -1,0 +1,53 @@
+---
+title: "Verify"
+description: "Verify email code and mint an API key (shown once). Balance starts at $0."
+---
+
+
+Verify email code and mint an API key (shown once). Balance starts at $0.
+
+## Endpoint
+
+```
+POST https://app.lens.ly/api/v1/agents/verify
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `email` | Yes | Email used at register |
+| `code` | Yes | 6-digit code (15 min TTL) |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/agents/verify \
+  -H "Content-Type: application/json" \
+  -d '{"email":"you@example.com","code":"424242"}'
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "user_id": "…",
+  "email": "you@example.com",
+  "api_key": "sk_live_…",
+  "key_prefix": "sk_live_abcd",
+  "balance_cents": 0,
+  "message": "Save api_key now — it is shown once."
+}
+```
+
+<Warning>Save `api_key` immediately — it is only returned once.</Warning>
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

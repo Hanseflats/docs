@@ -1,0 +1,35 @@
+---
+title: "Agent self-serve"
+description: "Register with email, verify once, add a card via Stripe Checkout once, then call APIs forever with auto-topup."
+---
+
+<Steps>
+  <Step title="Discover">`GET /llms.txt` or `GET /api/v1/meta` — no auth</Step>
+  <Step title="Register">`POST /api/v1/agents/register` with email — sends a 6-digit code</Step>
+  <Step title="Verify">`POST /api/v1/agents/verify` — returns `api_key` once (balance starts at $0)</Step>
+  <Step title="Billing setup">`POST /api/v1/billing/setup` — open `setup_url` once in a browser</Step>
+  <Step title="Call APIs">Use the API key. On 402, follow `payment.setup_url` if present</Step>
+</Steps>
+
+## Public index
+
+```bash
+curl https://app.lens.ly/llms.txt
+```
+
+## Endpoint auth
+
+| Endpoint | Auth |
+| --- | --- |
+| `GET /llms.txt` | public |
+| `GET /api/v1/meta` | public |
+| `POST /api/v1/agents/register` | public |
+| `POST /api/v1/agents/verify` | public |
+| `POST /api/v1/billing/setup` | API key |
+| `POST /api/v1/billing/topup` | API key |
+| `GET /api/v1/billing` | API key |
+| `GET /api/v1/tools` | any valid API key |
+
+<Warning>
+First payment is a Stripe Checkout link. Do **not** send card PANs to this API. After setup, refills are off-session via auto-topup.
+</Warning>

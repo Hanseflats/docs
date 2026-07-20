@@ -1,0 +1,62 @@
+---
+title: "Find business owner"
+description: "Find business owners/founders for local SMBs, with optional website and email enrichment."
+---
+
+
+Find business owners/founders for local SMBs, with optional website and email enrichment.
+
+## Endpoint
+
+```
+POST https://app.lens.ly/api/v1/company/find-owner
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `company_name` | No | Business name (or company_website) |
+| `company_website` | No | Website (or company_name) |
+| `location` | Yes | City, state, or address |
+| `business_type` | No | e.g. Restaurant |
+| `find_website` | No | +1 credit |
+| `find_email` | No | +2 credits; requires webhook_url |
+| `webhook_url` | No | Required when enrichment enabled |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/company/find-owner \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"company_name":"Wiggly'\''s","location":"Jacksonville, AL","business_type":"Restaurant"}'
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "company_name": "Wiggly's",
+    "leaders": [{ "name": "David Gonzales", "title": "Owner / Founder" }]
+  },
+  "credits_used": 1
+}
+```
+
+## Credits
+
+Base 1 credit; +website +1; +email +2.
+
+Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger as Playbooks Enrichments.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

@@ -1,0 +1,44 @@
+---
+title: "Get credits"
+description: "Check prepaid billing balance as enrichment credits."
+---
+
+
+Check prepaid billing balance as enrichment credits.
+
+## Endpoint
+
+```
+GET https://app.lens.ly/api/v1/credits
+```
+
+## Example request
+
+```bash
+curl https://app.lens.ly/api/v1/credits \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Response
+
+```json
+{
+  "user_id": "user_abc123",
+  "balance": 15000,
+  "balance_cents": 45000,
+  "balance_display": "$450.00",
+  "credit_cost_cents": 3,
+  "past_due": false
+}
+```
+
+`balance` is `floor(balance_cents / 3)`. Same ledger as [Billing status](/agents/billing-status).
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

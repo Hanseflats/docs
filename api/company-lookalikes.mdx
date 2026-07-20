@@ -1,0 +1,62 @@
+---
+title: "Company lookalikes"
+description: "Find lookalike companies from seed domains (Ocean.io). Charges 1 credit per company returned."
+---
+
+
+Find lookalike companies from seed domains (Ocean.io). Charges 1 credit per company returned.
+
+## Endpoint
+
+```
+POST https://app.lens.ly/api/v1/company/lookalikes
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `seed_domains` | Yes | Array of seed domains (max 10) |
+| `relevance_tier` | No | A (closest, default), B, or C |
+| `limit` | No | Max companies (default 100, max 500) |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/company/lookalikes \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"seed_domains":["hubspot.com"],"relevance_tier":"A","limit":50}'
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "seed_domains": ["hubspot.com"],
+    "relevance_tier": "A",
+    "total": 50,
+    "companies": [
+      { "domain": "salesforce.com", "company_name": "Salesforce", "relevance": "A" }
+    ]
+  },
+  "credits_used": 50
+}
+```
+
+## Credits
+
+1 credit × companies returned (capped by limit, max 500).
+
+Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger as Playbooks Enrichments.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

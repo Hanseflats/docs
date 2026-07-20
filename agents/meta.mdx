@@ -1,0 +1,49 @@
+---
+title: "Meta"
+description: "Public machine-readable onboarding map for agents."
+---
+
+
+Public machine-readable onboarding map for agents.
+
+## Endpoint
+
+```
+GET https://app.lens.ly/api/v1/meta
+```
+
+## Example request
+
+```bash
+curl https://app.lens.ly/api/v1/meta
+```
+
+## Response
+
+```json
+{
+  "product": "Pipeline",
+  "base_url": "https://app.lens.ly",
+  "credit_cost_cents": 3,
+  "min_topup_cents": 1000,
+  "default_setup_amount_cents": 2500,
+  "auth": {
+    "type": "api_key",
+    "headers": ["x-api-key", "Authorization: Bearer sk_live_…"]
+  },
+  "agent_onboarding": {
+    "register": { "method": "POST", "path": ".../api/v1/agents/register" },
+    "verify": { "method": "POST", "path": ".../api/v1/agents/verify" },
+    "billing_setup": { "method": "POST", "path": ".../api/v1/billing/setup" }
+  }
+}
+```
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

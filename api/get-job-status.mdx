@@ -1,0 +1,51 @@
+---
+title: "Get job status"
+description: "Check job status and retrieve results."
+---
+
+
+Check job status and retrieve results.
+
+## Endpoint
+
+```
+GET https://app.lens.ly/api/v1/jobs/{job_id}
+```
+
+## Example request
+
+```bash
+curl https://app.lens.ly/api/v1/jobs/job_abc123 \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Response
+
+```json
+{
+  "job_id": "job_abc123",
+  "status": "completed",
+  "results": [
+    {
+      "reviewer_name": "John Smith",
+      "linkedin_url": "https://linkedin.com/in/johnsmith",
+      "email": "john@company.com",
+      "rating": 5
+    }
+  ],
+  "summary": {
+    "totalReviews": 50,
+    "profilesFound": 42,
+    "creditsUsed": 70
+  }
+}
+```
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

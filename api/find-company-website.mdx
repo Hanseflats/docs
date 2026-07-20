@@ -1,0 +1,60 @@
+---
+title: "Find website"
+description: "Find a company website from a company name."
+---
+
+
+Find a company website from a company name.
+
+## Endpoint
+
+```
+POST https://app.lens.ly/api/v1/company/find-website
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `company_name` | Yes | Name of the company |
+| `industry` | No | Improves match accuracy |
+| `location` | No | Improves match accuracy |
+| `return_all_candidates` | No | Return all candidates (default false) |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/company/find-website \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"company_name":"DraconX"}'
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "website": "draconx.com",
+    "company_name": "DraconX",
+    "confidence": 0.89
+  },
+  "credits_used": 1
+}
+```
+
+## Credits
+
+1 credit per search.
+
+Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger as Playbooks Enrichments.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

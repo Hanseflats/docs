@@ -1,0 +1,63 @@
+---
+title: "Team hiring"
+description: "Missing/thin team plus open roles in a hiring department (RevenueBase)."
+---
+
+
+Missing/thin team plus open roles in a hiring department (RevenueBase).
+
+## Endpoint
+
+```
+POST https://app.lens.ly/api/v1/company/team-hiring
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `domain` | Yes | Company domain |
+| `lacking` | Yes | Department that may be missing/thin |
+| `hiring` | Yes | Department to check for open roles |
+| `lacking_mode` | No | zero (default) or thin |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/company/team-hiring \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"domain":"acme.com","lacking":"marketing","hiring":"sales"}'
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "resolved_domain": "acme.com",
+    "lacking_department": "marketing",
+    "hiring_department": "sales",
+    "lacks_team": true,
+    "is_hiring": true,
+    "open_roles": 3
+  },
+  "credits_used": 1
+}
+```
+
+## Credits
+
+1 credit per lookup.
+
+Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger as Playbooks Enrichments.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

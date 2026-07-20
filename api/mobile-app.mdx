@@ -1,0 +1,57 @@
+---
+title: "Mobile app"
+description: "Check whether a company has a mobile app (RevenueBase)."
+---
+
+
+Check whether a company has a mobile app (RevenueBase).
+
+## Endpoint
+
+```
+POST https://app.lens.ly/api/v1/company/mobile-app
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `domain` | Yes | Company domain (or company_domain) |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/company/mobile-app \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"domain":"hubspot.com"}'
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "resolved_domain": "hubspot.com",
+    "has_mobile_app": "Yes",
+    "company_name_rb": "HubSpot"
+  },
+  "credits_used": 1
+}
+```
+
+## Credits
+
+1 credit per lookup.
+
+Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger as Playbooks Enrichments.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

@@ -1,0 +1,56 @@
+---
+title: "Organic traffic"
+description: "Estimated monthly organic traffic (RevenueBase). Returns only organic traffic."
+---
+
+
+Estimated monthly organic traffic (RevenueBase). Returns only organic traffic.
+
+## Endpoint
+
+```
+POST https://app.lens.ly/api/v1/company/organic-traffic
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `domain` | Yes | Company domain |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/company/organic-traffic \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"domain":"stripe.com"}'
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "resolved_domain": "stripe.com",
+    "monthly_organic_traffic": 1800000
+  },
+  "credits_used": 1
+}
+```
+
+## Credits
+
+1 credit per lookup.
+
+Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger as Playbooks Enrichments.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |

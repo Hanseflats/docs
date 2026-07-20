@@ -1,0 +1,62 @@
+---
+title: "Find employee"
+description: "Find employees by job title using Google Search + LinkedIn."
+---
+
+
+Find employees by job title using Google Search + LinkedIn.
+
+## Endpoint
+
+```
+POST https://app.lens.ly/api/v1/company/find-employee
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `job_title` | Yes | String or array of up to 3 titles |
+| `company_name` | No | Company name (or company_website) |
+| `company_website` | No | Company website (or company_name) |
+| `country` | No | Google country code (default us) |
+| `find_email` | No | Also find email (+1 credit) |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/company/find-employee \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"job_title":"Head of Growth","company_name":"HeyDigital","country":"us"}'
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "employee": {
+    "name": "Michael Glover",
+    "title": "Head of Growth @ Hey Digital",
+    "linkedin_url": "https://linkedin.com/in/themglover",
+    "email": null
+  },
+  "credits_used": 1
+}
+```
+
+## Credits
+
+0 if none found; 1 if employee found; 2 if employee + email.
+
+Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger as Playbooks Enrichments.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `500` | Internal server error |
