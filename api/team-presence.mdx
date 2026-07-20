@@ -1,10 +1,9 @@
 ---
 title: "Team presence"
-description: "Check whether a department team is missing or thin."
+description: "Bulk check whether a department team is missing or thin. Up to 200 domains per request."
 ---
 
-
-Check whether a department team is missing or thin.
+Bulk check whether a department team is missing or thin. Shared `lacking` params apply to all domains.
 
 ## Endpoint
 
@@ -16,9 +15,9 @@ POST https://app.lens.ly/api/v1/company/team-presence
 
 | Parameter | Required | Description |
 | --- | --- | --- |
-| `domain` | Yes | Company domain |
-| `lacking` | Yes | Department: marketing, sales, engineering, … |
-| `lacking_mode` | No | zero (default) or thin |
+| `domains` | Yes | Array of company domains (max 200) |
+| `lacking` | Yes | Department to check (e.g. marketing, sales, engineering) |
+| `lacking_mode` | No | `zero` (default) or `thin` |
 
 ## Example request
 
@@ -26,7 +25,7 @@ POST https://app.lens.ly/api/v1/company/team-presence
 curl -X POST https://app.lens.ly/api/v1/company/team-presence \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"domain":"acme.com","lacking":"marketing","lacking_mode":"zero"}'
+  -d '{"domains":["acme.com","example.io"],"lacking":"marketing","lacking_mode":"zero"}'
 ```
 
 ## Response
@@ -34,19 +33,26 @@ curl -X POST https://app.lens.ly/api/v1/company/team-presence \
 ```json
 {
   "success": true,
-  "data": {
-    "resolved_domain": "acme.com",
-    "lacking_department": "marketing",
-    "lacks_team": true,
-    "role_count": 0
-  },
-  "credits_used": 1
+  "results": [
+    {
+      "domain": "acme.com",
+      "resolved_domain": "acme.com",
+      "lacking_department": "marketing",
+      "lacks_team": true,
+      "role_count": 0
+    }
+  ],
+  "stats": {
+    "total_domains": 2,
+    "matched": 1,
+    "credits_used": 2
+  }
 }
 ```
 
 ## Credits
 
-1 credit per lookup.
+1 credit × domains in the request (max 200).
 
 Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger as Playbooks Enrichments.
 
@@ -56,5 +62,5 @@ Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger 
 | --- | --- |
 | `400` | Invalid or missing request fields |
 | `401` | Invalid API key |
-| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `402` | Insufficient billing balance - follow `payment.setup_url` if present |
 | `500` | Internal server error |

@@ -1,10 +1,9 @@
 ---
-title: "Google Ad Spend"
-description: "Estimated monthly Google ad spend. Returns only ad spend — not traffic fields."
+title: "Google ad spend"
+description: "Bulk estimated monthly Google ad spend. Up to 200 domains per request."
 ---
 
-
-Estimated monthly Google ad spend. Returns only ad spend — not traffic fields.
+Bulk estimated monthly Google ad spend. Pass up to 200 domains per request. Returns ad spend only - not traffic fields.
 
 ## Endpoint
 
@@ -16,7 +15,7 @@ POST https://app.lens.ly/api/v1/company/google-ad-spend
 
 | Parameter | Required | Description |
 | --- | --- | --- |
-| `domain` | Yes | Company domain |
+| `domains` | Yes | Array of company domains (max 200). Aliases: `urls`, `company_domains`. A single `domain` string is also accepted. |
 
 ## Example request
 
@@ -24,7 +23,7 @@ POST https://app.lens.ly/api/v1/company/google-ad-spend
 curl -X POST https://app.lens.ly/api/v1/company/google-ad-spend \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"domain":"shopify.com"}'
+  -d '{"domains":["shopify.com","klaviyo.com"]}'
 ```
 
 ## Response
@@ -32,18 +31,24 @@ curl -X POST https://app.lens.ly/api/v1/company/google-ad-spend \
 ```json
 {
   "success": true,
-  "data": {
-    "resolved_domain": "shopify.com",
-    "company_name_rb": "Shopify",
-    "monthly_google_adspend": 120000
-  },
-  "credits_used": 1
+  "results": [
+    {
+      "domain": "shopify.com",
+      "resolved_domain": "shopify.com",
+      "monthly_google_adspend": 120000
+    }
+  ],
+  "stats": {
+    "total_domains": 2,
+    "matched": 1,
+    "credits_used": 2
+  }
 }
 ```
 
 ## Credits
 
-1 credit per lookup.
+1 credit × domains in the request (max 200).
 
 Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger as Playbooks Enrichments.
 
@@ -53,5 +58,5 @@ Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger 
 | --- | --- |
 | `400` | Invalid or missing request fields |
 | `401` | Invalid API key |
-| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `402` | Insufficient billing balance - follow `payment.setup_url` if present |
 | `500` | Internal server error |

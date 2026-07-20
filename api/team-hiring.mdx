@@ -1,10 +1,9 @@
 ---
 title: "Team hiring"
-description: "Missing/thin team plus open roles in a hiring department."
+description: "Bulk check missing/thin team plus open roles. Up to 200 domains per request."
 ---
 
-
-Missing/thin team plus open roles in a hiring department.
+Bulk check missing/thin team plus open roles in a hiring department. Shared params apply to all domains.
 
 ## Endpoint
 
@@ -16,10 +15,10 @@ POST https://app.lens.ly/api/v1/company/team-hiring
 
 | Parameter | Required | Description |
 | --- | --- | --- |
-| `domain` | Yes | Company domain |
+| `domains` | Yes | Array of company domains (max 200) |
 | `lacking` | Yes | Department that may be missing/thin |
 | `hiring` | Yes | Department to check for open roles |
-| `lacking_mode` | No | zero (default) or thin |
+| `lacking_mode` | No | `zero` (default) or `thin` |
 
 ## Example request
 
@@ -27,7 +26,7 @@ POST https://app.lens.ly/api/v1/company/team-hiring
 curl -X POST https://app.lens.ly/api/v1/company/team-hiring \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"domain":"acme.com","lacking":"marketing","hiring":"sales"}'
+  -d '{"domains":["acme.com","example.io"],"lacking":"marketing","hiring":"sales","lacking_mode":"zero"}'
 ```
 
 ## Response
@@ -35,21 +34,28 @@ curl -X POST https://app.lens.ly/api/v1/company/team-hiring \
 ```json
 {
   "success": true,
-  "data": {
-    "resolved_domain": "acme.com",
-    "lacking_department": "marketing",
-    "hiring_department": "sales",
-    "lacks_team": true,
-    "is_hiring": true,
-    "open_roles": 3
-  },
-  "credits_used": 1
+  "results": [
+    {
+      "domain": "acme.com",
+      "lacking_department": "marketing",
+      "hiring_department": "sales",
+      "lacks_team": true,
+      "is_hiring": true,
+      "role_count": 0,
+      "open_roles": 3
+    }
+  ],
+  "stats": {
+    "total_domains": 2,
+    "matched": 1,
+    "credits_used": 2
+  }
 }
 ```
 
 ## Credits
 
-1 credit per lookup.
+1 credit × domains in the request (max 200).
 
 Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger as Playbooks Enrichments.
 
@@ -59,5 +65,5 @@ Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger 
 | --- | --- |
 | `400` | Invalid or missing request fields |
 | `401` | Invalid API key |
-| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `402` | Insufficient billing balance - follow `payment.setup_url` if present |
 | `500` | Internal server error |

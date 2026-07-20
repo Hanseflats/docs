@@ -1,6 +1,6 @@
 ---
 title: "Audiences API"
-description: "Launch and manage Playbooks audiences — list plays, validate params, poll status, export CSV."
+description: "Launch and manage Playbooks audiences - list plays, validate params, poll status, export CSV, sync destinations."
 ---
 
 Authenticated control plane for audience plays. Use this for competitor reviews and every other audience play.
@@ -45,6 +45,18 @@ Charged after successful finds (not at launch):
 | Company found + matched buyer persona | 2 |
 | Person-first play (reviews, Substack, Upwork, new hires, etc.) | 1 per person |
 
+## Destinations
+
+Set delivery targets on launch or later via `PATCH`. Pipeline auto-sync and manual `POST .../sync` use the same destinations.
+
+| Field | Purpose |
+| --- | --- |
+| `delivery_webhook_url` | HTTPS URL. One POST per lead or company row (see [Webhooks](/guides/webhooks)). |
+| `delivery_instantly_campaign_id` | Instantly campaign ID (bulk push; leads with email). |
+| `delivery_instantly_list_id` | Instantly list ID (bulk push; leads with email). |
+
+Webhook delivery is **one row per request**. Instantly stays bulk.
+
 ## Example flow
 
 ```bash
@@ -59,7 +71,7 @@ curl -s "$BASE/api/v1/audiences/plays" \
 curl -s "$BASE/api/v1/audiences/plays/competitor-reviews" \
   -H "Authorization: Bearer $API_KEY" | jq '.play.required_inputs'
 
-# 3) Launch
+# 3) Launch with a webhook destination
 curl -s -X POST "$BASE/api/v1/audiences" \
   -H "Authorization: Bearer $API_KEY" \
   -H "Content-Type: application/json" \
@@ -72,7 +84,8 @@ curl -s -X POST "$BASE/api/v1/audiences" \
       "find_work_email": "true"
     },
     "number_of_leads": 100,
-    "title": "HubSpot reviewer leads"
+    "title": "HubSpot reviewer leads",
+    "delivery_webhook_url": "https://webhook.site/your-id"
   }' | jq
 
 # 4) Poll
@@ -80,10 +93,76 @@ curl -s "$BASE/api/v1/audiences/AUDIENCE_ID" \
   -H "Authorization: Bearer $API_KEY" \
   | jq '.audience | {id, apify_status, leads_total}'
 
-# 5) Export
+# 5) Manual sync (optional; auto-sync also runs from the pipeline)
+curl -s -X POST "$BASE/api/v1/audiences/AUDIENCE_ID/sync" \
+  -H "Authorization: Bearer $API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{}' | jq
+
+# 6) Export
 curl -s "$BASE/api/v1/audiences/AUDIENCE_ID/export?type=leads" \
   -H "Authorization: Bearer $API_KEY" -o leads.csv
 ```
+
+## Launch / PATCH body fields
+
+```json
+{
+  "play_slug": "competitor-reviews",
+  "source_params": {},
+  "number_of_leads": 100,
+  "title": "Optional title",
+  "cadence": null,
+  "delivery_webhook_url": "https://example.com/hooks/lens",
+  "delivery_instantly_campaign_id": null,
+  "delivery_instantly_list_id": null
+}
+```
+
+`PATCH /api/v1/audiences/:id` accepts the same destination fields plus `title` and `cadence`.
+
+## Sync
+
+```bash
+curl -s -X POST "$BASE/api/v1/audiences/AUDIENCE_ID/sync" \
+  -H "Authorization: Bearer $API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "force_all": false }'
+```
+
+- Default: only rows newer than the last successful sync watermark.
+- `force_all: true`: re-deliver from the start of the audience (use carefully).
+
+## Webhook payload (one row per POST)
+
+Lead audiences:
+
+```json
+{
+  "audience_id": "...",
+  "play_slug": "competitor-reviews",
+  "title": "HubSpot reviewer leads",
+  "type": "leads",
+  "lead": {
+    "id": "...",
+    "email": "alex@acme.com",
+    "first_name": "Alex",
+    "last_name": "Lee",
+    "full_name": "Alex Lee",
+    "job_title": "VP Marketing",
+    "linkedin_url": "https://www.linkedin.com/in/...",
+    "company_domain": "acme.com",
+    "company_name": "Acme",
+    "source_vars": {},
+    "created_at": "2026-07-18T12:00:00.000Z"
+  },
+  "synced_at": "2026-07-18T12:01:00.000Z"
+}
+```
+
+Company audiences use `"type": "companies"` and a top-level `"company"` object instead of `"lead"`.
+
+Return **2xx** so the row counts as delivered. Partial failures advance the watermark only through the contiguous success prefix (sorted by `created_at`).
 
 ## Launch response
 

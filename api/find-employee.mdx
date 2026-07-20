@@ -1,10 +1,9 @@
 ---
 title: "Find employee"
-description: "Find employees by job title using Google Search + LinkedIn."
+description: "Bulk find current employees with verified email by job title. Up to 200 domains per request."
 ---
 
-
-Find employees by job title using Google Search + LinkedIn.
+Bulk find a current employee per domain by job title. Uses RevenueBase (verified emails only). Pass up to 200 domains per request.
 
 ## Endpoint
 
@@ -16,11 +15,10 @@ POST https://app.lens.ly/api/v1/company/find-employee
 
 | Parameter | Required | Description |
 | --- | --- | --- |
-| `job_title` | Yes | String or array of up to 3 titles |
-| `company_name` | No | Company name (or company_website) |
-| `company_website` | No | Company website (or company_name) |
-| `country` | No | Google country code (default us) |
-| `find_email` | No | Also find email (+1 credit) |
+| `domains` | Yes | Array of company domains (max 200). Aliases: `urls`, `company_domains`. A single `domain` / `company_website` string is also accepted. |
+| `job_title` | Yes | String or array of up to 3 titles (tried as OR match; best title match wins per domain) |
+
+Email is always returned when a match is found (RevenueBase `EMAIL_STATUS_PER = VALID`).
 
 ## Example request
 
@@ -28,7 +26,10 @@ POST https://app.lens.ly/api/v1/company/find-employee
 curl -X POST https://app.lens.ly/api/v1/company/find-employee \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"job_title":"Head of Growth","company_name":"HeyDigital","country":"us"}'
+  -d '{
+    "domains": ["hubspot.com", "notion.so"],
+    "job_title": ["Head of Growth", "VP Growth"]
+  }'
 ```
 
 ## Response
@@ -36,19 +37,37 @@ curl -X POST https://app.lens.ly/api/v1/company/find-employee \
 ```json
 {
   "success": true,
-  "employee": {
-    "name": "Michael Glover",
-    "title": "Head of Growth @ Hey Digital",
-    "linkedin_url": "https://linkedin.com/in/themglover",
-    "email": null
-  },
-  "credits_used": 1
+  "results": [
+    {
+      "domain": "hubspot.com",
+      "found": true,
+      "employee": {
+        "name": "Alex Lee",
+        "title": "VP of Growth",
+        "linkedin_url": "https://www.linkedin.com/in/...",
+        "company": "HubSpot",
+        "email": "alex@hubspot.com"
+      }
+    },
+    {
+      "domain": "notion.so",
+      "found": false,
+      "employee": null
+    }
+  ],
+  "job_titles": ["Head of Growth", "VP Growth"],
+  "stats": {
+    "total_domains": 2,
+    "matched": 1,
+    "credits_used": 2,
+    "credits_remaining": 998
+  }
 }
 ```
 
 ## Credits
 
-0 if none found; 1 if employee found; 2 if employee + email.
+1 credit × domains in the request (max 200), including domains with no match.
 
 Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger as Playbooks Enrichments.
 
@@ -58,5 +77,5 @@ Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger 
 | --- | --- |
 | `400` | Invalid or missing request fields |
 | `401` | Invalid API key |
-| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `402` | Insufficient billing balance - follow `payment.setup_url` if present |
 | `500` | Internal server error |

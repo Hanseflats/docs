@@ -7,7 +7,7 @@ description: "Make your first API call in minutes."
   <Step title="Get an API key">
     **Dashboard:** Sign up at [app.lens.ly](https://app.lens.ly), open Settings, generate a key.
 
-    **Agents:** Follow [Agent self-serve](/agents/overview) — register, verify, then complete billing setup.
+    **Agents:** Follow [Agent self-serve](/agents/overview) - register, verify, then complete billing setup.
   </Step>
   <Step title="Check balance">
 ```bash
@@ -20,7 +20,7 @@ curl https://app.lens.ly/api/v1/billing \
 curl -X POST https://app.lens.ly/api/v1/company/google-ad-spend \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"domain":"shopify.com"}'
+  -d '{"domains":["shopify.com","klaviyo.com"]}'
 ```
   </Step>
 </Steps>

@@ -1,9 +1,41 @@
 ---
 title: "Webhooks"
-description: "Receive real-time job completion notifications."
+description: "Audience destination webhooks (one POST per row) and legacy job completion webhooks."
 ---
 
-Include `webhook_url` when creating a job (e.g. review resolve). On completion we POST results to your URL.
+Lens has two webhook styles. Prefer **audience destinations** for Playbooks audiences.
+
+## Audience destinations
+
+Configure `delivery_webhook_url` on [Audiences](/api/audiences) launch or `PATCH`. When new rows are ready (pipeline auto-sync or `POST /api/v1/audiences/:id/sync`), Lens POSTs **once per lead or company**.
+
+```json
+{
+  "audience_id": "...",
+  "play_slug": "competitor-reviews",
+  "title": "HubSpot reviewer leads",
+  "type": "leads",
+  "lead": {
+    "email": "alex@acme.com",
+    "first_name": "Alex",
+    "last_name": "Lee",
+    "job_title": "VP Marketing",
+    "company_domain": "acme.com",
+    "created_at": "2026-07-18T12:00:00.000Z"
+  },
+  "synced_at": "2026-07-18T12:01:00.000Z"
+}
+```
+
+Company-only audiences send `"type": "companies"` and a `"company"` object.
+
+<Info>
+Use HTTPS. Return **2xx** within 30 seconds. Concurrency is capped (about 5 parallel POSTs). Instantly destinations stay bulk and are separate from webhooks.
+</Info>
+
+## Legacy job webhooks
+
+Some older job APIs still accept `webhook_url` on create. On completion we POST a single job payload:
 
 ```json
 {
@@ -14,6 +46,4 @@ Include `webhook_url` when creating a job (e.g. review resolve). On completion w
 }
 ```
 
-<Info>
-Use HTTPS. Return **200** within 30 seconds.
-</Info>
+That path is for legacy jobs, not Playbooks audience sync.

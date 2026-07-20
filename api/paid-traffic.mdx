@@ -1,10 +1,9 @@
 ---
 title: "Paid traffic"
-description: "Estimated monthly paid traffic. Returns only paid traffic."
+description: "Bulk estimated monthly paid traffic. Up to 200 domains per request."
 ---
 
-
-Estimated monthly paid traffic. Returns only paid traffic.
+Bulk estimated monthly paid traffic visits. Pass up to 200 domains per request.
 
 ## Endpoint
 
@@ -16,7 +15,7 @@ POST https://app.lens.ly/api/v1/company/paid-traffic
 
 | Parameter | Required | Description |
 | --- | --- | --- |
-| `domain` | Yes | Company domain |
+| `domains` | Yes | Array of company domains (max 200). Aliases: `urls`, `company_domains`. A single `domain` string is also accepted. |
 
 ## Example request
 
@@ -24,7 +23,7 @@ POST https://app.lens.ly/api/v1/company/paid-traffic
 curl -X POST https://app.lens.ly/api/v1/company/paid-traffic \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"domain":"monday.com"}'
+  -d '{"domains":["monday.com","asana.com"]}'
 ```
 
 ## Response
@@ -32,17 +31,24 @@ curl -X POST https://app.lens.ly/api/v1/company/paid-traffic \
 ```json
 {
   "success": true,
-  "data": {
-    "resolved_domain": "monday.com",
-    "monthly_paid_traffic": 310000
-  },
-  "credits_used": 1
+  "results": [
+    {
+      "domain": "monday.com",
+      "resolved_domain": "monday.com",
+      "monthly_paid_traffic": 450000
+    }
+  ],
+  "stats": {
+    "total_domains": 2,
+    "matched": 1,
+    "credits_used": 2
+  }
 }
 ```
 
 ## Credits
 
-1 credit per lookup.
+1 credit × domains in the request (max 200).
 
 Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger as Playbooks Enrichments.
 
@@ -52,5 +58,5 @@ Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger 
 | --- | --- |
 | `400` | Invalid or missing request fields |
 | `401` | Invalid API key |
-| `402` | Insufficient billing balance — follow `payment.setup_url` if present |
+| `402` | Insufficient billing balance - follow `payment.setup_url` if present |
 | `500` | Internal server error |
