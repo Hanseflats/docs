@@ -3,7 +3,42 @@ title: "Audiences API"
 description: "Launch any Playbooks audience play (YC, new hires, lookalikes, ads, reviews, and more) — list plays, validate, poll, export, sync."
 ---
 
-Authenticated control plane for audience plays. Use this for competitor reviews and every other audience play.
+Authenticated control plane for **every** Playbooks audience play — not just competitor reviews. Same endpoints for YC companies, new hires, lookalikes, Google Ads audiences, Substack, Upwork, and the rest of the dashboard catalog.
+
+Discover plays live with `GET /api/v1/audiences/plays`, then pass any `play_slug` to validate/launch. Inputs differ per play — always read `required_inputs` from `GET /api/v1/audiences/plays/:slug` before launching.
+
+## Available plays
+
+All of these use `POST /api/v1/audiences` with the matching `play_slug`:
+
+| Slug | Play |
+| --- | --- |
+| `accelerator-alumni-companies` | Accelerator Alumni Companies |
+| `bombora-crunchbase-surge` | Bombora Surge Topics on Crunchbase |
+| `jd-replace-companies` | Companies Replacing a Product |
+| `companies-running-google-ads` | Companies Running Google Ads |
+| `companies-running-youtube-ads` | Companies Running YouTube Ads |
+| `sponsor-companies` | Companies that sponsor newsletters, podcasts, events |
+| `hidden-tech-companies` | Companies Using Hidden Tech |
+| `mobile-app-companies` | Companies With a Mobile App |
+| `edgar-pain-companies` | Companies with EDGAR Pain Language |
+| `google-ads-spend-companies` | Companies With Google Ads Spend |
+| `organic-traffic-companies` | Companies With Organic Traffic |
+| `paid-traffic-companies` | Companies With Paid Traffic |
+| `missing-team-companies` | Companies Without a Team |
+| `missing-team-hiring-companies` | Companies Without a Team That Are Hiring |
+| `company-lookalikes` | Company Lookalikes |
+| `competitor-reviews` | Competitor Reviews (G2 + TrustRadius + Trustpilot) |
+| `google-jobs-posters` | Google Jobs Signal Posters |
+| `new-hires` | New Hires |
+| `people-in-stealth-mode` | People in Stealth Mode |
+| `substack-keyword-authors` | Substack Authors |
+| `substack-keyword-posts` | Substack Posts |
+| `upwork-job-posters` | Upwork Job Posters |
+| `vc-portfolio-companies` | VC Portfolio Companies |
+| `yc-companies` | YC Companies |
+
+Deep-dive example for one play: [Competitor reviews](/api/competitor-reviews). The catalog above is also what Lens MCP exposes via `audiences_list_plays`.
 
 ## Auth
 
