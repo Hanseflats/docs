@@ -1,0 +1,83 @@
+---
+title: "Glassdoor"
+sidebarTitle: "Glassdoor"
+description: "Scrape Glassdoor company reviews as structured JSON. Optional keyword (KH) pain pages."
+---
+
+Scrape Glassdoor company reviews into structured JSON. Pass a company website or Glassdoor URL. Optional `keyword` targets a keyword (KH) reviews page for that employer.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/scrapers/glassdoor
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `url` | Yes | Company website **or** Glassdoor overview/reviews URL |
+| `keyword` | No | Builds a KH reviews URL from the resolved employer handle |
+| `page` | No | Start page (default `1`) |
+| `max_pages` | No | Pages to scrape (default `1`). `>1` runs async |
+| `find_linkedin` | No | Resolve reviewer LinkedIn (\+1 credit per success) |
+| `find_email` | No | Find reviewer email (see Email enrichment) |
+| `email_provider` | No | `findymail` or `leadmagic` for BYO sync path |
+| `email_api_key` | No | Request override (not persisted) |
+| `webhook_url` | No | Delivery webhook for async jobs |
+| `delivery` | No | `chunks` (default), `item`, or `complete_only` |
+| `webhook_batch_size` | No | Default `50`, max `100` |
+
+## Sync vs async
+
+- **Sync** — `max_pages === 1` and either no `find_email` or BYO email key. Response: `{ data, credits_used, meta }`.
+- **Async** — multi-page or RevenueBase bulk `find_email`. Response `202`: `{ job_id, status, poll }`.
+
+Poll: `GET /api/v1/scrapers/jobs/{id}`<br />Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
+
+## Email enrichment
+
+| Mode | How | Credits |
+| --- | --- | --- |
+| Sync | BYO Findymail or LeadMagic key | 0 email credits |
+| Async bulk | Our RevenueBase (LinkedIn → name\+domain) | \+1 per email found |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/glassdoor \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://www.glassdoor.com/Overview/Working-at-HubSpot-EI_IE113059.htm",
+    "max_pages": 1
+  }'
+```
+
+Keyword example:
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/glassdoor \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "hubspot.com",
+    "keyword": "salesforce",
+    "max_pages": 1
+  }'
+```
+
+## Credits
+
+**2 credits per page** scraped. Website → employer resolution is included. `find_linkedin` and RevenueBase email add \+1 each when found.
+
+Charged against your prepaid Billing balance at **3¢ per credit**.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance |
+| `404` | Employer / page not found |

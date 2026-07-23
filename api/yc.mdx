@@ -1,0 +1,86 @@
+---
+title: "Y Combinator"
+sidebarTitle: "Y Combinator"
+description: "Search YC companies or scrape a company page. Optional find_persona for decision-makers."
+---
+
+Search the YC company directory or scrape a single YC company page into structured JSON. Use `find_persona` \+ `persona_titles` on company scrapes to pull decision-makers.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/scrapers/yc
+```
+
+## Modes
+
+- **Search** — omit a company URL (or set `mode: "search"`) and pass filters like `query`, `batch`, `industry`.
+- **Company** — `url` = `https://www.ycombinator.com/companies/{slug}` or a website for discovery.
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `url` | No | YC company URL or website (required for company mode) |
+| `mode` | No | `search` or `company` |
+| `query` | No | Search query |
+| `batch` | No | e.g. `W24` → Winter 2024 |
+| `industry` | No | Industry filter |
+| `status` / `region` / `tag` | No | Additional search filters |
+| `is_hiring` / `top_companies` | No | Boolean filters |
+| `page` / `per_page` / `max_pages` | No | Pagination (`max_pages > 1` → async) |
+| `find_persona` | No | Company scrapes only; requires `persona_titles` (max 3) |
+| `persona_titles` | With `find_persona` | Job titles to match (max 3) |
+| `find_linkedin` | No | Resolve LinkedIn on people results |
+| `find_email` | No | Email enrichment (BYO sync or RevenueBase async) |
+| `email_provider` / `email_api_key` | No | BYO Findymail / LeadMagic |
+| `webhook_url` / `delivery` / `webhook_batch_size` | No | Async delivery |
+
+## Sync vs async
+
+- **Sync** — single page, no `find_persona`, and either no `find_email` or BYO email key.
+- **Async** — multi-page, `find_persona`, or RevenueBase bulk email. Response `202` with `job_id`.
+
+Poll: `GET /api/v1/scrapers/jobs/{id}`<br />Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
+
+## Example — search
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/yc \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "mode": "search",
+    "batch": "W25",
+    "query": "AI",
+    "max_pages": 1
+  }'
+```
+
+## Example — company \+ persona
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/yc \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://www.ycombinator.com/companies/airbnb",
+    "find_persona": true,
+    "persona_titles": ["CEO", "Founder"]
+  }'
+```
+
+## Credits
+
+**1 credit per page** (search page or company scrape). `find_persona` / `find_linkedin` / RevenueBase email add credits when found.
+
+Charged against your prepaid Billing balance at **3¢ per credit**.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance |
+| `404` | Company not found |

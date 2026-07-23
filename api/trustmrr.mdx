@@ -1,0 +1,62 @@
+---
+title: "TrustMRR"
+sidebarTitle: "TrustMRR"
+description: "Scrape TrustMRR startup, category, founder, or list pages as structured JSON."
+---
+
+Scrape TrustMRR startup, category, founder, or list pages into structured JSON. Pass a TrustMRR URL or a company website for discovery.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/scrapers/trustmrr
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `url` | Yes | TrustMRR URL (startup / category / founder / list) or company website |
+| `mode` | No | Hint: `startup`, `category`, `founder`, or `list` |
+| `page` | No | Start page (default `1`) |
+| `max_pages` | No | Pages to scrape (default `1`). `>1` runs async |
+| `find_persona` | No | Company-shaped results; requires `persona_titles` (max 3) |
+| `persona_titles` | With `find_persona` | Job titles to match (max 3) |
+| `find_linkedin` | No | Resolve LinkedIn on people results |
+| `find_email` | No | Email enrichment (BYO sync or RevenueBase async) |
+| `email_provider` / `email_api_key` | No | BYO Findymail / LeadMagic |
+| `webhook_url` / `delivery` / `webhook_batch_size` | No | Async delivery |
+
+## Sync vs async
+
+- **Sync** — single page, no `find_persona`, and either no `find_email` or BYO email key.
+- **Async** — multi-page, `find_persona`, or RevenueBase bulk email. Response `202` with `job_id`.
+
+Poll: `GET /api/v1/scrapers/jobs/{id}`<br />Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/trustmrr \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://trustmrr.com/startup/example",
+    "max_pages": 1
+  }'
+```
+
+## Credits
+
+**1 credit per page** scraped. Website discovery is included. Persona / LinkedIn / RevenueBase email add credits when found.
+
+Charged against your prepaid Billing balance at **3¢ per credit**.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance |
+| `404` | Page not found |
