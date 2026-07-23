@@ -1,0 +1,35 @@
+---
+title: "Crunchbase"
+description: "Fetch Crunchbase company or person profiles as structured JSON."
+---
+
+Look up a Crunchbase organization (with founders/employees when available) or person profile as structured JSON.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/scrapers/crunchbase
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `permalink` / `slug` | Conditional | Crunchbase permalink |
+| `url` | Conditional | `crunchbase.com/organization` or `/person/{permalink}` |
+| `mode` | No | `company` (default) or `person` |
+| `find_linkedin` / `find_persona` / `find_email` | No | Enrich people / company domain |
+| `webhook_url` / `delivery` | No | Async delivery options |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/crunchbase \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"permalink":"stripe"}'
+```
+
+## Credits
+
+**2 credits per request**. Charged at **3¢ per credit**.

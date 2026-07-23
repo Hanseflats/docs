@@ -1,0 +1,35 @@
+---
+title: "Upwork"
+description: "Search Upwork jobs or fetch a job detail as structured JSON."
+---
+
+Search Upwork job postings or fetch a single job detail as structured JSON.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/scrapers/upwork
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `query` | Conditional | Job search query |
+| `url` | Conditional | Upwork job URL |
+| `page` / `max_pages` | No | Search pagination |
+| `find_persona` / `find_email` | No | Enrich when company domain is available |
+| `webhook_url` / `delivery` | No | Async delivery options |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/upwork \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"query":"salesforce admin","max_pages":1}'
+```
+
+## Credits
+
+**2 credits per page**. Charged at **3¢ per credit**.

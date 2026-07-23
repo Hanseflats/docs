@@ -1,0 +1,37 @@
+---
+title: "Google Play"
+description: "Look up Google Play apps, search, and developer portfolios as structured JSON."
+---
+
+Fetch Google Play app details, search results, or a developer's app list as structured JSON.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/scrapers/google-play
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `app_id` | Conditional | Package id (e.g. `com.spotify.music`) |
+| `url` | Conditional | Play Store app or developer URL |
+| `query` | Conditional | Search term |
+| `mode` | No | `app` (default), `search`, or `developer` |
+| `page` | No | Search page |
+| `find_persona` / `find_email` | No | Enrich on developer website domain |
+| `webhook_url` / `delivery` | No | Async delivery options |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/google-play \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"app_id":"com.spotify.music"}'
+```
+
+## Credits
+
+**2 credits per request**. Charged at **3¢ per credit**.

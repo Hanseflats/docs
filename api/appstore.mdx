@@ -1,0 +1,38 @@
+---
+title: "App Store"
+description: "Look up Apple App Store apps, search, and reviews as structured JSON."
+---
+
+Fetch Apple App Store app details, search results, or customer reviews as structured JSON.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/scrapers/appstore
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `app_id` | Conditional | Numeric App Store track id |
+| `url` | Conditional | `apps.apple.com` app URL |
+| `query` | Conditional | Search term (`mode` defaults to search) |
+| `mode` | No | `app` (default), `search`, or `reviews` |
+| `country` | No | Storefront country code (default `us`) |
+| `page` / `max_pages` | No | Reviews pagination (RSS pages 1–10) |
+| `find_persona` / `find_email` | No | Enrich on developer domain when present |
+| `webhook_url` / `delivery` | No | Async delivery options |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/appstore \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"url":"https://apps.apple.com/us/app/slack/id618783545","max_pages":1}'
+```
+
+## Credits
+
+**1 credit per page** (app lookup or reviews page). Charged at **3¢ per credit**.

@@ -1,0 +1,35 @@
+---
+title: "Product Hunt"
+description: "Scrape Product Hunt product reviews as structured JSON."
+---
+
+Fetch Product Hunt product reviews as structured JSON.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/scrapers/producthunt
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `slug` | Conditional | Product slug |
+| `url` | Conditional | `producthunt.com/products/{slug}` URL |
+| `page` / `max_pages` | No | Review pagination |
+| `find_linkedin` / `find_email` | No | Enrich reviewers |
+| `webhook_url` / `delivery` | No | Async delivery options |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/producthunt \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"slug":"notion","max_pages":1}'
+```
+
+## Credits
+
+**2 credits per page**. Charged at **3¢ per credit**.

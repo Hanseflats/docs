@@ -1,0 +1,50 @@
+---
+title: "Indeed"
+description: "Search Indeed jobs as structured JSON. Pass a query + location or an Indeed URL."
+---
+
+Search Indeed job listings into structured JSON. Optional company-domain resolution for persona/email enrichment.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/scrapers/indeed
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `query` | Conditional | Job search query (required unless `url` is an Indeed search/job URL) |
+| `location` | No | Location string (e.g. `Austin, TX`) |
+| `url` | Conditional | Indeed search or job URL |
+| `page` | No | Start page (default `1`) |
+| `max_pages` | No | Pages to scrape (default `1`). `>1` runs async |
+| `resolve_domains` | No | Resolve hiring company website domains (async). Auto-on with `find_persona` / `find_email` |
+| `find_persona` | No | Find a persona at the resolved company domain |
+| `persona_titles` | No | Required with `find_persona`; max 3 |
+| `find_email` | No | Find email (see Email enrichment) |
+| `email_provider` | No | `findymail` or `leadmagic` for BYO sync path |
+| `email_api_key` | No | Request override (not persisted) |
+| `webhook_url` | No | Delivery webhook for async jobs |
+| `delivery` | No | `chunks` (default), `item`, or `complete_only` |
+| `webhook_batch_size` | No | Default `50`, max `100` |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/indeed \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "account executive",
+    "location": "Austin, TX",
+    "max_pages": 1
+  }'
+```
+
+## Credits
+
+**1 credit per page**. Domain resolution is included when enrich flags require it. `find_persona` / RevenueBase email add \+1 each when found.
+
+Charged against your prepaid Billing balance at **3¢ per credit**.

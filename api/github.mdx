@@ -1,0 +1,37 @@
+---
+title: "GitHub"
+description: "Fetch GitHub users, orgs, and repos as structured JSON."
+---
+
+Look up GitHub users, organizations, repositories, or search users as structured JSON.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/scrapers/github
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `url` | Conditional | `github.com/{owner}` or `github.com/{owner}/{repo}` |
+| `owner` / `repo` | Conditional | Explicit owner and optional repo |
+| `query` | Conditional | User search query |
+| `mode` | No | `user`, `org`, `repo`, `search`, or `list` |
+| `page` / `per_page` | No | Pagination for search / repo lists |
+| `find_linkedin` / `find_persona` / `find_email` | No | Enrich people or org domains |
+| `webhook_url` / `delivery` | No | Async delivery options |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/github \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"url":"https://github.com/vercel/next.js"}'
+```
+
+## Credits
+
+**1 credit per request**. Charged at **3¢ per credit**.

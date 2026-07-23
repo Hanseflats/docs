@@ -1,0 +1,37 @@
+---
+title: "Reddit"
+description: "Fetch Reddit subreddit posts, search results, or comments as structured JSON."
+---
+
+Pull Reddit posts, search hits, or comment threads as structured JSON.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/scrapers/reddit
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `subreddit` | Conditional | Subreddit name (without `r/`) |
+| `url` | Conditional | Subreddit or post URL |
+| `query` | Conditional | Search query |
+| `mode` | No | `subreddit`, `search`, or `comments` |
+| `sort` / `time` / `limit` | No | Listing controls |
+| `find_linkedin` / `find_email` | No | Enrich authors |
+| `webhook_url` / `delivery` | No | Async delivery options |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/reddit \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"subreddit":"sales","sort":"hot","limit":25}'
+```
+
+## Credits
+
+**2 credits per request**. Charged at **3¢ per credit**.

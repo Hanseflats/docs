@@ -73,7 +73,18 @@
           "api/glassdoor",
           "api/trustmrr",
           "api/yc",
-          "api/g2"
+          "api/g2",
+          "api/indeed",
+          "api/appstore",
+          "api/substack",
+          "api/reddit",
+          "api/github",
+          "api/google-play",
+          "api/producthunt",
+          "api/capterra",
+          "api/upwork",
+          "api/wellfound",
+          "api/crunchbase"
         ]
       },
       {
