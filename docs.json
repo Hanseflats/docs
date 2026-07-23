@@ -141,11 +141,5 @@
       "website": "https://app.lens.ly"
     }
   },
-  "redirects": [
-    {
-      "source": "/api/scrapers",
-      "destination": "/api/trustradius",
-      "permanent": true
-    }
-  ]
+  "redirects": []
 }
