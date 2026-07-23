@@ -1,0 +1,88 @@
+---
+title: "Companies Running YouTube Ads"
+sidebarTitle: "YouTube Ads companies"
+description: "Find companies running video ads on YouTube. Filter by size, geography, industry, and funding. Optionally add buyer personas after a company matches. Deliver co"
+---
+
+Launch via the [Audiences API](/api/audiences) with `play_slug: "companies-running-youtube-ads"`.
+
+Find companies running video ads on YouTube. Filter by size, geography, industry, and funding. Optionally add buyer personas after a company matches. Deliver companies via webhook or CSV.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/audiences
+```
+
+## Source params
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `companySizes` | No | Employee size ranges, comma-separated.. Example: `51-200,201-500` |
+| `geographies` | No | Markets US/UK/EU and/or ISO country codes.. Example: `US,GB` |
+| `industries` | No | Industry keywords (OR).. Example: `Software,Marketing` |
+| `funded` | No | true / false / omit for either.. Example: `true` |
+| `output_mode` | No | companies\_only (default) or companies\_and\_personas.. Example: `companies_only` |
+| `personas` | No | Required when output\_mode=companies\_and\_personas.. Example: `Founder, VP Sales` |
+
+Also pass top-level audience fields:
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `play_slug` | Yes | Must be `companies-running-youtube-ads` |
+| `number_of_leads` | No | Target volume (default `100`) |
+| `title` | No | Display name |
+| `cadence` | No | `daily`, `weekly`, or `monthly` for recurring runs |
+| `delivery_webhook_url` | No | Webhook for delivery |
+
+Inspect the live schema anytime:
+
+```bash
+curl https://app.lens.ly/api/v1/audiences/plays/companies-running-youtube-ads \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/audiences \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: companies-running-youtube-ads-1" \
+  -d '{
+  "play_slug": "companies-running-youtube-ads",
+  "source_params": {
+    "companySizes": "51-200,201-500",
+    "geographies": "US,GB"
+  },
+  "number_of_leads": 100,
+  "title": "Companies Running YouTube Ads"
+}'
+```
+
+## Response
+
+```json
+{
+  "audience": {
+    "id": "a1b2c3d4-...",
+    "title": "Companies Running YouTube Ads",
+    "play_slug": "companies-running-youtube-ads",
+    "apify_status": "pending"
+  },
+  "status": "triggered"
+}
+```
+
+Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=companies`.
+
+## Credits
+
+**1 credit per company** found; **2** if a buyer persona is matched. Charged as results are found, not at launch.
+
+## Notes
+
+- Same schema as Google Ads play; video creatives via Ads Transparency.
+- output\_mode companies\_only | companies\_and\_personas; personas required for latter.
+- Billing mode: company (1 / company; \+1 per persona match when personas on -\> typically 2). Catalog credit\_cost\_per\_unit=1.
+- source=youtube; volume=50-5000; cadence=None.

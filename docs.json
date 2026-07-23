@@ -39,7 +39,30 @@
         "group": "Audiences",
         "pages": [
           "api/audiences",
-          "api/competitor-reviews"
+          "api/accelerator-alumni-companies",
+          "api/bombora-crunchbase-surge",
+          "api/audience-company-lookalikes",
+          "api/competitor-reviews",
+          "api/edgar-pain-companies",
+          "api/companies-running-google-ads",
+          "api/google-ads-spend-companies",
+          "api/google-jobs-posters",
+          "api/hidden-tech-companies",
+          "api/paid-traffic-companies",
+          "api/mobile-app-companies",
+          "api/organic-traffic-companies",
+          "api/jd-replace-companies",
+          "api/missing-team-companies",
+          "api/missing-team-hiring-companies",
+          "api/new-hires",
+          "api/sponsor-companies",
+          "api/people-in-stealth-mode",
+          "api/substack-keyword-posts",
+          "api/yc-companies",
+          "api/substack-keyword-authors",
+          "api/upwork-job-posters",
+          "api/vc-portfolio-companies",
+          "api/companies-running-youtube-ads"
         ]
       },
       {

@@ -1,0 +1,91 @@
+---
+title: "YC Companies"
+sidebarTitle: "YC companies"
+description: "Search the Y Combinator company directory by batch, industry, status, hiring, and more. Optionally match buyer personas at those companies. Deliver via webhook "
+---
+
+Launch via the [Audiences API](/api/audiences) with `play_slug: "yc-companies"`.
+
+Search the Y Combinator company directory by batch, industry, status, hiring, and more. Optionally match buyer personas at those companies. Deliver via webhook or CSV (Instantly when personas are on).
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/audiences
+```
+
+## Source params
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `query` | No | Search name, one-liner, or tags. Provide at least one of: query, batch, industry, tag, is\_hiring, top\_companies.. Example: `AI` |
+| `batch` | No | Filter by batch, e.g. W24, S23.. Example: `W24` |
+| `industry` | No | Filter by industry.. Example: `B2B` |
+| `tag` | No | YC directory tag.. Example: `artificial-intelligence` |
+| `status` | No | Active (default), Public, Acquired, or Inactive.. Example: `Active` |
+| `is_hiring` | No | true to only include companies marked hiring.. Example: `false` |
+| `top_companies` | No | true to only include YC top companies.. Example: `false` |
+| `include_personas` | No | true to match contacts by job title. Default: false.. Example: `false` |
+| `personas` | No | Job titles when include\_personas is true.. Example: `Founder, VP Engineering` |
+
+Also pass top-level audience fields:
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `play_slug` | Yes | Must be `yc-companies` |
+| `number_of_leads` | No | Target volume (default `100`) |
+| `title` | No | Display name |
+| `cadence` | No | `daily`, `weekly`, or `monthly` for recurring runs |
+| `delivery_webhook_url` | No | Webhook for delivery |
+
+Inspect the live schema anytime:
+
+```bash
+curl https://app.lens.ly/api/v1/audiences/plays/yc-companies \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/audiences \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: yc-companies-1" \
+  -d '{
+  "play_slug": "yc-companies",
+  "source_params": {
+    "query": "AI",
+    "batch": "W24"
+  },
+  "number_of_leads": 100,
+  "title": "YC Companies"
+}'
+```
+
+## Response
+
+```json
+{
+  "audience": {
+    "id": "a1b2c3d4-...",
+    "title": "YC Companies",
+    "play_slug": "yc-companies",
+    "apify_status": "pending"
+  },
+  "status": "triggered"
+}
+```
+
+Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=companies`.
+
+## Credits
+
+**1 credit per company** found; **2** if a buyer persona is matched. Charged as results are found, not at launch.
+
+## Notes
+
+- Need ≥1 filter beyond default status: query|batch|industry|tag|is\_hiring|top\_companies.
+- Default status=Active. For non-YC accelerators use accelerator-alumni-companies.
+- Billing mode: company (1 / company; \+1 per persona match when personas on -\> typically 2). Catalog credit\_cost\_per\_unit=1.
+- volume=50-2000; cadence=None.

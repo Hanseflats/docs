@@ -1,15 +1,16 @@
 ---
-title: "Competitor reviews"
-description: "Audience play that scrapes G2, TrustRadius, and Trustpilot reviews and resolves reviewers to LinkedIn profiles."
+title: "Competitor Reviews (G2 + TrustRadius + Trustpilot)"
+description: "Paste company websites and/or direct G2 / TrustRadius / Trustpilot review URLs (comma-separated). Websites are auto-matched to review pages; direct URLs are use"
+sidebarTitle: "Competitor reviews"
 ---
 
 Launch via the [Audiences API](/api/audiences) with `play_slug: "competitor-reviews"`.
 
-Paste company websites and/or direct G2 / TrustRadius / Trustpilot review URLs. Websites are auto-matched to review pages; direct URLs are used as-is. Collects recent reviews (past 8 months), optionally filters by star rating, and finds reviewers on LinkedIn.
+Paste company websites and/or direct G2 / TrustRadius / Trustpilot review URLs (comma-separated). Websites are auto-matched to review pages; direct URLs are used as-is. Collects recent reviews (past 8 months), optional star filter, and finds reviewers on LinkedIn.
 
 ## Endpoint
 
-```
+```text
 POST https://app.lens.ly/api/v1/audiences
 ```
 
@@ -17,10 +18,10 @@ POST https://app.lens.ly/api/v1/audiences
 
 | Parameter | Required | Description |
 | --- | --- | --- |
-| `websites` | Yes | Company websites and/or direct G2 / TrustRadius / Trustpilot URLs, comma-separated |
-| `find_work_email` | No | When true, look up each reviewer's work email and employer when possible |
-| `max_rating` | No | Only include reviews at or below this star rating (1–5) |
-| `max_leads` | No | Stop after this many resolved leads across all platforms |
+| `websites` | Yes | Company websites and/or direct G2 / TrustRadius / Trustpilot URLs, comma-separated.. Example: `hubspot.com, https://www.g2.com/products/salesforce/reviews` |
+| `find_work_email` | No | When enabled, look up each reviewer work email and employer when possible.. Example: `true` |
+| `max_rating` | No | Only include reviews at or below this rating. Leave blank for all.. Example: `3` |
+| `max_leads` | No | Stop after this many resolved leads across all platforms.. Example: `200` |
 
 Also pass top-level audience fields:
 
@@ -47,16 +48,13 @@ curl -X POST https://app.lens.ly/api/v1/audiences \
   -H "Content-Type: application/json" \
   -H "Idempotency-Key: competitor-reviews-1" \
   -d '{
-    "play_slug": "competitor-reviews",
-    "source_params": {
-      "websites": "hubspot.com, https://www.g2.com/products/salesforce/reviews",
-      "max_rating": "3",
-      "find_work_email": "true",
-      "max_leads": "200"
-    },
-    "number_of_leads": 100,
-    "title": "Competitor reviewers"
-  }'
+  "play_slug": "competitor-reviews",
+  "source_params": {
+    "websites": "hubspot.com, https://www.g2.com/products/salesforce/reviews"
+  },
+  "number_of_leads": 100,
+  "title": "Competitor Reviews (G2 + TrustRadius + Trustpilot)"
+}'
 ```
 
 ## Response
@@ -65,7 +63,7 @@ curl -X POST https://app.lens.ly/api/v1/audiences \
 {
   "audience": {
     "id": "a1b2c3d4-...",
-    "title": "Competitor reviewers",
+    "title": "Competitor Reviews (G2 + TrustRadius + Trustpilot)",
     "play_slug": "competitor-reviews",
     "apify_status": "pending"
   },
@@ -79,6 +77,8 @@ Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/
 
 **1 credit per person** resolved (person-first play). Charged as leads are found, not at launch.
 
-## Platforms
+## Notes
 
-G2, TrustRadius, and Trustpilot.
+- Person-first. Platforms: G2, TrustRadius, Trustpilot. Reviews ~past 8 months.
+- Billing mode: person (1 credit / person found). Catalog credit\_cost\_per\_unit=1.
+- source=g2\+trustpilot; volume=50-1000; cadence=None.

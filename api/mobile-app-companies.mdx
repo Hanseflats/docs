@@ -1,0 +1,85 @@
+---
+title: "Companies With a Mobile App"
+sidebarTitle: "Mobile app companies"
+description: "Find US companies that have a mobile app. Filter by company size. Optionally match buyer personas."
+---
+
+Launch via the [Audiences API](/api/audiences) with `play_slug: "mobile-app-companies"`.
+
+Find US companies that have a mobile app. Filter by company size. Optionally match buyer personas.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/audiences
+```
+
+## Source params
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `companySizes` | No | Employee size ranges.. Example: `11-50,51-200,201-500` |
+| `include_personas` | No | true to match contacts after companies. Default false.. Example: `false` |
+| `personas` | No | Job titles when include\_personas is true. Example: `Founder, Head of Product` |
+
+Also pass top-level audience fields:
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `play_slug` | Yes | Must be `mobile-app-companies` |
+| `number_of_leads` | No | Target volume (default `100`) |
+| `title` | No | Display name |
+| `cadence` | No | `daily`, `weekly`, or `monthly` for recurring runs |
+| `delivery_webhook_url` | No | Webhook for delivery |
+
+Inspect the live schema anytime:
+
+```bash
+curl https://app.lens.ly/api/v1/audiences/plays/mobile-app-companies \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/audiences \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: mobile-app-companies-1" \
+  -d '{
+  "play_slug": "mobile-app-companies",
+  "source_params": {
+    "companySizes": "11-50,51-200,201-500",
+    "include_personas": "false"
+  },
+  "number_of_leads": 100,
+  "title": "Companies With a Mobile App"
+}'
+```
+
+## Response
+
+```json
+{
+  "audience": {
+    "id": "a1b2c3d4-...",
+    "title": "Companies With a Mobile App",
+    "play_slug": "mobile-app-companies",
+    "apify_status": "pending"
+  },
+  "status": "triggered"
+}
+```
+
+Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=companies`.
+
+## Credits
+
+**1 credit per company** found; **2** if a buyer persona is matched. Charged as results are found, not at launch.
+
+## Notes
+
+- US companies with a mobile app (RevenueBase). Default companySizes 11-50,51-200,201-500.
+- personas when include\_personas=true.
+- Billing mode: company (1 / company; \+1 per persona match when personas on → typically 2). Catalog credit\_cost\_per\_unit=1.
+- source=revenuebase; volume=100-5000; cadence=monthly.

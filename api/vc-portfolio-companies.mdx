@@ -1,0 +1,89 @@
+---
+title: "VC Portfolio Companies"
+sidebarTitle: "VC portfolio"
+description: "Find companies where a named VC led (or the same lead investor as a seed company domain). Uses lead-investor data with exact token matching — no Accel/Accelerat"
+---
+
+Launch via the [Audiences API](/api/audiences) with `play_slug: "vc-portfolio-companies"`.
+
+Find companies where a named VC led (or the same lead investor as a seed company domain). Uses lead-investor data with exact token matching — no Accel/Accelerator collisions. Filter by company funding stage and recency. Optionally match buyer personas.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/audiences
+```
+
+## Source params
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `mode` | No | investor (default) or seed\_domain. Example: `investor` |
+| `investor` | No | Required when mode=investor. Catalog name or alias.. Example: `Accel` |
+| `seed_domain` | No | Required when mode=seed\_domain.. Example: `linear.app` |
+| `funding_stages` | No | seed \| series\_a \| series\_b\_plus \| any. Example: `any` |
+| `funded_within_years` | No | 0=any; mega funds default 5. Example: `5` |
+| `include_personas` | No | true to match contacts after companies. Default false.. Example: `false` |
+| `personas` | No | Job titles when include\_personas is true. Example: `Founder, VP Sales` |
+
+Also pass top-level audience fields:
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `play_slug` | Yes | Must be `vc-portfolio-companies` |
+| `number_of_leads` | No | Target volume (default `100`) |
+| `title` | No | Display name |
+| `cadence` | No | `daily`, `weekly`, or `monthly` for recurring runs |
+| `delivery_webhook_url` | No | Webhook for delivery |
+
+Inspect the live schema anytime:
+
+```bash
+curl https://app.lens.ly/api/v1/audiences/plays/vc-portfolio-companies \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/audiences \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: vc-portfolio-companies-1" \
+  -d '{
+  "play_slug": "vc-portfolio-companies",
+  "source_params": {
+    "mode": "investor",
+    "investor": "Accel"
+  },
+  "number_of_leads": 100,
+  "title": "VC Portfolio Companies"
+}'
+```
+
+## Response
+
+```json
+{
+  "audience": {
+    "id": "a1b2c3d4-...",
+    "title": "VC Portfolio Companies",
+    "play_slug": "vc-portfolio-companies",
+    "apify_status": "pending"
+  },
+  "status": "triggered"
+}
+```
+
+Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=companies`.
+
+## Credits
+
+**1 credit per company** found; **2** if a buyer persona is matched. Charged as results are found, not at launch.
+
+## Notes
+
+- mode=investor (default) needs investor catalog name/alias; mode=seed\_domain needs seed\_domain.
+- funding\_stages seed|series\_a|series\_b\_plus|any (default any). Exact lead-investor token match.
+- Billing mode: company (1 / company; \+1 per persona match when personas on -\> typically 2). Catalog credit\_cost\_per\_unit=1.
+- source=revenuebase; volume=20-500; cadence=monthly.

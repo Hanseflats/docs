@@ -1,0 +1,87 @@
+---
+title: "Accelerator Alumni Companies"
+sidebarTitle: "Accelerator Alumni"
+description: "Find companies backed by Techstars, Google for Startups, Antler, SOSV, 500 Global, or MassChallenge via lead-investor data. Defaults to seed-stage companies. Fo"
+---
+
+Launch via the [Audiences API](/api/audiences) with `play_slug: "accelerator-alumni-companies"`.
+
+Find companies backed by Techstars, Google for Startups, Antler, SOSV, 500 Global, or MassChallenge via lead-investor data. Defaults to seed-stage companies. For Y Combinator batch/industry/hiring filters, use the YC Companies play.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/audiences
+```
+
+## Source params
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `accelerator` | Yes | Catalog only. Example: `Techstars` |
+| `funding_stages` | No | seed (default) \| series\_a \| series\_b\_plus \| any. Example: `seed` |
+| `funded_within_years` | No | 0=any. Example: `0` |
+| `include_personas` | No | true to match contacts after companies. Default false.. Example: `false` |
+| `personas` | No | Job titles when include\_personas is true. Example: `Founder, CEO` |
+
+Also pass top-level audience fields:
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `play_slug` | Yes | Must be `accelerator-alumni-companies` |
+| `number_of_leads` | No | Target volume (default `100`) |
+| `title` | No | Display name |
+| `cadence` | No | `daily`, `weekly`, or `monthly` for recurring runs |
+| `delivery_webhook_url` | No | Webhook for delivery |
+
+Inspect the live schema anytime:
+
+```bash
+curl https://app.lens.ly/api/v1/audiences/plays/accelerator-alumni-companies \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/audiences \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: accelerator-alumni-companies-1" \
+  -d '{
+  "play_slug": "accelerator-alumni-companies",
+  "source_params": {
+    "accelerator": "Techstars"
+  },
+  "number_of_leads": 100,
+  "title": "Accelerator Alumni Companies"
+}'
+```
+
+## Response
+
+```json
+{
+  "audience": {
+    "id": "a1b2c3d4-...",
+    "title": "Accelerator Alumni Companies",
+    "play_slug": "accelerator-alumni-companies",
+    "apify_status": "pending"
+  },
+  "status": "triggered"
+}
+```
+
+Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=companies`.
+
+## Credits
+
+**1 credit per company** found; **2** if a buyer persona is matched. Charged as results are found, not at launch.
+
+## Notes
+
+- Catalog-only accelerator: Techstars, Google for Startups, Antler, SOSV, 500 Global, MassChallenge (not free text).
+- Default funding\_stages=seed. For YC use yc-companies instead.
+- personas required when include\_personas=true.
+- Billing mode: company (1 / company; \+1 per persona match when personas on → typically 2). Catalog credit\_cost\_per\_unit=1.
+- source=revenuebase; volume=50-500; cadence=monthly.

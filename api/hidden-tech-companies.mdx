@@ -1,0 +1,84 @@
+---
+title: "Companies Using Hidden Tech"
+sidebarTitle: "Hidden tech"
+description: "Enter a tool (e.g. Apollo, Gong, Instantly, Smartlead). We search compliance pages (subprocessors, DPA, trust centers) and ATS job posts for companies that disc"
+---
+
+Launch via the [Audiences API](/api/audiences) with `play_slug: "hidden-tech-companies"`.
+
+Enter a tool (e.g. Apollo, Gong, Instantly, Smartlead). We search compliance pages (subprocessors, DPA, trust centers) and ATS job posts for companies that disclose using it — stack signals BuiltWith cannot see. Confirm scrape before upsert; noisy brand names require corroboration. Optionally match buyer personas.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/audiences
+```
+
+## Source params
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `tool` | Yes | Product to find users of. Comma-separate for multiple.. Example: `Apollo` |
+| `include_personas` | No | true to match contacts by job title after companies are found. Default: false.. Example: `false` |
+| `personas` | No | Job titles when include\_personas is true.. Example: `VP Sales, Head of RevOps` |
+
+Also pass top-level audience fields:
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `play_slug` | Yes | Must be `hidden-tech-companies` |
+| `number_of_leads` | No | Target volume (default `100`) |
+| `title` | No | Display name |
+| `cadence` | No | `daily`, `weekly`, or `monthly` for recurring runs |
+| `delivery_webhook_url` | No | Webhook for delivery |
+
+Inspect the live schema anytime:
+
+```bash
+curl https://app.lens.ly/api/v1/audiences/plays/hidden-tech-companies \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/audiences \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: hidden-tech-companies-1" \
+  -d '{
+  "play_slug": "hidden-tech-companies",
+  "source_params": {
+    "tool": "Apollo"
+  },
+  "number_of_leads": 100,
+  "title": "Companies Using Hidden Tech"
+}'
+```
+
+## Response
+
+```json
+{
+  "audience": {
+    "id": "a1b2c3d4-...",
+    "title": "Companies Using Hidden Tech",
+    "play_slug": "hidden-tech-companies",
+    "apify_status": "pending"
+  },
+  "status": "triggered"
+}
+```
+
+Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=companies`.
+
+## Credits
+
+**1 credit per company** found; **2** if a buyer persona is matched. Charged as results are found, not at launch.
+
+## Notes
+
+- Requires tool name; searches compliance pages \+ ATS JDs (not BuiltWith).
+- Noisy brand names need corroboration; personas when include\_personas=true.
+- Billing mode: company (1 / company; \+1 per persona match when personas on → typically 2). Catalog credit\_cost\_per\_unit=1.
+- volume=20-400; cadence=monthly.

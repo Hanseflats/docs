@@ -1,0 +1,87 @@
+---
+title: "Substack Authors"
+sidebarTitle: "Substack authors"
+description: "Enter keywords to find Substack publications/authors via Google. Returns the authors themselves — does not scrape comments on their posts."
+---
+
+Launch via the [Audiences API](/api/audiences) with `play_slug: "substack-keyword-authors"`.
+
+Enter keywords to find Substack publications/authors via Google. Returns the authors themselves — does not scrape comments on their posts.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/audiences
+```
+
+## Source params
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `keywords` | No | Topics to discover Substack authors. Provide keywords and/or subdomains/handles.. Example: `sales automation, founder-led sales` |
+| `subdomains` | No | Comma-separated Substack subdomains to seed.. Example: `pragmaticengineer, platformer` |
+| `handles` | No | Comma-separated Substack handles to seed.. Example: `mattstoller, platformer` |
+| `recent_days` | No | Only process posts/comments from the last N days. Default: 30.. Example: `30` |
+| `max_leads` | No | Stop after this many commenter leads in one run.. Example: `200` |
+
+Also pass top-level audience fields:
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `play_slug` | Yes | Must be `substack-keyword-authors` |
+| `number_of_leads` | No | Target volume (default `100`) |
+| `title` | No | Display name |
+| `cadence` | No | `daily`, `weekly`, or `monthly` for recurring runs |
+| `delivery_webhook_url` | No | Webhook for delivery |
+
+Inspect the live schema anytime:
+
+```bash
+curl https://app.lens.ly/api/v1/audiences/plays/substack-keyword-authors \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/audiences \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: substack-keyword-authors-1" \
+  -d '{
+  "play_slug": "substack-keyword-authors",
+  "source_params": {
+    "keywords": "sales automation, founder-led sales",
+    "subdomains": "pragmaticengineer, platformer"
+  },
+  "number_of_leads": 100,
+  "title": "Substack Authors"
+}'
+```
+
+## Response
+
+```json
+{
+  "audience": {
+    "id": "a1b2c3d4-...",
+    "title": "Substack Authors",
+    "play_slug": "substack-keyword-authors",
+    "apify_status": "pending"
+  },
+  "status": "triggered"
+}
+```
+
+Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=leads`.
+
+## Credits
+
+**1 credit per person** resolved (person-first play). Charged as leads are found, not at launch.
+
+## Notes
+
+- Keywords OR subdomains/handles seeds required. Returns authors, not commenters.
+- Defaults: recent\_days=30, serp\_pages=25, max\_authors=100, posts\_per\_author=10, discovery\_mode=authors.
+- Billing mode: person (1 credit / person found). Catalog credit\_cost\_per\_unit=1.
+- source=substack; volume=20-500; cadence=weekly.

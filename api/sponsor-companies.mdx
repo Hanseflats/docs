@@ -1,0 +1,86 @@
+---
+title: "Companies that sponsor newsletters, podcast, events"
+sidebarTitle: "Sponsors"
+description: "Find companies that sponsor newsletters, podcasts, and events/conferences in a niche. Optionally match buyer personas at those companies. Deliver via webhook or"
+---
+
+Launch via the [Audiences API](/api/audiences) with `play_slug: "sponsor-companies"`.
+
+Find companies that sponsor newsletters, podcasts, and events/conferences in a niche. Optionally match buyer personas at those companies. Deliver via webhook or CSV (Instantly when personas are on).
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/audiences
+```
+
+## Source params
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `topic` | No | Niche to discover sponsor lists for. Provide topic and/or seed\_urls.. Example: `AI` |
+| `seed_urls` | No | Sponsor-list or show-notes URLs (one per line or comma-separated).. Example: `https://www.lennysnewsletter.com/p/lennys-podcast-sponsors` |
+| `include_personas` | No | true to match contacts by job title. Default: false.. Example: `false` |
+| `personas` | No | Job titles when include\_personas is true.. Example: `Founder, CMO, VP Marketing` |
+
+Also pass top-level audience fields:
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `play_slug` | Yes | Must be `sponsor-companies` |
+| `number_of_leads` | No | Target volume (default `100`) |
+| `title` | No | Display name |
+| `cadence` | No | `daily`, `weekly`, or `monthly` for recurring runs |
+| `delivery_webhook_url` | No | Webhook for delivery |
+
+Inspect the live schema anytime:
+
+```bash
+curl https://app.lens.ly/api/v1/audiences/plays/sponsor-companies \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/audiences \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: sponsor-companies-1" \
+  -d '{
+  "play_slug": "sponsor-companies",
+  "source_params": {
+    "topic": "AI",
+    "seed_urls": "https://www.lennysnewsletter.com/p/lennys-podcast-sponsors"
+  },
+  "number_of_leads": 100,
+  "title": "Companies that sponsor newsletters, podcast, events"
+}'
+```
+
+## Response
+
+```json
+{
+  "audience": {
+    "id": "a1b2c3d4-...",
+    "title": "Companies that sponsor newsletters, podcast, events",
+    "play_slug": "sponsor-companies",
+    "apify_status": "pending"
+  },
+  "status": "triggered"
+}
+```
+
+Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=companies`.
+
+## Credits
+
+**1 credit per company** found; **2** if a buyer persona is matched. Charged as results are found, not at launch.
+
+## Notes
+
+- Must provide topic and/or seed\_urls (OR constraint).
+- personas required when include\_personas=true.
+- Billing mode: company (1 / company; \+1 per persona match when personas on -\> typically 2). Catalog credit\_cost\_per\_unit=1.
+- volume=50-2000; cadence=None.
