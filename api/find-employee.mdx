@@ -3,11 +3,11 @@ title: "Find employee"
 description: "Bulk find current employees with verified email by job title. Up to 200 domains per request."
 ---
 
-Bulk find a current employee per domain by job title. Uses RevenueBase (verified emails only). Pass up to 200 domains per request.
+Bulk find a current employee per domain by job title. Returns verified work emails when a match is found. Pass up to 200 domains per request.
 
 ## Endpoint
 
-```
+```text
 POST https://app.lens.ly/api/v1/company/find-employee
 ```
 
@@ -18,7 +18,7 @@ POST https://app.lens.ly/api/v1/company/find-employee
 | `domains` | Yes | Array of company domains (max 200). Aliases: `urls`, `company_domains`. A single `domain` / `company_website` string is also accepted. |
 | `job_title` | Yes | String or array of up to 3 titles (tried as OR match; best title match wins per domain) |
 
-Email is always returned when a match is found (RevenueBase `EMAIL_STATUS_PER = VALID`).
+Email is always returned when a match is found (verified work emails only).
 
 ## Example request
 

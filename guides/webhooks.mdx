@@ -3,7 +3,7 @@ title: "Webhooks"
 description: "Audience destination webhooks (one POST per row) and legacy job completion webhooks."
 ---
 
-Lens has two webhook styles. Prefer **audience destinations** for Playbooks audiences.
+Lens supports three webhook styles: **audience destinations**, **scraper job delivery**, and **legacy job completion**.
 
 ## Audience destinations
 
@@ -30,8 +30,51 @@ Configure `delivery_webhook_url` on [Audiences](/api/audiences) launch or `PATCH
 Company-only audiences send `"type": "companies"` and a `"company"` object.
 
 <Info>
-Use HTTPS. Return **2xx** within 30 seconds. Concurrency is capped (about 5 parallel POSTs). Instantly destinations stay bulk and are separate from webhooks.
+  Use HTTPS. Return **2xx** within 30 seconds. Concurrency is capped (about 5 parallel POSTs). Instantly destinations stay bulk and are separate from webhooks.
 </Info>
+
+## Scraper webhooks
+
+Pass `webhook_url` on `POST /api/v1/scrapers/{slug}` (async jobs). Optional `delivery`:
+
+| `delivery` | Behavior |
+| --- | --- |
+| `chunks` (default) | Batches of records (`webhook_batch_size`, default 50, max 100), then a completion event |
+| `item` | One POST per record (auto-downgrades to chunks above 100 records), then completion |
+| `complete_only` | Only the completion event (fetch records via results URL) |
+
+**Requirements:** HTTPS only. No private/link-local hosts. Redirects are not followed. Return **2xx** within 30 seconds. We retry failed deliveries a few times.
+
+### Chunk / item payloads
+
+```json
+{
+  "event": "scraper.records",
+  "job_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "slug": "trustradius",
+  "batch_index": 0,
+  "batch_total": 2,
+  "is_final_batch": false,
+  "records": [{ "reviewer_name": "Alex L.", "rating": 8 }]
+}
+```
+
+Per-record mode uses `event: "scraper.record"` with `index` and `record` instead of `records`.
+
+### Completion payload
+
+```json
+{
+  "event": "scraper.completed",
+  "job_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "status": "completed",
+  "record_count": 40,
+  "credits_used": 3,
+  "results_url": "https://app.lens.ly/api/v1/scrapers/jobs/a1b2c3d4-e5f6-7890-abcd-ef1234567890/results"
+}
+```
+
+On failure, `status` is `"failed"` and `error` may be present. See [Scrapers overview](/api/scrapers).
 
 ## Legacy job webhooks
 
@@ -46,4 +89,4 @@ Some older job APIs still accept `webhook_url` on create. On completion we POST 
 }
 ```
 
-That path is for legacy jobs, not Playbooks audience sync.
+That path is for legacy jobs, not Playbooks audience sync or the scrapers API.

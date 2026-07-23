@@ -30,7 +30,7 @@ POST https://app.lens.ly/api/v1/scrapers/g2
 ## Sync vs async
 
 - **Sync** — `max_pages === 1` and either no `find_email` or BYO email key. Response: `{ data, credits_used, meta }`.
-- **Async** — multi-page or RevenueBase bulk `find_email`. Response `202`: `{ job_id, status, poll }`.
+- **Async** — multi-page or bulk `find_email`. Response `202`: `{ job_id, status, poll }`.
 
 Poll: `GET /api/v1/scrapers/jobs/{id}`<br />Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
 
@@ -39,7 +39,7 @@ Poll: `GET /api/v1/scrapers/jobs/{id}`<br />Results: `GET /api/v1/scrapers/jobs/
 | Mode | How | Credits |
 | --- | --- | --- |
 | Sync | BYO Findymail or LeadMagic key | 0 email credits |
-| Async bulk | Our RevenueBase (LinkedIn → name\+domain) | \+1 per email found |
+| Async bulk | Bulk email enrichment (LinkedIn → name\+domain) | \+1 per email found |
 
 Save BYO keys: `PUT /api/v1/integrations/email-finders` with `{ "findymail_api_key": "…" }`.
 
@@ -58,7 +58,7 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/g2 \
 
 ## Credits
 
-**2 credits per page** scraped. Website discovery is included. `find_linkedin` and RevenueBase email add \+1 each when found.
+**2 credits per page** scraped. Website discovery is included. `find_linkedin` and email enrichment add \+1 each when found.
 
 Charged against your prepaid Billing balance at **3¢ per credit**.
 
@@ -70,3 +70,6 @@ Charged against your prepaid Billing balance at **3¢ per credit**.
 | `401` | Invalid API key |
 | `402` | Insufficient billing balance |
 | `404` | Product / page not found |
+| `502` | `empty_result` — upstream returned no reviews (not charged) |
+
+Response shapes: [Scrapers overview](/api/scrapers).

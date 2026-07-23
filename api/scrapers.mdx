@@ -1,0 +1,210 @@
+---
+title: "Scrapers overview"
+sidebarTitle: "Overview"
+description: "Structured scrapers API — sync JSON or async jobs with poll, results, and webhooks."
+---
+
+Scrape review sites, job boards, app stores, and more into structured JSON.
+
+```text
+POST https://app.lens.ly/api/v1/scrapers/{slug}
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Available slugs
+
+| Slug | Typical input |
+| --- | --- |
+| `trustradius`, `trustpilot`, `g2`, `capterra`, `glassdoor`, `producthunt`, `trustmrr` | Website or product/reviews URL |
+| `indeed`, `upwork` | Search `query` (\+ `location`) or job URL |
+| `yc`, `wellfound`, `crunchbase` | Company slug / search query / permalink |
+| `github` | `owner` \+ `repo`, or user/repo URL |
+| `reddit` | `subreddit` / `query` |
+| `substack` | `subdomain` or newsletter URL |
+| `google-play`, `appstore` | `app_id` or store URL |
+
+## Sync vs async
+
+| Mode | When | HTTP | Body |
+| --- | --- | --- | --- |
+| **Sync** | `max_pages=1` and either no `find_email` or BYO email key | `200` | `{ data, credits_used, meta }` |
+| **Async** | `max_pages>1`, `find_persona`, `resolve_domains`, or bulk `find_email` | `202` | `{ job_id, status, poll }` |
+
+Then:
+
+1. `GET /api/v1/scrapers/jobs/{id}` — poll until `completed` / `failed`
+2. `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100` — page records
+
+Optional `webhook_url` (HTTPS only) for push delivery. See [Webhooks](/guides/webhooks#scraper-webhooks).
+
+## Credits
+
+Per-slug page costs are on each scraper page (typically **1–2 credits/page**). Enrichment adds **\+1** per LinkedIn/email/persona found when applicable. Charged at **3¢ per credit** against prepaid Billing.
+
+Limits (multi-tenant): sync ~10 POSTs/min, async create ~10/min, poll/results ~120/min; max **3** concurrent scraper jobs per user; `max_pages` capped at **20**.
+
+## Example — sync success (TrustRadius)
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/trustradius \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://www.trustradius.com/products/hubspot-crm/reviews",
+    "max_pages": 1
+  }'
+```
+
+```json
+{
+  "data": [
+    {
+      "platform": "trustradius",
+      "product": "HubSpot CRM",
+      "product_url": "https://www.trustradius.com/products/hubspot-crm",
+      "reviewer_name": "Alex L.",
+      "job_title": "VP Marketing",
+      "company_name": "Acme Inc",
+      "rating": 8,
+      "review_title": "Solid CRM for mid-market",
+      "review_date": "2026-03-12",
+      "pros": ["Easy to use", "Good integrations"],
+      "cons": ["Pricing at scale"],
+      "review_url": "https://www.trustradius.com/reviews/…",
+      "source_page": 1
+    }
+  ],
+  "credits_used": 1,
+  "meta": {
+    "product": "HubSpot CRM",
+    "product_url": "https://www.trustradius.com/products/hubspot-crm/reviews",
+    "page": 1,
+    "max_pages": 1,
+    "record_count": 1
+  }
+}
+```
+
+`meta` never includes upstream vendor names. Fields vary by slug; review scrapers are person-shaped, job scrapers are company-shaped.
+
+## Example — company-shaped sync (Indeed)
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/indeed \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "account executive",
+    "location": "Austin, TX",
+    "max_pages": 1
+  }'
+```
+
+```json
+{
+  "data": [
+    {
+      "job_title": "Account Executive",
+      "company_name": "Example Co",
+      "location": "Austin, TX",
+      "job_url": "https://www.indeed.com/viewjob?jk=…",
+      "description": "…"
+    }
+  ],
+  "credits_used": 1,
+  "meta": {
+    "page": 1,
+    "max_pages": 1,
+    "query": "account executive",
+    "location": "Austin, TX",
+    "record_count": 25
+  }
+}
+```
+
+## Example — async accept (202)
+
+```json
+{
+  "job_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "status": "queued",
+  "poll": "/api/v1/scrapers/jobs/a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+}
+```
+
+## Example — job poll
+
+`GET /api/v1/scrapers/jobs/{id}`
+
+```json
+{
+  "job_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "slug": "trustradius",
+  "type": "scraper_trustradius",
+  "status": "completed",
+  "created_at": "2026-07-23T12:00:00.000Z",
+  "completed_at": "2026-07-23T12:00:45.000Z",
+  "credits_reserved": 3,
+  "credits_used": 3,
+  "record_count": 40,
+  "error_message": null,
+  "results_url": "/api/v1/scrapers/jobs/a1b2c3d4-e5f6-7890-abcd-ef1234567890/results",
+  "meta": {
+    "product": "HubSpot CRM",
+    "record_count": 40
+  },
+  "input": {
+    "slug": "trustradius",
+    "created_at": "2026-07-23T12:00:00.000Z"
+  }
+}
+```
+
+Statuses: `queued` → `processing` → `completed` | `failed`.
+
+## Example — results page
+
+`GET /api/v1/scrapers/jobs/{id}/results?cursor=0&limit=100`
+
+```json
+{
+  "job_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "records": [{ "reviewer_name": "Alex L.", "rating": 8 }],
+  "cursor": 0,
+  "next_cursor": 100,
+  "limit": 100,
+  "total": 140,
+  "credits_used": 3,
+  "meta": { "record_count": 140 }
+}
+```
+
+When `next_cursor` is `null`, you have the last page.
+
+## Example — empty upstream (no charge)
+
+If a scrape returns zero records, the API fails closed:
+
+```json
+{
+  "error": "… returned no reviews …",
+  "code": "empty_result"
+}
+```
+
+HTTP **502**. Credits are not charged for empty scrapes.
+
+## Email enrichment
+
+| Mode | How | Credits |
+| --- | --- | --- |
+| Sync | BYO Findymail or LeadMagic (`email_provider` \+ `email_api_key`, or saved integrations) | 0 email credits |
+| Async bulk | Built-in email enrichment (LinkedIn → name\+domain) | \+1 per email found |
+
+Save BYO keys: `PUT /api/v1/integrations/email-finders`.
+
+## Next
+
+- Per-slug params and credit rates: pages under **Scrapers** in the sidebar
+- [Webhooks](/guides/webhooks#scraper-webhooks) · [Errors](/guides/errors) · [Credits](/guides/credits)

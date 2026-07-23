@@ -23,14 +23,14 @@ POST https://app.lens.ly/api/v1/scrapers/trustmrr
 | `find_persona` | No | Company-shaped results; requires `persona_titles` (max 3) |
 | `persona_titles` | With `find_persona` | Job titles to match (max 3) |
 | `find_linkedin` | No | Resolve LinkedIn on people results |
-| `find_email` | No | Email enrichment (BYO sync or RevenueBase async) |
+| `find_email` | No | Email enrichment (BYO sync or async bulk) |
 | `email_provider` / `email_api_key` | No | BYO Findymail / LeadMagic |
 | `webhook_url` / `delivery` / `webhook_batch_size` | No | Async delivery |
 
 ## Sync vs async
 
 - **Sync** — single page, no `find_persona`, and either no `find_email` or BYO email key.
-- **Async** — multi-page, `find_persona`, or RevenueBase bulk email. Response `202` with `job_id`.
+- **Async** — multi-page, `find_persona`, or async bulk email. Response `202` with `job_id`.
 
 Poll: `GET /api/v1/scrapers/jobs/{id}`<br />Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
 
@@ -48,7 +48,7 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/trustmrr \
 
 ## Credits
 
-**1 credit per page** scraped. Website discovery is included. Persona / LinkedIn / RevenueBase email add credits when found.
+**1 credit per page** scraped. Website discovery is included. Persona / LinkedIn / email enrichment add credits when found.
 
 Charged against your prepaid Billing balance at **3¢ per credit**.
 

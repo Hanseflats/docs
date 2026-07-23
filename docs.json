@@ -68,6 +68,7 @@
       {
         "group": "Scrapers",
         "pages": [
+          "api/scrapers",
           "api/trustradius",
           "api/trustpilot",
           "api/glassdoor",

@@ -43,8 +43,33 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/indeed \
   }'
 ```
 
+## Example response
+
+```json
+{
+  "data": [
+    {
+      "job_title": "Account Executive",
+      "company_name": "Example Co",
+      "location": "Austin, TX",
+      "job_url": "https://www.indeed.com/viewjob?jk=…"
+    }
+  ],
+  "credits_used": 1,
+  "meta": {
+    "page": 1,
+    "max_pages": 1,
+    "query": "account executive",
+    "location": "Austin, TX",
+    "record_count": 25
+  }
+}
+```
+
+Async / poll / results / webhook shapes: [Scrapers overview](/api/scrapers).
+
 ## Credits
 
-**1 credit per page**. Domain resolution is included when enrich flags require it. `find_persona` / RevenueBase email add \+1 each when found.
+**1 credit per page**. Domain resolution is included when enrich flags require it. `find_persona` / email enrichment add \+1 each when found.
 
 Charged against your prepaid Billing balance at **3¢ per credit**.

@@ -7,9 +7,11 @@ description: "Common API error codes and what to do."
 | --- | --- | --- |
 | `401` | Invalid or missing API key | Check `Authorization` / `x-api-key` |
 | `402` | Insufficient balance / past due | Top up or open `payment.setup_url` |
-| `400` | Bad request | Fix required fields |
-| `404` | Not found | Check job id / domain |
-| `429` | Rate limited | Back off and retry |
+| `400` | Bad request | Fix required fields (scrapers: invalid URL, bad webhook, etc.) |
+| `404` | Not found | Check job id / domain / scraper slug |
+| `409` | Conflict / not ready | Scraper results polled before `completed` |
+| `429` | Rate limited | Back off and retry (`Retry-After` when present) |
+| `502` | Upstream empty / bad gateway | Scrapers: `empty_result` — retry later or different URL; no charge |
 | `500` / `503` | Server / config error | Retry; contact support if persists |
 
 ### Enriched 402 (agents)
@@ -28,3 +30,14 @@ description: "Common API error codes and what to do."
   }
 }
 ```
+
+### Scraper empty result (502)
+
+```json
+{
+  "error": "Trustpilot returned no reviews for 'example.com'",
+  "code": "empty_result"
+}
+```
+
+Empty scrapes fail closed so you are not charged for zero records. Transient upstream gaps can be retried.
