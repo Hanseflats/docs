@@ -45,7 +45,12 @@
       {
         "group": "Scrapers",
         "pages": [
-          "api/scrapers"
+          "api/trustradius",
+          "api/trustpilot",
+          "api/glassdoor",
+          "api/trustmrr",
+          "api/yc",
+          "api/g2"
         ]
       },
       {
@@ -100,5 +105,12 @@
     "socials": {
       "website": "https://app.lens.ly"
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/api/scrapers",
+      "destination": "/api/trustradius",
+      "permanent": true
+    }
+  ]
 }

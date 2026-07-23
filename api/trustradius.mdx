@@ -1,0 +1,71 @@
+---
+title: "TrustRadius"
+sidebarTitle: "TrustRadius"
+description: "Scrape TrustRadius product reviews as structured JSON. Pass a website or TrustRadius URL."
+---
+
+Scrape TrustRadius product reviews into structured JSON. Pass a company website (we resolve the product page) or a TrustRadius reviews URL.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/scrapers/trustradius
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `url` | Yes | Company website **or** TrustRadius product/reviews URL |
+| `page` | No | Start page (default `1`) |
+| `max_pages` | No | Pages to scrape (default `1`). `>1` runs async |
+| `find_linkedin` | No | Resolve reviewer LinkedIn (\+1 credit per success) |
+| `find_email` | No | Find reviewer email (see Email enrichment) |
+| `email_provider` | No | `findymail` or `leadmagic` for BYO sync path |
+| `email_api_key` | No | Request override (not persisted) |
+| `webhook_url` | No | Delivery webhook for async jobs |
+| `delivery` | No | `chunks` (default), `item`, or `complete_only` |
+| `webhook_batch_size` | No | Default `50`, max `100` |
+
+## Sync vs async
+
+- **Sync** — `max_pages === 1` and either no `find_email` or BYO email key. Response: `{ data, credits_used, meta }`.
+- **Async** — multi-page or RevenueBase bulk `find_email`. Response `202`: `{ job_id, status, poll }`.
+
+Poll: `GET /api/v1/scrapers/jobs/{id}`<br />Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
+
+## Email enrichment
+
+| Mode | How | Credits |
+| --- | --- | --- |
+| Sync | BYO Findymail or LeadMagic key | 0 email credits |
+| Async bulk | Our RevenueBase (LinkedIn → name\+domain) | \+1 per email found |
+
+Save BYO keys: `PUT /api/v1/integrations/email-finders` with `{ "findymail_api_key": "…" }`.
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/trustradius \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://www.trustradius.com/products/hubspot-crm/reviews",
+    "max_pages": 1
+  }'
+```
+
+## Credits
+
+**1 credit per page** scraped. Website discovery is included. `find_linkedin` and RevenueBase email add \+1 each when found.
+
+Charged against your prepaid Billing balance at **3¢ per credit**.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance |
+| `404` | Product / page not found |
