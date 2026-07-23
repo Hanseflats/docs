@@ -1,0 +1,86 @@
+---
+title: "Upwork Job Posters"
+sidebarTitle: "Upwork posters"
+description: "Search Upwork for job postings matching a keyword. Each listing is analyzed to extract the posting company and what they need. Only real buyer companies are kep"
+---
+
+Launch via the [Audiences API](/api/audiences) with `play_slug: "upwork-job-posters"`.
+
+Search Upwork for job postings matching a keyword. Each listing is analyzed to extract the posting company and what they need. Only real buyer companies are kept — ideal for agencies and service providers targeting active demand.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/audiences
+```
+
+## Source params
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `keyword` | Yes | Keyword to search Upwork jobs for. Example: `react developer` |
+| `personas` | Yes | Comma-separated roles to find at each posting company. Falls back to Founder/CEO/Owner if no match.. Example: `Founder, CEO, Head of Product` |
+| `fallback_to_generic_email` | No | If no contact is found, crawl the company site for info@ / hello@ etc.. Example: `true` |
+| `max_leads` | No | Stop after this many leads (override; prefer launch number\_of\_leads). Example: `100` |
+
+Also pass top-level audience fields:
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `play_slug` | Yes | Must be `upwork-job-posters` |
+| `number_of_leads` | No | Target volume (default `100`) |
+| `title` | No | Display name |
+| `cadence` | No | `daily`, `weekly`, or `monthly` for recurring runs |
+| `delivery_webhook_url` | No | Webhook for delivery |
+
+Inspect the live schema anytime:
+
+```bash
+curl https://app.lens.ly/api/v1/audiences/plays/upwork-job-posters \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/audiences \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: upwork-job-posters-1" \
+  -d '{
+  "play_slug": "upwork-job-posters",
+  "source_params": {
+    "keyword": "react developer",
+    "personas": "Founder, CEO, Head of Product"
+  },
+  "number_of_leads": 100,
+  "title": "Upwork Job Posters"
+}'
+```
+
+## Response
+
+```json
+{
+  "audience": {
+    "id": "a1b2c3d4-...",
+    "title": "Upwork Job Posters",
+    "play_slug": "upwork-job-posters",
+    "apify_status": "pending"
+  },
+  "status": "triggered"
+}
+```
+
+Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=leads`.
+
+## Credits
+
+**1 credit per person** resolved (person-first play). Charged as leads are found, not at launch.
+
+## Notes
+
+- keyword \+ personas required. Falls back to Founder/CEO/Owner if persona miss.
+- Optional fallback\_to\_generic\_email for info@/hello@ crawl.
+- Billing mode: person (1 credit / person found). Catalog credit\_cost\_per\_unit=1.
+- source=upwork; volume=20-200; cadence=daily.

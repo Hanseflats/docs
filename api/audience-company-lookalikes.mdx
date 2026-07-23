@@ -1,0 +1,86 @@
+---
+title: "Company Lookalikes"
+sidebarTitle: "Company lookalikes"
+description: "Paste seed company domains to find similar companies. Filter by geography and how close the match should be. Optionally add buyer personas to pull contacts at t"
+---
+
+Launch via the [Audiences API](/api/audiences) with `play_slug: "company-lookalikes"`.
+
+Paste seed company domains to find similar companies. Filter by geography and how close the match should be. Optionally add buyer personas to pull contacts at those companies. Deliver via webhook or CSV.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/audiences
+```
+
+## Source params
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `seed_domains` | Yes | Up to 10 company domains to find lookalikes of (comma-separated).. Example: `hubspot.com, salesforce.com` |
+| `geographies` | No | Markets US/UK/EU and/or ISO country codes for company HQ. Default: US.. Example: `US,GB` |
+| `relevance_tier` | No | A = closest (default), B = similar, C = broader.. Example: `A` |
+| `include_personas` | No | true to match contacts by job title after companies are found. Default: false.. Example: `false` |
+| `personas` | No | Job titles when include\_personas is true.. Example: `Founder, VP Sales` |
+
+Also pass top-level audience fields:
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `play_slug` | Yes | Must be `company-lookalikes` |
+| `number_of_leads` | No | Target volume (default `100`) |
+| `title` | No | Display name |
+| `cadence` | No | `daily`, `weekly`, or `monthly` for recurring runs |
+| `delivery_webhook_url` | No | Webhook for delivery |
+
+Inspect the live schema anytime:
+
+```bash
+curl https://app.lens.ly/api/v1/audiences/plays/company-lookalikes \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/audiences \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: company-lookalikes-1" \
+  -d '{
+  "play_slug": "company-lookalikes",
+  "source_params": {
+    "seed_domains": "hubspot.com, salesforce.com"
+  },
+  "number_of_leads": 100,
+  "title": "Company Lookalikes"
+}'
+```
+
+## Response
+
+```json
+{
+  "audience": {
+    "id": "a1b2c3d4-...",
+    "title": "Company Lookalikes",
+    "play_slug": "company-lookalikes",
+    "apify_status": "pending"
+  },
+  "status": "triggered"
+}
+```
+
+Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=companies`.
+
+## Credits
+
+**1 credit per company** found; **2** if a buyer persona is matched. Charged as results are found, not at launch.
+
+## Notes
+
+- seed\_domains required (up to 10). Defaults: geographies=US, relevance\_tier=A, include\_personas=false.
+- relevance\_tier A|B|C.
+- Billing mode: company (1 / company; \+1 per persona match when personas on → typically 2). Catalog credit\_cost\_per\_unit=1.
+- source=lookalike; volume=50-2000; cadence=None.

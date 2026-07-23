@@ -1,0 +1,86 @@
+---
+title: "Bombora Surge Topics on Crunchbase"
+sidebarTitle: "Bombora Surge"
+description: "Pick Bombora interest topics and the roles you want. We find companies showing strong interest in those topics on Crunchbase and match decision makers at each c"
+---
+
+Launch via the [Audiences API](/api/audiences) with `play_slug: "bombora-crunchbase-surge"`.
+
+Pick Bombora interest topics and the roles you want. We find companies showing strong interest in those topics on Crunchbase and match decision makers at each company.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/audiences
+```
+
+## Source params
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `bombora_topics` | Yes | Comma-separated Bombora topic names (or IDs) to search on Crunchbase SERPs.. Example: `CRM, Marketing Automation` |
+| `personas` | Yes | Decision-maker titles to find at matching companies.. Example: `VP Marketing, Head of Demand Gen, CMO` |
+| `date_window` | Yes | SERP date filter: last\_30\_days or last\_3\_months.. Example: `last_30_days` |
+
+Also pass top-level audience fields:
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `play_slug` | Yes | Must be `bombora-crunchbase-surge` |
+| `number_of_leads` | No | Target volume (default `100`) |
+| `title` | No | Display name |
+| `cadence` | No | `daily`, `weekly`, or `monthly` for recurring runs |
+| `delivery_webhook_url` | No | Webhook for delivery |
+
+Inspect the live schema anytime:
+
+```bash
+curl https://app.lens.ly/api/v1/audiences/plays/bombora-crunchbase-surge \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/audiences \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: bombora-crunchbase-surge-1" \
+  -d '{
+  "play_slug": "bombora-crunchbase-surge",
+  "source_params": {
+    "bombora_topics": "CRM, Marketing Automation",
+    "personas": "VP Marketing, Head of Demand Gen, CMO",
+    "date_window": "last_30_days"
+  },
+  "number_of_leads": 100,
+  "title": "Bombora Surge Topics on Crunchbase"
+}'
+```
+
+## Response
+
+```json
+{
+  "audience": {
+    "id": "a1b2c3d4-...",
+    "title": "Bombora Surge Topics on Crunchbase",
+    "play_slug": "bombora-crunchbase-surge",
+    "apify_status": "pending"
+  },
+  "status": "triggered"
+}
+```
+
+Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=leads`.
+
+## Credits
+
+**1 credit per person** resolved (person-first play). Charged as leads are found, not at launch.
+
+## Notes
+
+- Person-first; personas always required.
+- date\_window: last\_30\_days | last\_3\_months.
+- Billing mode: person (1 credit / person found). Catalog credit\_cost\_per\_unit=1.
+- source=bombora\+crunchbase; volume=Unbounded SERP-backed; cadence=weekly.

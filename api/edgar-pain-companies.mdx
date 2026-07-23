@@ -1,0 +1,86 @@
+---
+title: "Companies with EDGAR Pain Language"
+sidebarTitle: "EDGAR pain"
+description: "Search SEC EDGAR full-text filings for companies that confessed operational pain under oath (e.g. manual processes + material weakness, legacy systems). Resolve"
+---
+
+Launch via the [Audiences API](/api/audiences) with `play_slug: "edgar-pain-companies"`.
+
+Search SEC EDGAR full-text filings for companies that confessed operational pain under oath (e.g. manual processes \+ material weakness, legacy systems). Resolves company domains from ticker/name and optionally matches buyer personas. Free SEC API; set SEC\_EDGAR\_USER\_AGENT in production.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/audiences
+```
+
+## Source params
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `pain_phrase` | Yes | Free-text or quoted phrase to search in filings.. Example: `"manual processes" "material weakness"` |
+| `forms` | No | Comma-separated form types. Default: 10-K.. Example: `10-K,10-Q` |
+| `lookback_days` | No | How far back to search. Default: 365.. Example: `365` |
+| `include_personas` | No | true to match contacts by job title after companies are found. Default: false.. Example: `false` |
+| `personas` | No | Job titles when include\_personas is true.. Example: `CFO, Controller, VP Finance` |
+
+Also pass top-level audience fields:
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `play_slug` | Yes | Must be `edgar-pain-companies` |
+| `number_of_leads` | No | Target volume (default `100`) |
+| `title` | No | Display name |
+| `cadence` | No | `daily`, `weekly`, or `monthly` for recurring runs |
+| `delivery_webhook_url` | No | Webhook for delivery |
+
+Inspect the live schema anytime:
+
+```bash
+curl https://app.lens.ly/api/v1/audiences/plays/edgar-pain-companies \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/audiences \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: edgar-pain-companies-1" \
+  -d '{
+  "play_slug": "edgar-pain-companies",
+  "source_params": {
+    "pain_phrase": "\"manual processes\" \"material weakness\""
+  },
+  "number_of_leads": 100,
+  "title": "Companies with EDGAR Pain Language"
+}'
+```
+
+## Response
+
+```json
+{
+  "audience": {
+    "id": "a1b2c3d4-...",
+    "title": "Companies with EDGAR Pain Language",
+    "play_slug": "edgar-pain-companies",
+    "apify_status": "pending"
+  },
+  "status": "triggered"
+}
+```
+
+Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=companies`.
+
+## Credits
+
+**1 credit per company** found; **2** if a buyer persona is matched. Charged as results are found, not at launch.
+
+## Notes
+
+- Requires pain\_phrase. Defaults: forms=10-K, lookback\_days=365.
+- Needs SEC\_EDGAR\_USER\_AGENT in production. Public companies only.
+- Billing mode: company (1 / company; \+1 per persona match when personas on → typically 2). Catalog credit\_cost\_per\_unit=1.
+- source=sec\_edgar; volume=10-200; cadence=monthly.

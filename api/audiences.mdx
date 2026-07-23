@@ -13,32 +13,32 @@ All of these use `POST /api/v1/audiences` with the matching `play_slug`:
 
 | Slug | Play |
 | --- | --- |
-| `accelerator-alumni-companies` | Accelerator Alumni Companies |
-| `bombora-crunchbase-surge` | Bombora Surge Topics on Crunchbase |
-| `jd-replace-companies` | Companies Replacing a Product |
-| `companies-running-google-ads` | Companies Running Google Ads |
-| `companies-running-youtube-ads` | Companies Running YouTube Ads |
-| `sponsor-companies` | Companies that sponsor newsletters, podcasts, events |
-| `hidden-tech-companies` | Companies Using Hidden Tech |
-| `mobile-app-companies` | Companies With a Mobile App |
-| `edgar-pain-companies` | Companies with EDGAR Pain Language |
-| `google-ads-spend-companies` | Companies With Google Ads Spend |
-| `organic-traffic-companies` | Companies With Organic Traffic |
-| `paid-traffic-companies` | Companies With Paid Traffic |
-| `missing-team-companies` | Companies Without a Team |
-| `missing-team-hiring-companies` | Companies Without a Team That Are Hiring |
-| `company-lookalikes` | Company Lookalikes |
-| `competitor-reviews` | Competitor Reviews (G2 + TrustRadius + Trustpilot) |
-| `google-jobs-posters` | Google Jobs Signal Posters |
-| `new-hires` | New Hires |
-| `people-in-stealth-mode` | People in Stealth Mode |
-| `substack-keyword-authors` | Substack Authors |
-| `substack-keyword-posts` | Substack Posts |
-| `upwork-job-posters` | Upwork Job Posters |
-| `vc-portfolio-companies` | VC Portfolio Companies |
-| `yc-companies` | YC Companies |
+| `accelerator-alumni-companies` | [Accelerator Alumni](/api/accelerator-alumni-companies) |
+| `bombora-crunchbase-surge` | [Bombora Surge](/api/bombora-crunchbase-surge) |
+| `jd-replace-companies` | [Replacing a product](/api/jd-replace-companies) |
+| `companies-running-google-ads` | [Google Ads companies](/api/companies-running-google-ads) |
+| `companies-running-youtube-ads` | [YouTube Ads companies](/api/companies-running-youtube-ads) |
+| `sponsor-companies` | [Sponsors](/api/sponsor-companies) |
+| `hidden-tech-companies` | [Hidden tech](/api/hidden-tech-companies) |
+| `mobile-app-companies` | [Mobile app companies](/api/mobile-app-companies) |
+| `edgar-pain-companies` | [EDGAR pain](/api/edgar-pain-companies) |
+| `google-ads-spend-companies` | [Google Ads spend](/api/google-ads-spend-companies) |
+| `organic-traffic-companies` | [Organic traffic companies](/api/organic-traffic-companies) |
+| `paid-traffic-companies` | [Paid traffic companies](/api/paid-traffic-companies) |
+| `missing-team-companies` | [Missing team](/api/missing-team-companies) |
+| `missing-team-hiring-companies` | [Missing team hiring](/api/missing-team-hiring-companies) |
+| `company-lookalikes` | [Company lookalikes](/api/audience-company-lookalikes) |
+| `competitor-reviews` | [Competitor reviews](/api/competitor-reviews) |
+| `google-jobs-posters` | [Google Jobs](/api/google-jobs-posters) |
+| `new-hires` | [New hires](/api/new-hires) |
+| `people-in-stealth-mode` | [Stealth mode](/api/people-in-stealth-mode) |
+| `substack-keyword-authors` | [Substack authors](/api/substack-keyword-authors) |
+| `substack-keyword-posts` | [Substack posts](/api/substack-keyword-posts) |
+| `upwork-job-posters` | [Upwork posters](/api/upwork-job-posters) |
+| `vc-portfolio-companies` | [VC portfolio](/api/vc-portfolio-companies) |
+| `yc-companies` | [YC companies](/api/yc-companies) |
 
-Deep-dive example for one play: [Competitor reviews](/api/competitor-reviews). The catalog above is also what Lens MCP exposes via `audiences_list_plays`.
+Each play has its own page in the sidebar. The catalog above is also what Lens MCP exposes via `audiences_list_plays`.
 
 ## Auth
 
@@ -66,7 +66,7 @@ Idempotency-Key: my-agent-run-123
 | `GET` | `/api/v1/audiences/:id` | Detail \+ recent leads/companies |
 | `PATCH` | `/api/v1/audiences/:id` | Update cadence / delivery / title |
 | `POST` | `/api/v1/audiences/:id/sync` | Push to webhook / Instantly |
-| `GET` | `/api/v1/audiences/:id/export` | CSV (\`?type=leads | companies\`) |
+| `GET` | `/api/v1/audiences/:id/export` | CSV (`?type=leads\|companies`) |
 
 JSON uses **snake\_case**. Volume target is top-level `number_of_leads` (default `100`). Play-specific inputs go in `source_params`.
 
@@ -208,7 +208,7 @@ Return **2xx** so the row counts as delivered. Partial failures advance the wate
     "title": "HubSpot reviewer leads",
     "play_slug": "competitor-reviews",
     "apify_status": "pending",
-    "netrows_cadence": null
+    "cadence": null
   },
   "status": "triggered"
 }

@@ -1,0 +1,82 @@
+---
+title: "People in Stealth Mode"
+sidebarTitle: "Stealth mode"
+description: "Find people whose current company is listed as stealth (Stealth, Stealth Startup, Stealth Mode, and similar). Filter by country and how many people you want. De"
+---
+
+Launch via the [Audiences API](/api/audiences) with `play_slug: "people-in-stealth-mode"`.
+
+Find people whose current company is listed as stealth (Stealth, Stealth Startup, Stealth Mode, and similar). Filter by country and how many people you want. Delivered as LinkedIn profiles — work emails are almost never available.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/audiences
+```
+
+## Source params
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `geographies` | Yes | Markets US/UK/EU and/or ISO country codes for where people are located.. Example: `US,GB` |
+
+Also pass top-level audience fields:
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `play_slug` | Yes | Must be `people-in-stealth-mode` |
+| `number_of_leads` | No | Target volume (default `100`) |
+| `title` | No | Display name |
+| `cadence` | No | `daily`, `weekly`, or `monthly` for recurring runs |
+| `delivery_webhook_url` | No | Webhook for delivery |
+
+Inspect the live schema anytime:
+
+```bash
+curl https://app.lens.ly/api/v1/audiences/plays/people-in-stealth-mode \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/audiences \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: people-in-stealth-mode-1" \
+  -d '{
+  "play_slug": "people-in-stealth-mode",
+  "source_params": {
+    "geographies": "US,GB"
+  },
+  "number_of_leads": 100,
+  "title": "People in Stealth Mode"
+}'
+```
+
+## Response
+
+```json
+{
+  "audience": {
+    "id": "a1b2c3d4-...",
+    "title": "People in Stealth Mode",
+    "play_slug": "people-in-stealth-mode",
+    "apify_status": "pending"
+  },
+  "status": "triggered"
+}
+```
+
+Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=leads`.
+
+## Credits
+
+**1 credit per person** resolved (person-first play). Charged as leads are found, not at launch.
+
+## Notes
+
+- Person-first LinkedIn-only; work email almost never available (channels: webhook).
+- geographies required.
+- Billing mode: person (1 credit / person found). Catalog credit\_cost\_per\_unit=1.
+- source=revenuebase; volume=100-20000; cadence=None.
