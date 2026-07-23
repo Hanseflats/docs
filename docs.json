@@ -43,6 +43,12 @@
         ]
       },
       {
+        "group": "Scrapers",
+        "pages": [
+          "api/scrapers"
+        ]
+      },
+      {
         "group": "Enrichments",
         "pages": [
           "api/find-company-website",
