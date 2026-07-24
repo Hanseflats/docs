@@ -10,7 +10,7 @@ Search Upwork for job postings matching a keyword. Each listing is analyzed to e
 
 ## Endpoint
 
-```text
+```
 POST https://app.lens.ly/api/v1/audiences
 ```
 
@@ -21,7 +21,7 @@ POST https://app.lens.ly/api/v1/audiences
 | `keyword` | Yes | Keyword to search Upwork jobs for. Example: `react developer` |
 | `personas` | Yes | Comma-separated roles to find at each posting company. Falls back to Founder/CEO/Owner if no match.. Example: `Founder, CEO, Head of Product` |
 | `fallback_to_generic_email` | No | If no contact is found, crawl the company site for info@ / hello@ etc.. Example: `true` |
-| `max_leads` | No | Stop after this many leads (override; prefer launch number\_of\_leads). Example: `100` |
+| `max_leads` | No | Stop after this many leads (override; prefer launch number_of_leads). Example: `100` |
 
 Also pass top-level audience fields:
 
@@ -66,7 +66,7 @@ curl -X POST https://app.lens.ly/api/v1/audiences \
     "id": "a1b2c3d4-...",
     "title": "Upwork Job Posters",
     "play_slug": "upwork-job-posters",
-    "apify_status": "pending"
+    "status": "pending"
   },
   "status": "triggered"
 }
@@ -76,11 +76,11 @@ Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/
 
 ## Credits
 
-**1 credit per person** resolved (person-first play). Charged as leads are found, not at launch.
+**3 credits per persona** resolved (person-first play). Charged as leads are found, not at launch. At **3¢ per credit**, that's **9¢ per persona**.
 
 ## Notes
 
-- keyword \+ personas required. Falls back to Founder/CEO/Owner if persona miss.
-- Optional fallback\_to\_generic\_email for info@/hello@ crawl.
-- Billing mode: person (1 credit / person found). Catalog credit\_cost\_per\_unit=1.
+- keyword + personas required. Falls back to Founder/CEO/Owner if persona miss.
+- Optional fallback_to_generic_email for info@/hello@ crawl.
+- Billing mode: person (3 credits / persona found). Catalog credit_cost_per_unit=3.
 - source=upwork; volume=20-200; cadence=daily.
