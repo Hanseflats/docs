@@ -1,7 +1,7 @@
 ---
 title: "MCP"
 sidebarTitle: "MCP"
-description: "Connect Claude, Cursor, and other MCP clients to Lens audiences, enrichments, and billing."
+description: "Connect Claude, Cursor, and other MCP clients to Lens audiences, enrichments, scrapers, and billing."
 ---
 
 Remote MCP for Lens. Same API key as the REST API — no admin access, no internal portal tools.
@@ -44,27 +44,28 @@ Set `LENS_API_KEY` to your `sk_live_…` key in the environment.
 
 | Area | Tools |
 | --- | --- |
-| Meta | `lens_overview` |
+| Meta | `lens_overview`, `tools_catalog` |
 | Billing | `billing_get`, `billing_setup`, `billing_topup`, `credits_get` |
 | Audiences | `audiences_list_plays`, `audiences_get_play`, `audiences_validate`, `audiences_launch`, `audiences_list`, `audiences_get`, `audiences_update`, `audiences_export`, `audiences_sync` |
 | Enrichments | `enrichments_list_plays`, `enrichments_get_play`, `enrich_run` (sync), `enrichments_create` / `_launch` / `_get` / `_download` / `_list` (batch) |
-| Integrations | `integrations_list`, `integrations_instantly_list`, `integrations_instantly_campaigns`, `integrations_instantly_lead_lists` |
+| Scrapers | `scrapers_list`, `scrapers_run`, `scrapers_get_job`, `scrapers_get_results` |
+| Integrations | `integrations_list`, `integrations_instantly_*`, `integrations_email_finders_get`, `integrations_email_finders_put` |
 
 Audience and enrichment **plays are loaded live** from the API — new dashboard plays show up in MCP automatically.
 
-Structured scrapers (`POST /api/v1/scrapers/{slug}`) are available over REST today; scraper tools are not in MCP yet. Use the [Scrapers overview](/api/scrapers) until they land.
+Scrapers cover TrustRadius, LinkedIn profile/jobs, Indeed, G2, and the rest of the [Scrapers](/api/scrapers) catalog. `scrapers_run` returns sync JSON when possible, or `{ job_id }` for async jobs — then poll with `scrapers_get_job` and page with `scrapers_get_results`.
 
 ## Suggested agent flow
 
 <Steps>
   <Step title="billing_get">Check balance and payment method</Step>
   <Step title="billing_setup">If needed — open `setup_url` once in a browser</Step>
-  <Step title="List plays">`audiences_list_plays` or `enrichments_list_plays`</Step>
-  <Step title="Validate">`audiences_get_play` / `enrichments_get_play`, then validate inputs</Step>
-  <Step title="Run">`audiences_launch` or `enrich_run` / `enrichments_create`</Step>
-  <Step title="Collect">Poll, then export or download results</Step>
+  <Step title="Discover">`audiences_list_plays`, `enrichments_list_plays`, or `scrapers_list`</Step>
+  <Step title="Validate">`audiences_get_play` / `enrichments_get_play`, or per-scraper docs under `/api/{slug}`</Step>
+  <Step title="Run">`audiences_launch`, `enrich_run` / `enrichments_create`, or `scrapers_run`</Step>
+  <Step title="Collect">Poll, then export, download, or `scrapers_get_results`</Step>
 </Steps>
 
 ## REST equivalents
 
-MCP is a thin wrapper over `/api/v1/*`. See [Quickstart](/quickstart), [Authentication](/authentication), [Agent overview](/agents/overview), and the Audiences / Enrichments API pages.
+MCP is a thin wrapper over `/api/v1/*`. See [Quickstart](/quickstart), [Authentication](/authentication), [Agent overview](/agents/overview), and the Audiences / Enrichments / Scrapers API pages.
