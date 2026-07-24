@@ -23,13 +23,14 @@
           "index",
           "quickstart",
           "authentication",
-          "mcp"
+          "agents/mcp"
         ]
       },
       {
         "group": "For agents",
         "pages": [
           "agents/overview",
+          "agents/mcp",
           "agents/meta",
           "agents/register",
           "agents/verify",
