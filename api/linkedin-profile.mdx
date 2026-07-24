@@ -1,7 +1,7 @@
 ---
 title: "LinkedIn profile"
 sidebarTitle: "LinkedIn profile"
-description: "Scrape a LinkedIn person or company profile as structured JSON. Person mode supports find_email (BYO sync or RevenueBase bulk)."
+description: "Scrape a LinkedIn person or company profile as structured JSON. Person mode supports find_email (BYO sync or async bulk)."
 ---
 
 Two modes:
@@ -37,7 +37,7 @@ Same rules as other scrapers ([overview](/api/scrapers#email-enrichment)):
 | Path | How | Credits |
 | --- | --- | --- |
 | **Sync / single** | `find_email` \+ `email_provider` (`leadmagic` uses LinkedIn URL; `findymail` uses name \+ employer domain) | 0 email credits |
-| **Async / bulk** | `find_email` without `email_provider` → RevenueBase waterfall | \+1 per email found |
+| **Async / bulk** | `find_email` without `email_provider` → people email waterfall | \+1 per email found |
 
 LeadMagic BYO is a natural fit for person profiles because `linkedin_url` is always set on the row.
 
@@ -63,7 +63,7 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-profile \
   }'
 ```
 
-## Example — person \+ RevenueBase email (async)
+## Example — person \+ async email
 
 ```bash
 curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-profile \
