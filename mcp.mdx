@@ -1,0 +1,70 @@
+---
+title: "MCP"
+sidebarTitle: "MCP"
+description: "Connect Claude, Cursor, and other MCP clients to Lens audiences, enrichments, and billing."
+---
+
+Remote MCP for Lens. Same API key as the REST API — no admin access, no internal portal tools.
+
+## Endpoint
+
+```text
+https://mcp.lens.ly/mcp
+```
+
+## Auth
+
+| Method | Example |
+| --- | --- |
+| Bearer | `Authorization: Bearer sk_live_…` |
+| Header | `x-api-key: sk_live_…` |
+| Query (`mcp-remote`) | `?api-token=sk_live_…` |
+
+Get a key via [Authentication](/authentication), the dashboard, or [Agent self-serve](/agents/overview).
+
+## Cursor / Claude Desktop
+
+```json
+{
+  "mcpServers": {
+    "lens": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.lens.ly/mcp?api-token=${env:LENS_API_KEY}"
+      ]
+    }
+  }
+}
+```
+
+Set `LENS_API_KEY` to your `sk_live_…` key in the environment.
+
+## What you can do
+
+| Area | Tools |
+| --- | --- |
+| Meta | `lens_overview` |
+| Billing | `billing_get`, `billing_setup`, `billing_topup`, `credits_get` |
+| Audiences | `audiences_list_plays`, `audiences_get_play`, `audiences_validate`, `audiences_launch`, `audiences_list`, `audiences_get`, `audiences_update`, `audiences_export`, `audiences_sync` |
+| Enrichments | `enrichments_list_plays`, `enrichments_get_play`, `enrich_run` (sync), `enrichments_create` / `_launch` / `_get` / `_download` / `_list` (batch) |
+| Integrations | `integrations_list`, `integrations_instantly_list`, `integrations_instantly_campaigns`, `integrations_instantly_lead_lists` |
+
+Audience and enrichment **plays are loaded live** from the API — new dashboard plays show up in MCP automatically.
+
+Structured scrapers (`POST /api/v1/scrapers/{slug}`) are available over REST today; scraper tools are not in MCP yet. Use the [Scrapers overview](/api/scrapers) until they land.
+
+## Suggested agent flow
+
+<Steps>
+  <Step title="billing_get">Check balance and payment method</Step>
+  <Step title="billing_setup">If needed — open `setup_url` once in a browser</Step>
+  <Step title="List plays">`audiences_list_plays` or `enrichments_list_plays`</Step>
+  <Step title="Validate">`audiences_get_play` / `enrichments_get_play`, then validate inputs</Step>
+  <Step title="Run">`audiences_launch` or `enrich_run` / `enrichments_create`</Step>
+  <Step title="Collect">Poll, then export or download results</Step>
+</Steps>
+
+## REST equivalents
+
+MCP is a thin wrapper over `/api/v1/*`. See [Quickstart](/quickstart), [Authentication](/authentication), [Agent overview](/agents/overview), and the Audiences / Enrichments API pages.
