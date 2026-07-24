@@ -1,9 +1,12 @@
 ---
 title: "Product Hunt"
-description: "Scrape Product Hunt product reviews as structured JSON."
+description: "Scrape Product Hunt reviews, or resolve the product company for find_persona."
 ---
 
-Fetch Product Hunt product reviews as structured JSON.
+Two modes:
+
+- **Reviews** (default) — product reviews (no email / LinkedIn enrich)
+- **Company** (`find_persona` or `mode=company`) — resolve maker website → find personas
 
 ## Endpoint
 
@@ -17,11 +20,14 @@ POST https://app.lens.ly/api/v1/scrapers/producthunt
 | --- | --- | --- |
 | `slug` | Conditional | Product slug |
 | `url` | Conditional | `producthunt.com/products/{slug}` URL |
+| `mode` | No | `reviews` (default) or `company` |
 | `page` / `max_pages` | No | Review pagination |
-| `find_linkedin` / `find_email` | No | Enrich reviewers |
+| `find_persona` | No | Company path — resolve maker website and find personas |
+| `persona_titles` | With `find_persona` | Job titles (max 3) |
+| `find_email` / `find_linkedin` | — | **Not supported** on Product Hunt |
 | `webhook_url` / `delivery` | No | Async delivery options |
 
-## Example request
+## Example — reviews
 
 ```bash
 curl -X POST https://app.lens.ly/api/v1/scrapers/producthunt \
@@ -30,6 +36,21 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/producthunt \
   -d '{"slug":"notion","max_pages":1}'
 ```
 
+## Example — company personas
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/producthunt \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "slug": "notion",
+    "find_persona": true,
+    "persona_titles": ["CEO", "Head of Growth"]
+  }'
+```
+
 ## Credits
 
-**2 credits per page**. Charged at **3¢ per credit**.
+**2 credits** per reviews page or company resolve. `find_persona` adds \+1 per persona found (and \+1 if website resolve succeeds). Charged at **3¢ per credit**.
+
+Response shapes (sync, async, poll, results, webhooks): [Scrapers overview](/api/scrapers).

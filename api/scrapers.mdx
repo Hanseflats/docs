@@ -200,7 +200,18 @@ HTTP **502**. Credits are not charged for empty scrapes.
 | Mode | How | Credits |
 | --- | --- | --- |
 | Sync | BYO Findymail or LeadMagic (`email_provider` \+ `email_api_key`, or saved integrations) | 0 email credits |
-| Async bulk | Built-in email enrichment (LinkedIn → name\+domain) | \+1 per email found |
+| Async bulk (`find_email`) | Full people waterfall (below) | \+1 per LinkedIn found, \+1 per domain resolved, \+1 per email found |
+
+**`find_email` includes LinkedIn resolve** when a row has no `linkedin_url` (you do not need `find_linkedin` for email). Use `find_linkedin` alone when you only want profiles.
+
+### Async RB waterfall (per named person)
+
+1. Resolve LinkedIn if missing
+2. Match email by LinkedIn URL in RevenueBase
+3. If still missing: resolve employer website from company name → match name \+ domain
+4. Last resort: match name \+ company name
+
+Anonymous / “Verified User” rows are skipped. Some scrapers reject `find_email` (Reddit, Product Hunt reviews, Trustpilot reviews) — see each slug page.
 
 Save BYO keys: `PUT /api/v1/integrations/email-finders`.
 

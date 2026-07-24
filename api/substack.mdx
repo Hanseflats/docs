@@ -19,7 +19,7 @@ POST https://app.lens.ly/api/v1/scrapers/substack
 | `url` | Conditional | Publication URL (`{sub}.substack.com` or custom domain) |
 | `page` / `max_pages` | No | Archive pagination |
 | `limit` / `per_page` | No | Posts per page (default `25`) |
-| `find_linkedin` / `find_email` | No | Enrich authors |
+| `find_linkedin` / `find_email` | No | Enrich authors (`find_email` uses Substack profile → social LinkedIn → RB waterfall) |
 | `webhook_url` / `delivery` | No | Async delivery options |
 
 ## Example request

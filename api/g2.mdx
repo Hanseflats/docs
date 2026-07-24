@@ -39,7 +39,7 @@ Poll: `GET /api/v1/scrapers/jobs/{id}`<br />Results: `GET /api/v1/scrapers/jobs/
 | Mode | How | Credits |
 | --- | --- | --- |
 | Sync | BYO Findymail or LeadMagic key | 0 email credits |
-| Async bulk | Bulk email enrichment (LinkedIn → name\+domain) | \+1 per email found |
+| Async bulk (`find_email`) | LinkedIn resolve → RB → website resolve → name\+domain → name\+company | \+1 per LinkedIn / domain / email found |
 
 Save BYO keys: `PUT /api/v1/integrations/email-finders` with `{ "findymail_api_key": "…" }`.
 

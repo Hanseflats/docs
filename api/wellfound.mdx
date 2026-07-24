@@ -1,9 +1,12 @@
 ---
 title: "Wellfound"
-description: "Fetch Wellfound (AngelList) company founders and team as structured JSON."
+description: "Fetch Wellfound company profiles or founders/team as structured JSON."
 ---
 
-Pull founders and team members for a Wellfound company as structured JSON.
+Two modes:
+
+- **People** (default) — founders and team (LinkedIn often present); use `find_email`
+- **Company** (`mode=company` or `find_persona`) — company profile with website domain for personas
 
 ## Endpoint
 
@@ -17,18 +20,37 @@ POST https://app.lens.ly/api/v1/scrapers/wellfound
 | --- | --- | --- |
 | `slug` | Conditional | Company slug |
 | `url` | Conditional | `wellfound.com/company/{slug}` URL |
-| `find_linkedin` / `find_email` | No | Enrich people (LinkedIn often already present) |
+| `mode` | No | `people` (default) or `company` |
+| `find_email` / `find_linkedin` | No | People mode — email waterfall (LinkedIn often already on row) |
+| `find_persona` | No | Company mode — personas at company domain |
+| `persona_titles` | With `find_persona` | Job titles (max 3) |
 | `webhook_url` / `delivery` | No | Async delivery options |
 
-## Example request
+## Example — people \+ email
 
 ```bash
 curl -X POST https://app.lens.ly/api/v1/scrapers/wellfound \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"slug":"airbnb"}'
+  -d '{"slug":"airbnb","find_email":true}'
+```
+
+## Example — company \+ persona
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/wellfound \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "slug": "airbnb",
+    "mode": "company",
+    "find_persona": true,
+    "persona_titles": ["CEO", "CTO"]
+  }'
 ```
 
 ## Credits
 
-**5 credits per request**. Charged at **3¢ per credit**.
+**5 credits** per people request; company profile uses the same base rate. Enrichment adds \+1 per LinkedIn / domain / email / persona found. Charged at **3¢ per credit**.
+
+Response shapes (sync, async, poll, results, webhooks): [Scrapers overview](/api/scrapers).

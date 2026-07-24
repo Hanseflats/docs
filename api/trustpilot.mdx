@@ -1,10 +1,13 @@
 ---
 title: "Trustpilot"
 sidebarTitle: "Trustpilot"
-description: "Scrape Trustpilot reviews as structured JSON. Pass a website or Trustpilot URL."
+description: "Scrape Trustpilot company pages or reviews as structured JSON. Pass a website or Trustpilot URL."
 ---
 
-Scrape Trustpilot company reviews into structured JSON. Pass a company website (we resolve the Trustpilot page) or a Trustpilot URL.
+Scrape Trustpilot into structured JSON. Two modes:
+
+- **Reviews** (default) — review cards for a business page
+- **Company** — business profile (`mode=company` or `find_persona`) for decision-maker lookup
 
 ## Endpoint
 
@@ -17,33 +20,42 @@ POST https://app.lens.ly/api/v1/scrapers/trustpilot
 | Parameter | Required | Description |
 | --- | --- | --- |
 | `url` | Yes | Company website **or** Trustpilot URL |
-| `page` | No | Start page (default `1`) |
-| `max_pages` | No | Pages to scrape (default `1`). `>1` runs async |
-| `find_linkedin` | No | Resolve reviewer LinkedIn (\+1 credit per success) |
-| `find_email` | No | Find reviewer email (see Email enrichment) |
-| `email_provider` | No | `findymail` or `leadmagic` for BYO sync path |
-| `email_api_key` | No | Request override (not persisted) |
+| `mode` | No | `reviews` (default) or `company` |
+| `page` | No | Start page for reviews (default `1`) |
+| `max_pages` | No | Review pages to scrape (default `1`). `>1` runs async |
+| `find_linkedin` | No | Reviews mode only — resolve reviewer LinkedIn (\+1 per success) |
+| `find_persona` | No | Company mode — find personas at the business domain |
+| `persona_titles` | With `find_persona` | Job titles (max 3) |
+| `find_email` | — | **Not supported** on Trustpilot (reviews lack employer identity) |
 | `webhook_url` | No | Delivery webhook for async jobs |
 | `delivery` | No | `chunks` (default), `item`, or `complete_only` |
 | `webhook_batch_size` | No | Default `50`, max `100` |
 
-## Sync vs async
+## Modes
 
-- **Sync** — `max_pages === 1` and either no `find_email` or BYO email key. Response: `{ data, credits_used, meta }`.
-- **Async** — multi-page or bulk `find_email`. Response `202`: `{ job_id, status, poll }`.
+### Reviews (default)
 
-Poll: `GET /api/v1/scrapers/jobs/{id}`<br />Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
+Returns reviewer names and review text. Optional `find_linkedin`. `find_email` is rejected (`enrich_not_supported`).
 
-## Email enrichment
+### Company (`mode=company` or `find_persona`)
 
-| Mode | How | Credits |
-| --- | --- | --- |
-| Sync | BYO Findymail or LeadMagic key | 0 email credits |
-| Async bulk | Bulk email enrichment (LinkedIn → name\+domain) | \+1 per email found |
+Returns a company-shaped row with `domain`. Use `find_persona` \+ `persona_titles` to pull decision-makers.
 
-Save BYO keys: `PUT /api/v1/integrations/email-finders` with `{ "findymail_api_key": "…" }`.
+## Example — company \+ persona
 
-## Example request
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/trustpilot \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "hubspot.com",
+    "mode": "company",
+    "find_persona": true,
+    "persona_titles": ["CEO", "VP Marketing"]
+  }'
+```
+
+## Example — reviews
 
 ```bash
 curl -X POST https://app.lens.ly/api/v1/scrapers/trustpilot \
@@ -53,17 +65,14 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/trustpilot \
     "url": "hubspot.com",
     "max_pages": 3,
     "find_linkedin": true,
-    "find_email": true,
     "webhook_url": "https://hooks.example.com/scraper",
     "delivery": "chunks"
   }'
 ```
 
-Webhook events: `scraper.records` (batched) then `scraper.completed` with `results_url`. Full results always live on the job.
-
 ## Credits
 
-**1 credit per page** scraped. Website discovery is included. `find_linkedin` and email enrichment add \+1 each when found.
+**1 credit per page** (reviews) or **1 credit** for company profile. `find_linkedin` / `find_persona` add \+1 each when found.
 
 Charged against your prepaid Billing balance at **3¢ per credit**.
 
@@ -71,7 +80,9 @@ Charged against your prepaid Billing balance at **3¢ per credit**.
 
 | Status | Meaning |
 | --- | --- |
-| `400` | Invalid or missing request fields |
+| `400` | Invalid fields or unsupported enrich flag (`enrich_not_supported`) |
 | `401` | Invalid API key |
 | `402` | Insufficient billing balance |
 | `404` | Company / page not found |
+
+Response shapes (sync, async, poll, results, webhooks): [Scrapers overview](/api/scrapers).
