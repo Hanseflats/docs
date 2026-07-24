@@ -205,10 +205,10 @@ HTTP **502**. Credits are not charged for empty scrapes.
 
 **`find_email` includes LinkedIn resolve** when a row has no `linkedin_url` (you do not need `find_linkedin` for email). Use `find_linkedin` alone when you only want profiles.
 
-### Async RB waterfall (per named person)
+### Async people waterfall (per named person)
 
 1. Resolve LinkedIn if missing
-2. Match email by LinkedIn URL in RevenueBase
+2. Match email by LinkedIn URL
 3. If still missing: resolve employer website from company name → match name \+ domain
 4. Last resort: match name \+ company name
 
