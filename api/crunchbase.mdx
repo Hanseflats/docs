@@ -18,7 +18,7 @@ POST https://app.lens.ly/api/v1/scrapers/crunchbase
 | `permalink` / `slug` | Conditional | Crunchbase permalink |
 | `url` | Conditional | `crunchbase.com/organization` or `/person/{permalink}` |
 | `mode` | No | `company` (default) or `person` |
-| `find_linkedin` / `find_persona` / `find_email` | No | Enrich people / company domain |
+| `find_linkedin` / `find_persona` / `find_email` | No | Company: personas at domain. Person: people email waterfall (`find_email` includes LinkedIn resolve) |
 | `webhook_url` / `delivery` | No | Async delivery options |
 
 ## Example request

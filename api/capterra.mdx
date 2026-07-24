@@ -17,7 +17,8 @@ POST https://app.lens.ly/api/v1/scrapers/capterra
 | --- | --- | --- |
 | `url` | Conditional | Company website **or** `capterra.com/p/{id}/{slug}` |
 | `product_id` \+ `slug` | Conditional | Explicit product id and slug |
-| `find_linkedin` / `find_email` | No | Enrich reviewers when present |
+| `find_linkedin` / `find_email` | No | Enrich reviewers when present (people waterfall) |
+| `find_persona` / `persona_titles` | No | On product row — resolve maker website if needed, then personas |
 | `webhook_url` / `delivery` | No | Async delivery options |
 
 ## Example request
