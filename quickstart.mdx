@@ -10,19 +10,40 @@ description: "Make your first API call in minutes."
     **Agents:** Follow [Agent self-serve](/agents/overview) - register, verify, then complete billing setup.
   </Step>
   <Step title="Check balance">
-```bash
-curl https://app.lens.ly/api/v1/billing \
-  -H "Authorization: Bearer YOUR_API_KEY"
-```
+    ```bash
+    curl https://app.lens.ly/api/v1/billing \
+      -H "Authorization: Bearer YOUR_API_KEY"
+    ```
   </Step>
   <Step title="Call an enrichment">
-```bash
-curl -X POST https://app.lens.ly/api/v1/company/google-ad-spend \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"domains":["shopify.com","klaviyo.com"]}'
-```
+    This example is **1 credit per domain** (3¢/credit). Two domains → 2 credits.
+
+    ```bash
+    curl -X POST https://app.lens.ly/api/v1/company/google-ad-spend \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{"domains":["shopify.com","klaviyo.com"]}'
+    ```
   </Step>
 </Steps>
 
-On HTTP **402**, open `payment.setup_url` from the response (or call [Billing Setup](/agents/billing-setup)).
+## If you get HTTP 402
+
+Insufficient prepaid balance. Open `payment.setup_url` (or call [Billing Setup](/agents/billing-setup)). Example body:
+
+```json
+{
+  "error": "Insufficient balance. Top up on Billing.",
+  "credits_remaining": 0,
+  "credits_needed": 2,
+  "balance_cents": 0,
+  "payment": {
+    "status": "needs_setup",
+    "setup_url": "https://checkout.stripe.com/…",
+    "min_topup_cents": 1000,
+    "credit_cost_cents": 3
+  }
+}
+```
+
+See [Error codes](/guides/errors) and [Credits & pricing](/guides/credits).
