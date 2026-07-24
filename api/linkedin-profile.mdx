@@ -1,0 +1,95 @@
+---
+title: "LinkedIn profile"
+sidebarTitle: "LinkedIn profile"
+description: "Scrape a LinkedIn person or company profile as structured JSON. Person mode supports find_email (BYO sync or RevenueBase bulk)."
+---
+
+Two modes:
+
+- **Person** (default) — `linkedin.com/in/{id}`; use `find_email`
+- **Company** (`mode=company` or company URL) — `linkedin.com/company/{id}`; use `find_persona`
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/scrapers/linkedin-profile
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `url` | Conditional | `linkedin.com/in/…` or `linkedin.com/company/…` |
+| `slug` | Conditional | Profile or company id (from the LinkedIn URL path) |
+| `mode` | No | `profile` (default) or `company` |
+| `premium` | No | Use premium proxies for harder person profiles |
+| `find_email` | No | Person mode only — see Email enrichment below |
+| `email_provider` | No | `findymail` or `leadmagic` for **sync BYO** (single profile) |
+| `email_api_key` | No | Request override; or save via email-finders integration |
+| `find_persona` | No | Company mode — personas at company domain |
+| `persona_titles` | With `find_persona` | Job titles (max 3) |
+| `webhook_url` / `delivery` | No | Async delivery options |
+
+## Email enrichment
+
+Same rules as other scrapers ([overview](/api/scrapers#email-enrichment)):
+
+| Path | How | Credits |
+| --- | --- | --- |
+| **Sync / single** | `find_email` \+ `email_provider` (`leadmagic` uses LinkedIn URL; `findymail` uses name \+ employer domain) | 0 email credits |
+| **Async / bulk** | `find_email` without `email_provider` → RevenueBase waterfall | \+1 per email found |
+
+LeadMagic BYO is a natural fit for person profiles because `linkedin_url` is always set on the row.
+
+## Example — person profile
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-profile \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"url":"https://www.linkedin.com/in/rbranson"}'
+```
+
+## Example — person \+ BYO email (sync)
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-profile \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://www.linkedin.com/in/rbranson",
+    "find_email": true,
+    "email_provider": "leadmagic"
+  }'
+```
+
+## Example — person \+ RevenueBase email (async)
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-profile \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://www.linkedin.com/in/rbranson",
+    "find_email": true
+  }'
+```
+
+## Example — company \+ persona
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-profile \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://www.linkedin.com/company/stripe",
+    "find_persona": true,
+    "persona_titles": ["CEO", "CTO"]
+  }'
+```
+
+## Credits
+
+**10 credits** per successful profile (person or company). Enrichment adds \+1 per email / persona / domain found when applicable. Charged at **3¢ per credit**.
+
+Response shapes (sync, async, poll, results, webhooks): [Scrapers overview](/api/scrapers).

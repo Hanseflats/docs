@@ -1,0 +1,72 @@
+---
+title: "LinkedIn jobs"
+sidebarTitle: "LinkedIn jobs"
+description: "Search LinkedIn job listings or fetch a job overview as structured JSON. Optional find_persona / find_email on hiring companies."
+---
+
+Search LinkedIn jobs into structured JSON, or fetch a single job by id. Optional company-domain resolution for persona/email enrichment (same pattern as Indeed).
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/scrapers/linkedin-jobs
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `query` | Conditional | Job title / field to search (required unless `job_id` / job `url`) |
+| `location` | Conditional | Location string (e.g. `United States`, `London`, `Remote`). Known locations map to a GeoID automatically |
+| `geoid` | Conditional | LinkedIn GeoID — use for uncommon locales (overrides location map) |
+| `job_id` | Conditional | Single job overview (or pass a `/jobs/view/{id}` `url`) |
+| `page` | No | Start page (default `1`) |
+| `max_pages` | No | Pages to scrape (default `1`). `>1` runs async |
+| `resolve_domains` | No | Resolve hiring company websites (async). Auto-on with `find_persona` / `find_email` |
+| `find_persona` | No | Find a persona at the resolved company domain |
+| `persona_titles` | No | Required with `find_persona`; max 3 |
+| `find_email` | No | Email enrichment on resolved company personas / contacts (see [overview](/api/scrapers#email-enrichment)) |
+| `email_provider` | No | BYO sync path (`findymail` / `leadmagic`) |
+| `webhook_url` / `delivery` | No | Async delivery options |
+
+## Example — search
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-jobs \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "account executive",
+    "location": "United States",
+    "max_pages": 1
+  }'
+```
+
+## Example — search \+ persona
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-jobs \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "software engineer",
+    "location": "San Francisco",
+    "find_persona": true,
+    "persona_titles": ["CTO", "VP Engineering"]
+  }'
+```
+
+## Example — job overview
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-jobs \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"job_id":"3539667535"}'
+```
+
+## Credits
+
+**2 credits per page** (search page or job overview). Domain resolution is included when enrich flags require it. `find_persona` / email enrichment add \+1 each when found. Charged at **3¢ per credit**.
+
+Response shapes (sync, async, poll, results, webhooks): [Scrapers overview](/api/scrapers).

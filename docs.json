@@ -90,7 +90,9 @@
           "api/capterra",
           "api/upwork",
           "api/wellfound",
-          "api/crunchbase"
+          "api/crunchbase",
+          "api/linkedin-profile",
+          "api/linkedin-jobs"
         ],
         "icon": "atom-simple"
       },
