@@ -48,11 +48,22 @@ Authorization: Bearer YOUR_API_KEY
 
 or `x-api-key: YOUR_API_KEY`.
 
-Optional launch safety header:
+## Idempotency-Key
+
+Optional header on `POST /api/v1/audiences` (launch only). Safe retries — not a play input.
 
 ```text
 Idempotency-Key: my-agent-run-123
 ```
+
+|  |  |
+| --- | --- |
+| **What it does** | If the same API key user launches again with the **same** key, the API returns the existing audience instead of starting a duplicate run. Response `status` is `"idempotent_replay"`. |
+| **When to send it** | Agents, scripts, or webhooks that may retry on timeout/network errors. |
+| **What value to use** | Any stable string you choose (UUID, `{play}-run-1`, etc.). Values like `accelerator-alumni-companies-1` in curl examples are placeholders, not special API tokens. |
+| **New run** | Use a **new** key (or omit the header) when you intentionally want another audience. |
+
+Omit the header if you do not care about duplicate launches on retry.
 
 ## Endpoints
 
@@ -214,7 +225,7 @@ Return **2xx** so the row counts as delivered. Partial failures advance the wate
 }
 ```
 
-`status` is `"idempotent_replay"` when the same user \+ `Idempotency-Key` already launched that play.
+`status` is `"triggered"` on a new launch, or `"idempotent_replay"` when the same user already launched with that [Idempotency-Key](/api/audiences#idempotency-key).
 
 ## Other play examples
 

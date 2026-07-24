@@ -43,6 +43,8 @@ curl https://app.lens.ly/api/v1/audiences/plays/accelerator-alumni-companies \
 
 ## Example request
 
+`Idempotency-Key` is optional — a client-chosen string so retries do not create duplicate audiences. See [Audiences API → Idempotency-Key](/api/audiences#idempotency-key).
+
 ```bash
 curl -X POST https://app.lens.ly/api/v1/audiences \
   -H "Authorization: Bearer YOUR_API_KEY" \
