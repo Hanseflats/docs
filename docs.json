@@ -99,6 +99,13 @@
         "icon": "atom-simple"
       },
       {
+        "group": "Social API",
+        "icon": "share-nodes",
+        "pages": [
+          "api/social"
+        ]
+      },
+      {
         "group": "Enrichments",
         "pages": [
           "api/find-company-website",
