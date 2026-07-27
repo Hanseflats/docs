@@ -85,7 +85,6 @@
           "api/indeed",
           "api/appstore",
           "api/substack",
-          "api/reddit",
           "api/github",
           "api/google-play",
           "api/producthunt",
@@ -94,16 +93,344 @@
           "api/wellfound",
           "api/crunchbase",
           "api/linkedin-profile",
-          "api/linkedin-jobs"
+          "api/linkedin-jobs",
+          "api/social",
+          {
+            "group": "Amazon",
+            "pages": [
+              "api/social/amazon",
+              "api/social/amazon/shop"
+            ]
+          },
+          {
+            "group": "Apple Music",
+            "pages": [
+              "api/social/apple-music",
+              "api/social/apple-music/album",
+              "api/social/apple-music/artist",
+              "api/social/apple-music/search",
+              "api/social/apple-music/track"
+            ]
+          },
+          {
+            "group": "Bluesky",
+            "pages": [
+              "api/social/bluesky",
+              "api/social/bluesky/post",
+              "api/social/bluesky/profile",
+              "api/social/bluesky/user-posts"
+            ]
+          },
+          {
+            "group": "Facebook",
+            "pages": [
+              "api/social/facebook",
+              "api/social/facebook/adLibrary-ad",
+              "api/social/facebook/adLibrary-ad-transcript",
+              "api/social/facebook/adLibrary-company-ads",
+              "api/social/facebook/adLibrary-search-ads",
+              "api/social/facebook/adLibrary-search-companies",
+              "api/social/facebook/event-details",
+              "api/social/facebook/events",
+              "api/social/facebook/events-search",
+              "api/social/facebook/group",
+              "api/social/facebook/group-posts",
+              "api/social/facebook/marketplace-item",
+              "api/social/facebook/marketplace-location-search",
+              "api/social/facebook/marketplace-search",
+              "api/social/facebook/post",
+              "api/social/facebook/post-comment-replies",
+              "api/social/facebook/post-comments",
+              "api/social/facebook/post-transcript",
+              "api/social/facebook/profile",
+              "api/social/facebook/profile-events",
+              "api/social/facebook/profile-photos",
+              "api/social/facebook/profile-posts",
+              "api/social/facebook/profile-reels"
+            ]
+          },
+          {
+            "group": "Github",
+            "pages": [
+              "api/social/github",
+              "api/social/github/repository",
+              "api/social/github/trending-developers",
+              "api/social/github/trending-repositories",
+              "api/social/github/user",
+              "api/social/github/user-activity",
+              "api/social/github/user-contributions",
+              "api/social/github/user-followers",
+              "api/social/github/user-following",
+              "api/social/github/user-pull-requests",
+              "api/social/github/user-repositories"
+            ]
+          },
+          {
+            "group": "Google",
+            "pages": [
+              "api/social/google",
+              "api/social/google/ad",
+              "api/social/google/adLibrary-advertisers-search",
+              "api/social/google/company-ads",
+              "api/social/google/search"
+            ]
+          },
+          {
+            "group": "Instagram",
+            "pages": [
+              "api/social/instagram",
+              "api/social/instagram/audio-reels",
+              "api/social/instagram/basic-profile",
+              "api/social/instagram/post",
+              "api/social/instagram/profile",
+              "api/social/instagram/reels-trending",
+              "api/social/instagram/search-hashtag",
+              "api/social/instagram/search-profiles",
+              "api/social/instagram/user-embed",
+              "api/social/instagram/user-highlight-detail",
+              "api/social/instagram/user-highlights",
+              "api/social/instagram/user-reels",
+              "api/social/instagram/v2-media-transcript",
+              "api/social/instagram/v2-post-comments",
+              "api/social/instagram/v2-reels-search",
+              "api/social/instagram/v2-user-posts"
+            ]
+          },
+          {
+            "group": "Kick",
+            "pages": [
+              "api/social/kick",
+              "api/social/kick/clip"
+            ]
+          },
+          {
+            "group": "Komi",
+            "pages": [
+              "api/social/komi",
+              "api/social/komi/overview"
+            ]
+          },
+          {
+            "group": "Kwai",
+            "pages": [
+              "api/social/kwai",
+              "api/social/kwai/post",
+              "api/social/kwai/profile",
+              "api/social/kwai/user-posts"
+            ]
+          },
+          {
+            "group": "Linkbio",
+            "pages": [
+              "api/social/linkbio",
+              "api/social/linkbio/overview"
+            ]
+          },
+          {
+            "group": "Linkedin",
+            "pages": [
+              "api/social/linkedin",
+              "api/social/linkedin/ad",
+              "api/social/linkedin/ads-search",
+              "api/social/linkedin/company",
+              "api/social/linkedin/company-posts",
+              "api/social/linkedin/post",
+              "api/social/linkedin/post-transcript",
+              "api/social/linkedin/profile",
+              "api/social/linkedin/search-posts"
+            ]
+          },
+          {
+            "group": "Linkme",
+            "pages": [
+              "api/social/linkme",
+              "api/social/linkme/overview"
+            ]
+          },
+          {
+            "group": "Linktree",
+            "pages": [
+              "api/social/linktree",
+              "api/social/linktree/overview"
+            ]
+          },
+          {
+            "group": "Pillar",
+            "pages": [
+              "api/social/pillar",
+              "api/social/pillar/overview"
+            ]
+          },
+          {
+            "group": "Pinterest",
+            "pages": [
+              "api/social/pinterest",
+              "api/social/pinterest/board",
+              "api/social/pinterest/pin",
+              "api/social/pinterest/search",
+              "api/social/pinterest/user-boards"
+            ]
+          },
+          {
+            "group": "Reddit",
+            "pages": [
+              "api/social/reddit",
+              "api/social/reddit/post-comments",
+              "api/social/reddit/post-transcript",
+              "api/social/reddit/search",
+              "api/social/reddit/subreddit",
+              "api/social/reddit/subreddit-details",
+              "api/social/reddit/subreddit-search"
+            ]
+          },
+          {
+            "group": "Rumble",
+            "pages": [
+              "api/social/rumble",
+              "api/social/rumble/channel-videos",
+              "api/social/rumble/search",
+              "api/social/rumble/video",
+              "api/social/rumble/video-comments",
+              "api/social/rumble/video-transcript"
+            ]
+          },
+          {
+            "group": "Snapchat",
+            "pages": [
+              "api/social/snapchat",
+              "api/social/snapchat/profile",
+              "api/social/snapchat/spotlight",
+              "api/social/snapchat/spotlight-comments"
+            ]
+          },
+          {
+            "group": "Soundcloud",
+            "pages": [
+              "api/social/soundcloud",
+              "api/social/soundcloud/artist",
+              "api/social/soundcloud/artist-tracks",
+              "api/social/soundcloud/track"
+            ]
+          },
+          {
+            "group": "Spotify",
+            "pages": [
+              "api/social/spotify",
+              "api/social/spotify/album",
+              "api/social/spotify/artist",
+              "api/social/spotify/podcast",
+              "api/social/spotify/podcast-episodes",
+              "api/social/spotify/search",
+              "api/social/spotify/track"
+            ]
+          },
+          {
+            "group": "Threads",
+            "pages": [
+              "api/social/threads",
+              "api/social/threads/post",
+              "api/social/threads/profile",
+              "api/social/threads/search",
+              "api/social/threads/search-users",
+              "api/social/threads/user-posts"
+            ]
+          },
+          {
+            "group": "Tiktok",
+            "pages": [
+              "api/social/tiktok",
+              "api/social/tiktok/ad-library-ad",
+              "api/social/tiktok/ad-library-search",
+              "api/social/tiktok/creators-popular",
+              "api/social/tiktok/get-trending-feed",
+              "api/social/tiktok/live",
+              "api/social/tiktok/product",
+              "api/social/tiktok/profile",
+              "api/social/tiktok/profile-region",
+              "api/social/tiktok/search-hashtag",
+              "api/social/tiktok/search-keyword",
+              "api/social/tiktok/search-suggestions",
+              "api/social/tiktok/search-top",
+              "api/social/tiktok/search-users",
+              "api/social/tiktok/shop-product-reviews",
+              "api/social/tiktok/shop-products",
+              "api/social/tiktok/shop-search",
+              "api/social/tiktok/song",
+              "api/social/tiktok/song-videos",
+              "api/social/tiktok/user-audience",
+              "api/social/tiktok/user-followers",
+              "api/social/tiktok/user-following",
+              "api/social/tiktok/user-live",
+              "api/social/tiktok/user-showcase",
+              "api/social/tiktok/video-comment-replies",
+              "api/social/tiktok/video-comments",
+              "api/social/tiktok/video-transcript",
+              "api/social/tiktok/v2-video",
+              "api/social/tiktok/v3-profile-videos"
+            ]
+          },
+          {
+            "group": "Truth Social",
+            "pages": [
+              "api/social/truthsocial",
+              "api/social/truthsocial/post",
+              "api/social/truthsocial/profile",
+              "api/social/truthsocial/user-posts"
+            ]
+          },
+          {
+            "group": "Twitch",
+            "pages": [
+              "api/social/twitch",
+              "api/social/twitch/clip",
+              "api/social/twitch/profile",
+              "api/social/twitch/user-schedule",
+              "api/social/twitch/user-videos"
+            ]
+          },
+          {
+            "group": "Utility",
+            "pages": [
+              "api/social/utility",
+              "api/social/utility/overview"
+            ]
+          },
+          {
+            "group": "X (Twitter)",
+            "pages": [
+              "api/social/twitter",
+              "api/social/twitter/community",
+              "api/social/twitter/community-tweets",
+              "api/social/twitter/profile",
+              "api/social/twitter/tweet",
+              "api/social/twitter/tweet-transcript",
+              "api/social/twitter/user-tweets"
+            ]
+          },
+          {
+            "group": "Youtube",
+            "pages": [
+              "api/social/youtube",
+              "api/social/youtube/channel",
+              "api/social/youtube/channel-videos",
+              "api/social/youtube/channel-community-posts",
+              "api/social/youtube/channel-lives",
+              "api/social/youtube/channel-playlists",
+              "api/social/youtube/channel-shorts",
+              "api/social/youtube/community-post",
+              "api/social/youtube/playlist",
+              "api/social/youtube/search",
+              "api/social/youtube/search-hashtag",
+              "api/social/youtube/shorts-trending",
+              "api/social/youtube/video",
+              "api/social/youtube/video-comment-replies",
+              "api/social/youtube/video-comments",
+              "api/social/youtube/video-sponsors",
+              "api/social/youtube/video-transcript"
+            ]
+          }
         ],
         "icon": "atom-simple"
-      },
-      {
-        "group": "Social API",
-        "icon": "share-nodes",
-        "pages": [
-          "api/social"
-        ]
       },
       {
         "group": "Enrichments",

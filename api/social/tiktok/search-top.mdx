@@ -1,0 +1,38 @@
+---
+title: "Tiktok — Search / Top"
+sidebarTitle: "Search / Top"
+description: "Top Search"
+---
+
+Searches TikTok's 'Top' results by query — returns both videos and photo carousels, unlike keyword search which only returns videos. Returns `items`, an array of objects each with `id`, `desc` (caption), `content_type` (video or photo carousel), `statistics` (play_count, digg_count/likes, comment_count, share_count), `video` info, and `images` for carousels. Paginate with `cursor`. TikTok may return duplicate results.
+
+## Endpoint
+
+```text
+GET https://app.lens.ly/api/v1/social/v1/tiktok/search/top
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Query parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `query` | Yes | Keyword to search for |
+| `publish_time` | No | Time Frame TikTok was posted Enum: yesterday, this-week, this-month, last-3-months, last-6-months, all-time. |
+| `sort_by` | No | Sort by Enum: relevance, most-liked, date-posted. |
+| `region` | No | Note, this doesn't filter the tiktoks only in a specfic region, it puts the proxy there. Use it in case you want to scrape posts only available for some country. Use 2 letter country codes like US, GB, FR, etc |
+| `cursor` | No | Cursor to get more videos. Get 'cursor' from previous response. |
+
+## Example
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/tiktok/search/top?query=example" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Credits
+
+**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+
+See [Social API overview](/api/social) and [Tiktok](/api/social/tiktok).

@@ -1,0 +1,35 @@
+---
+title: "Tiktok — Song / Videos"
+sidebarTitle: "Song / Videos"
+description: "TikToks using Song"
+---
+
+Fetches TikTok videos that use a specific sound or song, identified by its clipId. Returns `aweme_list`, an array of video objects each with `aweme_id`, `desc` (caption), `statistics` (play_count, digg_count/likes, comment_count, share_count), `video` info, and `author` details. Paginate with `cursor` from the previous response.
+
+## Endpoint
+
+```text
+GET https://app.lens.ly/api/v1/social/v1/tiktok/song/videos
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Query parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `clipId` | No | This is clipId. Can be found on a url like so: https://www.tiktok.com/music/That%27s-Who-I-Praise-7370375686554782506, where 7370375686554782506 is the clipId |
+| `cursor` | No | The cursor to get the next page of results. |
+
+## Example
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/tiktok/song/videos" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Credits
+
+**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+
+See [Social API overview](/api/social) and [Tiktok](/api/social/tiktok).

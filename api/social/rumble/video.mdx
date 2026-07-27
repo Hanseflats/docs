@@ -1,0 +1,34 @@
+---
+title: "Rumble — Video"
+sidebarTitle: "Video"
+description: "Video"
+---
+
+Gets Rumble video details by URL. Returns title, description, thumbnail, channel, publish date, view count, likes, dislikes, captions, and media metadata when available.
+
+## Endpoint
+
+```text
+GET https://app.lens.ly/api/v1/social/v1/rumble/video
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Query parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `url` | Yes | Rumble video URL. |
+
+## Example
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/rumble/video?url=https://example.com" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Credits
+
+**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+
+See [Social API overview](/api/social) and [Rumble](/api/social/rumble).

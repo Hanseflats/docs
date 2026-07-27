@@ -1,0 +1,34 @@
+---
+title: "Youtube — Shorts / Trending"
+sidebarTitle: "Shorts / Trending"
+description: "Trending Shorts"
+---
+
+Fetches approximately 48 currently trending YouTube Shorts (viral/popular short-form videos) per call, returning each short's title, URL, thumbnail, view count (views), like count (likes), comment count, publish date, channel info, keywords, and duration. Each subsequent call returns a fresh batch of different trending shorts.
+
+## Endpoint
+
+```text
+GET https://app.lens.ly/api/v1/social/v1/youtube/shorts/trending
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Query parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| — | — | No query parameters |
+
+## Example
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/youtube/shorts/trending" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Credits
+
+**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+
+See [Social API overview](/api/social) and [Youtube](/api/social/youtube).

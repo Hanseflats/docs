@@ -1,0 +1,39 @@
+---
+title: "Reddit — Subreddit"
+sidebarTitle: "Subreddit"
+description: "Subreddit Posts"
+---
+
+Fetches posts from a subreddit with sorting and filtering options. Each post includes title, author, selftext, score, ups, upvote_ratio, num_comments, created_utc, url, permalink, subreddit_subscribers, and is_video. Supports sort (best, hot, new, top, rising), timeframe filtering, pagination via the after token, and a trim parameter for lighter responses.
+
+## Endpoint
+
+```text
+GET https://app.lens.ly/api/v1/social/v1/reddit/subreddit
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Query parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `subreddit` | Yes | Subreddit name |
+| `timeframe` | No | Timeframe to get posts from Enum: all, day, week, month, year. |
+| `sort` | No | Sort order Enum: best, hot, new, top, rising. |
+| `after` | No | After to get more posts. Get 'after' from previous response. |
+| `trim` | No | Set to true for a trimmed down version of the response |
+| `cache_max_age` | No | If we have a response in the cache that is this many days old or newer, return the cached response (0 credits, with 'cached': true and a 'cached_at' timestamp). Otherwise, scrape a live result (1 credit). [See the Caching page for details.](https://docs.scrapecreators.com/caching) Enum: 1d, 3d, 7d, 14d, 30d. |
+
+## Example
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/reddit/subreddit?subreddit=example" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Credits
+
+**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+
+See [Social API overview](/api/social) and [Reddit](/api/social/reddit).

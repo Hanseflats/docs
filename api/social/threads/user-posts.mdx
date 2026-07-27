@@ -1,0 +1,35 @@
+---
+title: "Threads — User / Posts"
+sidebarTitle: "User / Posts"
+description: "Posts"
+---
+
+Fetches the most recent posts from a Threads user, returning id, caption text, code, like_count, reshare_count, direct_reply_count, repost_count, image_versions2, video_versions, and taken_at. Only the last 20-30 posts are publicly visible. Supports a trim option for lighter responses.
+
+## Endpoint
+
+```text
+GET https://app.lens.ly/api/v1/social/v1/threads/user/posts
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Query parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `handle` | Yes | Threads username |
+| `trim` | No | Set to true for a trimmed down version of the response |
+
+## Example
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/threads/user/posts?handle=example" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Credits
+
+**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+
+See [Social API overview](/api/social) and [Threads](/api/social/threads).

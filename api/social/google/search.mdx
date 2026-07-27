@@ -1,0 +1,37 @@
+---
+title: "Google — Search"
+sidebarTitle: "Search"
+description: "Search"
+---
+
+Performs a Google search and returns organic results with url, title, and description for each result. Supports an optional region parameter (2-letter country code) to get localized results from a specific country.
+
+## Endpoint
+
+```text
+GET https://app.lens.ly/api/v1/social/v1/google/search
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Query parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `query` | Yes | Search query |
+| `region` | No | 2 letter country code, ie US, UK, CA, etc This will show results from that country |
+| `date_posted` | No | Date posted Enum: last-hour, last-day, last-week, last-month, last-year. |
+| `page` | No | Page number to retrieve |
+
+## Example
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/google/search?query=example" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Credits
+
+**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+
+See [Social API overview](/api/social) and [Google](/api/social/google).

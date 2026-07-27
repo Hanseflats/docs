@@ -1,0 +1,34 @@
+---
+title: "Youtube — Video / Comment / Replies"
+sidebarTitle: "Video / Comment / Replies"
+description: "Comment Replies"
+---
+
+Fetches replies to a specific comment on a YouTube video, including each reply's text content, author details (name, channel ID, avatar, verified/creator status), like count, and publish date. Requires a continuationToken obtained from the 'repliesContinuationToken' field on comments returned by the Comments endpoint. Supports paginating through additional replies with the continuationToken returned in each response.
+
+## Endpoint
+
+```text
+GET https://app.lens.ly/api/v1/social/v1/youtube/video/comment/replies
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Query parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `continuationToken` | Yes | Continuation token for the comment replies. Use 'repliesContinuationToken' from the Comments endpoint, or 'continuationToken' from a previous replies response to paginate. |
+
+## Example
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/youtube/video/comment/replies?continuationToken=example" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Credits
+
+**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+
+See [Social API overview](/api/social) and [Youtube](/api/social/youtube).

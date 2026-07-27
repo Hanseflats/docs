@@ -1,0 +1,34 @@
+---
+title: "Rumble — Video / Comments"
+sidebarTitle: "Video / Comments"
+description: "Comments"
+---
+
+Gets all top level comments for a Rumble video by URL. Returns comment text, author, createdAt, createdAtText, likeCount, dislikeCount, and replyCount when comment bodies are public.
+
+## Endpoint
+
+```text
+GET https://app.lens.ly/api/v1/social/v1/rumble/video/comments
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Query parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `url` | Yes | Rumble video URL. |
+
+## Example
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/rumble/video/comments?url=https://example.com" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Credits
+
+**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+
+See [Social API overview](/api/social) and [Rumble](/api/social/rumble).

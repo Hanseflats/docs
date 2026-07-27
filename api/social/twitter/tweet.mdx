@@ -1,0 +1,36 @@
+---
+title: "X (Twitter) — Tweet"
+sidebarTitle: "Tweet"
+description: "Tweet Details"
+---
+
+Retrieves detailed information about a specific tweet by URL, including the author's profile and engagement metrics. Returns rest_id, full_text, views count, favorite_count, retweet_count, reply_count, bookmark_count, quote_count, created_at, source, and media entities. Supports a trim parameter for a lighter response.
+
+## Endpoint
+
+```text
+GET https://app.lens.ly/api/v1/social/v1/twitter/tweet
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Query parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `url` | Yes | Tweet URL |
+| `trim` | No | Set to true for a trimmed down version of the response |
+| `cache_max_age` | No | If we have a response in the cache that is this many days old or newer, return the cached response (0 credits, with 'cached': true and a 'cached_at' timestamp). Otherwise, scrape a live result (1 credit). [See the Caching page for details.](https://docs.scrapecreators.com/caching) Enum: 1d, 3d, 7d, 14d, 30d. |
+
+## Example
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/twitter/tweet?url=https://example.com" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Credits
+
+**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+
+See [Social API overview](/api/social) and [X (Twitter)](/api/social/twitter).

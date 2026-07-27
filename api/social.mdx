@@ -1,10 +1,12 @@
 ---
 title: "Social API overview"
-sidebarTitle: "Overview"
+sidebarTitle: "Social API"
 description: "Passthrough social media APIs — Instagram, TikTok, YouTube, Facebook, LinkedIn, X, Reddit, Threads, Linktree, and more."
 ---
 
 Pull public social profiles, posts, search results, and link-in-bio pages as structured JSON.
+
+Platform pages (Instagram, Reddit, TikTok, …) live under **Scrapers** in the sidebar — expand a platform to see each endpoint.
 
 ```text
 GET https://app.lens.ly/api/v1/social/{upstream_path}
@@ -36,7 +38,7 @@ GET https://app.lens.ly/api/v1/tools?tool=social.instagram.profile
 | Cache hit (upstream charged 0) | **Free** |
 | Typical profile call | **0.5** credits |
 
-Charged against prepaid Billing. Without a card on file, you need enough balance for the estimated spend. With a card (pay-as-you-go), shortfalls can settle after the call.
+Charged against prepaid Billing.
 
 ## Response shape
 
@@ -53,8 +55,6 @@ Charged against prepaid Billing. Without a card on file, you need enough balance
 }
 ```
 
-`data` is the upstream JSON with billing fields removed. On cache hits, `credits_used` is `0` and `meta.cached` is `true`.
-
 ## Example — Instagram profile
 
 ```bash
@@ -62,16 +62,7 @@ curl "https://app.lens.ly/api/v1/social/v1/instagram/profile?handle=instagram" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
-## Example — Linktree
-
-```bash
-curl "https://app.lens.ly/api/v1/social/v1/linktree?url=https://linktr.ee/example" \
-  -H "Authorization: Bearer YOUR_API_KEY"
-```
-
 ## MCP
-
-Remote MCP tools (same API key):
 
 | Tool | Purpose |
 | --- | --- |
@@ -80,16 +71,6 @@ Remote MCP tools (same API key):
 
 See [MCP](/agents/mcp).
 
-## Platforms (partial)
+## Platforms
 
-Instagram, TikTok, YouTube, Facebook (profiles, posts, Ad Library), LinkedIn, X/Twitter, Reddit, Threads, Bluesky, Pinterest, Snapchat, Linktree / Komi / Pillar / Linkbio / Linkme, Google Search, Twitch, Spotify, and more — see the [tools catalog](/agents/tools) (`?category=social`) for the full list.
-
-## Errors
-
-| HTTP | Code | Meaning |
-| --- | --- | --- |
-| 400 | `validation_error` / `missing_path` | Bad or missing params |
-| 402 | `insufficient_credits` | Top up on Billing |
-| 404 | `unknown_endpoint` / `not_found` | Unknown path or missing resource |
-| 429 | `rate_limited` | Retry shortly |
-| 502 / 503 | `upstream_error` / `upstream_unavailable` | Temporary upstream issue |
+Expand a platform under Scrapers in the sidebar for per-endpoint docs. Full list also via the [tools catalog](/agents/tools) (`?category=social`).

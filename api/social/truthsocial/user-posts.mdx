@@ -1,0 +1,37 @@
+---
+title: "Truth Social — User / Posts"
+sidebarTitle: "User / Posts"
+description: "User Posts"
+---
+
+Fetches a paginated list of posts from a Truth Social user, returning text, id, created_at, url, content, account info, media_attachments, card link previews, replies_count, reblogs_count, and favourites_count. Supports pagination via next_max_id and a trim option for lighter responses. Only prominent public figures (e.g., Trump, Vance) are accessible without authentication.
+
+## Endpoint
+
+```text
+GET https://app.lens.ly/api/v1/social/v1/truthsocial/user/posts
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Query parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `handle` | No | Truth Social username |
+| `user_id` | No | Truth Social user id. Use this for faster response times. Trumps is 107780257626128497. It is the 'id' field in the profile endpoint. |
+| `next_max_id` | No | Used to paginate to next page |
+| `trim` | No | Set to true for a trimmed down version of the response |
+
+## Example
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/truthsocial/user/posts" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Credits
+
+**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+
+See [Social API overview](/api/social) and [Truth Social](/api/social/truthsocial).

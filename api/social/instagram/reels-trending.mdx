@@ -1,0 +1,34 @@
+---
+title: "Instagram — Reels / Trending"
+sidebarTitle: "Reels / Trending"
+description: "Trending Reels"
+---
+
+Fetches trending reels from Instagram's public instagram.com/reels page. Instagram only gives a small batch at a time and the results can overlap, so call this endpoint over and over when you want more. Each call should return new-ish results, but expect some duplicates because that is how Instagram's reels page behaves too. Returns `reels`, an array of reel objects with shortcode, URL, caption, media URLs, engagement counts when Instagram exposes them, and user info.
+
+## Endpoint
+
+```text
+GET https://app.lens.ly/api/v1/social/v1/instagram/reels/trending
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Query parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| — | — | No query parameters |
+
+## Example
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/instagram/reels/trending" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Credits
+
+**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+
+See [Social API overview](/api/social) and [Instagram](/api/social/instagram).

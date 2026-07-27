@@ -1,0 +1,36 @@
+---
+title: "Facebook — Post / Comment / Replies"
+sidebarTitle: "Post / Comment / Replies"
+description: "Comment Replies"
+---
+
+Get the replies to a comment.
+
+## Endpoint
+
+```text
+GET https://app.lens.ly/api/v1/social/v1/facebook/post/comment/replies
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Query parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `feedback_id` | Yes | The *feedback_id* of the comment. Be careful, this is not the comment id. You can get the feedback_id from the /v1/facebook/post/comments endpoint. |
+| `expansion_token` | Yes | The expansion_token of the comment. You can get the expansion_token from the /v1/facebook/post/comments endpoint. |
+| `cursor` | No | The cursor to paginate to the next page |
+
+## Example
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/facebook/post/comment/replies?feedback_id=example&expansion_token=example" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Credits
+
+**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+
+See [Social API overview](/api/social) and [Facebook](/api/social/facebook).

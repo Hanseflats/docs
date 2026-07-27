@@ -1,0 +1,38 @@
+---
+title: "Reddit — Subreddit / Search"
+sidebarTitle: "Subreddit / Search"
+description: "Subreddit Search"
+---
+
+Searches within a specific subreddit for posts, comments, and media matching a query. Returns posts with title, votes, num_comments, url, and created_at; comments with author, body, votes, and parent post info; and media with title, media_type, image dimensions, and gallery_count. Supports sort, timeframe filtering, and cursor-based pagination.
+
+## Endpoint
+
+```text
+GET https://app.lens.ly/api/v1/social/v1/reddit/subreddit/search
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Query parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `subreddit` | Yes | Subreddit name (e.g. 'Fitness', not 'r/Fitness' or a full URL) |
+| `query` | No | Search query to find matching content |
+| `sort` | No | Sort order. For posts/media: relevance, hot, top, new, comments. For comments: relevance, top, new Enum: relevance, hot, top, new, comments. |
+| `timeframe` | No | Timeframe to filter results Enum: all, year, month, week, day, hour. |
+| `cursor` | No | Cursor to get more results. Get 'cursor' from previous response. |
+
+## Example
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/reddit/subreddit/search?subreddit=example" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Credits
+
+**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+
+See [Social API overview](/api/social) and [Reddit](/api/social/reddit).

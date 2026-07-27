@@ -1,0 +1,36 @@
+---
+title: "Github — User / Contributions"
+sidebarTitle: "User / Contributions"
+description: "Contributions"
+---
+
+Retrieves the public GitHub contribution graph for a user and year, including total contributions and daily contribution counts/intensity. Pass github handle, or a full GitHub profile url. Defaults to the current year when year is not provided.
+
+## Endpoint
+
+```text
+GET https://app.lens.ly/api/v1/social/v1/github/user/contributions
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Query parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `handle` | No | GitHub handle |
+| `url` | No | GitHub profile URL |
+| `year` | No | Contribution graph year. Defaults to the current year. |
+
+## Example
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/github/user/contributions" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Credits
+
+**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+
+See [Social API overview](/api/social) and [Github](/api/social/github).

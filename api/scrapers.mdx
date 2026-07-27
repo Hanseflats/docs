@@ -6,6 +6,8 @@ description: "Structured scrapers API — sync JSON or async jobs with poll, res
 
 Scrape review sites, job boards, app stores, and more into structured JSON.
 
+Social platforms (Instagram, TikTok, Reddit, …) use the [Social API](/api/social) — expand a platform in the sidebar for each endpoint. Those calls are `GET /api/v1/social/...` at **0.5 credits** per upstream credit (cache hits free).
+
 ```text
 POST https://app.lens.ly/api/v1/scrapers/{slug}
 ```
@@ -21,7 +23,7 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | `linkedin-profile` | Person or company LinkedIn URL / id |
 | `yc`, `wellfound`, `crunchbase` | Company slug / search query / permalink |
 | `github` | `owner` \+ `repo`, or user/repo URL |
-| `reddit` | `subreddit` / `query` |
+| [Reddit](/api/social/reddit) | Social API: search / subreddit / post URL |
 | `substack` | `subdomain` or newsletter URL |
 | `google-play`, `appstore` | `app_id` or store URL |
 
