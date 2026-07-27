@@ -1,0 +1,95 @@
+---
+title: "Social API overview"
+sidebarTitle: "Overview"
+description: "Passthrough social media APIs — Instagram, TikTok, YouTube, Facebook, LinkedIn, X, Reddit, Threads, Linktree, and more."
+---
+
+Pull public social profiles, posts, search results, and link-in-bio pages as structured JSON.
+
+```text
+GET https://app.lens.ly/api/v1/social/{upstream_path}
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+The path after `/api/v1/social` mirrors the upstream route (for example `/v1/instagram/profile`). Query parameters are forwarded as-is.
+
+## Discovery
+
+List every endpoint, query schema, and example via the tools catalog:
+
+```text
+GET https://app.lens.ly/api/v1/tools?category=social
+```
+
+Or fetch one tool spec:
+
+```text
+GET https://app.lens.ly/api/v1/tools?tool=social.instagram.profile
+```
+
+## Credits
+
+| Rule | Cost |
+| --- | --- |
+| Per upstream credit charged | **0.5** Lens credits (~**2¢** at 3¢/credit, rounded to nearest cent) |
+| Cache hit (upstream charged 0) | **Free** |
+| Typical profile call | **0.5** credits |
+
+Charged against prepaid Billing. Without a card on file, you need enough balance for the estimated spend. With a card (pay-as-you-go), shortfalls can settle after the call.
+
+## Response shape
+
+```json
+{
+  "data": { },
+  "credits_used": 0.5,
+  "meta": {
+    "platform": "instagram",
+    "path": "/v1/instagram/profile",
+    "cached": false,
+    "summary": "Profile"
+  }
+}
+```
+
+`data` is the upstream JSON with billing fields removed. On cache hits, `credits_used` is `0` and `meta.cached` is `true`.
+
+## Example — Instagram profile
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/instagram/profile?handle=instagram" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Example — Linktree
+
+```bash
+curl "https://app.lens.ly/api/v1/social/v1/linktree?url=https://linktr.ee/example" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## MCP
+
+Remote MCP tools (same API key):
+
+| Tool | Purpose |
+| --- | --- |
+| `social_list` | List / filter Social endpoints |
+| `social_run` | `GET /api/v1/social/{path}` with query |
+
+See [MCP](/agents/mcp).
+
+## Platforms (partial)
+
+Instagram, TikTok, YouTube, Facebook (profiles, posts, Ad Library), LinkedIn, X/Twitter, Reddit, Threads, Bluesky, Pinterest, Snapchat, Linktree / Komi / Pillar / Linkbio / Linkme, Google Search, Twitch, Spotify, and more — see the [tools catalog](/agents/tools) (`?category=social`) for the full list.
+
+## Errors
+
+| HTTP | Code | Meaning |
+| --- | --- | --- |
+| 400 | `validation_error` / `missing_path` | Bad or missing params |
+| 402 | `insufficient_credits` | Top up on Billing |
+| 404 | `unknown_endpoint` / `not_found` | Unknown path or missing resource |
+| 429 | `rate_limited` | Retry shortly |
+| 502 / 503 | `upstream_error` / `upstream_unavailable` | Temporary upstream issue |
