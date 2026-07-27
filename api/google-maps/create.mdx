@@ -1,0 +1,76 @@
+---
+title: "Create Google Maps scrape"
+sidebarTitle: "Create scrape"
+description: "Start an async Google Maps scrape by keyword and city."
+---
+
+```text
+POST https://app.lens.ly/api/v1/google-maps/scrapes
+```
+
+## Request body
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `keyword` | Yes | Search query (e.g. `plumber`, `dentist`) |
+| `city` | Yes | US city name |
+| `state` | No | 2-letter state code (recommended for disambiguation) |
+| `max_results` | Yes | Target unique businesses (`1`–`500`) |
+| `find_owners` | No | Enable owner \+ contact enrichment |
+| `find_domain_emails` | No | Harvest website emails |
+| `accept_generic` | No | Allow role emails as `first_email` (default `false`) |
+| `priority` | No | `owner` (default) or `email` |
+| `max_employee_count` | No | RB headcount filter (default `50`) |
+| `webhook_url` | No | HTTPS callback when done |
+| `enrichment` | No | Object form of the enrichment flags above |
+
+Aliases: `query` → `keyword`, `maxResults` → `max_results`, camelCase enrichment keys are accepted.
+
+## Response — `202 Accepted`
+
+```json
+{
+  "scrape_id": "uuid",
+  "status": "pending",
+  "estimated_credits": 25,
+  "zip_codes_count": 42,
+  "enrichment": {
+    "find_owners": true,
+    "find_domain_emails": false,
+    "priority": "owner",
+    "accept_generic": false,
+    "max_employee_count": 50
+  },
+  "poll": "/api/v1/google-maps/scrapes/uuid",
+  "results": "/api/v1/google-maps/scrapes/uuid/results",
+  "download": "/api/v1/google-maps/scrapes/uuid/download"
+}
+```
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Missing fields / invalid `max_results` / bad `webhook_url` |
+| `402` | Insufficient credits (`required` = estimate) |
+| `404` | No zip codes for that city |
+
+## Example
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/google-maps/scrapes \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "keyword": "HVAC",
+    "city": "Denver",
+    "state": "CO",
+    "max_results": 100,
+    "enrichment": {
+      "find_owners": true,
+      "accept_generic": false,
+      "max_employee_count": 50
+    },
+    "webhook_url": "https://example.com/hooks/maps"
+  }'
+```

@@ -1,0 +1,93 @@
+---
+title: "Google Maps overview"
+sidebarTitle: "Overview"
+description: "Scrape local businesses from Google Maps by keyword + city, optionally enrich owners and contacts."
+---
+
+Find local businesses on Google Maps (keyword \+ US city), then optionally enrich owner names and contact buckets.
+
+```text
+POST https://app.lens.ly/api/v1/google-maps/scrapes
+```
+
+Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
+
+## Flow
+
+1. **Create** — `POST /api/v1/google-maps/scrapes` → `202` with `scrape_id`
+2. **Poll** — `GET /api/v1/google-maps/scrapes/{id}` until `status` is `completed` or `failed`
+3. **Results** — `GET /api/v1/google-maps/scrapes/{id}/results?cursor=&limit=100`
+4. **CSV** — `GET /api/v1/google-maps/scrapes/{id}/download`
+
+Optional `webhook_url` (HTTPS) fires when the scrape (and enrichment, if enabled) finishes.
+
+## Credits
+
+| Step | Cost |
+| --- | --- |
+| Maps scrape | **0.5 credits** per unique business |
+| Owner / contact enrichment | Included when `find_owners` or `find_domain_emails` is on (uses prepaid balance for upstream lookups) |
+
+`max_results` is 1–500. Estimated charge at create time is `max_results × 0.5`.
+
+## Enrichment
+
+Pass an `enrichment` object (or top-level flags):
+
+| Field | Default | Description |
+| --- | --- | --- |
+| `find_owners` | `false` | Resolve owner name \+ emails/phones via RevenueBase → website/Facebook waterfall |
+| `find_domain_emails` | `false` | Harvest contact emails from the business website |
+| `priority` | `owner` | `owner` or `email` — which path to prefer when both are on |
+| `accept_generic` | `false` | If true, role inboxes (`info@`, `hello@`) can become `first_email` when nothing better exists |
+| `max_employee_count` | `50` | Skip RevenueBase companies above this headcount (chains / franchises) |
+
+## Contact shape
+
+Each business in results includes classified buckets:
+
+```json
+{
+  "owner": { "first_name": "Jane", "last_name": "Doe" },
+  "emails": {
+    "personal": ["jane@gmail.com"],
+    "business": ["jane@acmeplumbing.com"],
+    "role": ["info@acmeplumbing.com"],
+    "first": "jane@gmail.com",
+    "first_type": "personal"
+  },
+  "phones": {
+    "business": "+1 512-555-0100",
+    "mobile": "+1 512-555-0199",
+    "first": "+1 512-555-0199"
+  }
+}
+```
+
+`emails.first` ranking: personal → business → role (role only if `accept_generic`). `phones.first` ranking: mobile → Maps business phone.
+
+## Endpoints
+
+| Method | Path | Docs |
+| --- | --- | --- |
+| `POST` | `/api/v1/google-maps/scrapes` | [Create scrape](/api/google-maps/create) |
+| `GET` | `/api/v1/google-maps/scrapes` | List recent scrapes |
+| `GET` | `/api/v1/google-maps/scrapes/{id}` | [Status](/api/google-maps/status) |
+| `GET` | `/api/v1/google-maps/scrapes/{id}/results` | [Results](/api/google-maps/results) |
+| `GET` | `/api/v1/google-maps/scrapes/{id}/download` | [CSV download](/api/google-maps/download) |
+
+## Quick start
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/google-maps/scrapes \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "keyword": "plumber",
+    "city": "Austin",
+    "state": "TX",
+    "max_results": 50,
+    "find_owners": true,
+    "accept_generic": false
+  }'
+```

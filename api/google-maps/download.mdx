@@ -1,0 +1,31 @@
+---
+title: "Download Google Maps CSV"
+sidebarTitle: "Download CSV"
+description: "Export scrape results as a CSV file."
+---
+
+```text
+GET https://app.lens.ly/api/v1/google-maps/scrapes/{id}/download
+```
+
+Returns `text/csv` with `Content-Disposition: attachment`.
+
+## Columns
+
+| Column | Description |
+| --- | --- |
+| `place_id`, `title`, `website`, `address`, `category` | Maps listing |
+| `rating`, `reviews_count`, `google_maps_url`, `zip_code` | Listing meta |
+| `owner_first_name`, `owner_last_name` | Owner when found |
+| `first_email`, `email_preference` | Ranked email \+ bucket (`personal` / `business` / `role`) |
+| `emails_personal`, `emails_business`, `emails_role` | Semicolon-separated buckets |
+| `phone`, `phone_mobile`, `first_phone` | Business / mobile / ranked |
+| `enrichment_method` | How contacts were found |
+
+## Example
+
+```bash
+curl -L "https://app.lens.ly/api/v1/google-maps/scrapes/SCRAPE_ID/download" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -o austin-plumbers.csv
+```
