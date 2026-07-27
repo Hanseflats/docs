@@ -1,16 +1,25 @@
 ---
-title: "Download Google Maps CSV"
-sidebarTitle: "Download CSV"
-description: "Export scrape results as a CSV file."
+title: "Download Google Maps export"
+sidebarTitle: "Download"
+description: "Export the full scrape as CSV or JSON."
 ---
 
 ```text
-GET https://app.lens.ly/api/v1/google-maps/scrapes/{id}/download
+GET https://app.lens.ly/api/v1/google-maps/scrapes/{id}/download?format=csv
+GET https://app.lens.ly/api/v1/google-maps/scrapes/{id}/download?format=json
 ```
 
-Returns `text/csv` with `Content-Disposition: attachment`.
+Returns the **entire** dataset (not paginated). Use [Results](/api/google-maps/results) when you want cursor paging.
 
-## Columns
+## Query params
+
+| Param | Default | Description |
+| --- | --- | --- |
+| `format` | `csv` | `csv` or `json` |
+
+## CSV (`format=csv`)
+
+Returns `text/csv` with `Content-Disposition: attachment`.
 
 | Column | Description |
 | --- | --- |
@@ -22,10 +31,49 @@ Returns `text/csv` with `Content-Disposition: attachment`.
 | `phone`, `phone_mobile`, `first_phone` | Business / mobile / ranked |
 | `enrichment_method` | How contacts were found |
 
-## Example
-
 ```bash
-curl -L "https://app.lens.ly/api/v1/google-maps/scrapes/SCRAPE_ID/download" \
+curl -L "https://app.lens.ly/api/v1/google-maps/scrapes/SCRAPE_ID/download?format=csv" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -o austin-plumbers.csv
+```
+
+## JSON (`format=json`)
+
+Returns `application/json` with every business in the same shape as [Results](/api/google-maps/results):
+
+```json
+{
+  "scrape_id": "uuid",
+  "status": "completed",
+  "keyword": "plumber",
+  "city": "Austin",
+  "state": "TX",
+  "total": 48,
+  "credits_used": 24,
+  "businesses": [
+    {
+      "place_id": "ChIJ…",
+      "title": "Acme Plumbing",
+      "owner": { "first_name": "Jane", "last_name": "Doe" },
+      "emails": {
+        "personal": ["jane@gmail.com"],
+        "business": [],
+        "role": ["info@acmeplumbing.com"],
+        "first": "jane@gmail.com",
+        "first_type": "personal"
+      },
+      "phones": {
+        "business": "+1 512-555-0100",
+        "mobile": null,
+        "first": "+1 512-555-0100"
+      }
+    }
+  ]
+}
+```
+
+```bash
+curl -L "https://app.lens.ly/api/v1/google-maps/scrapes/SCRAPE_ID/download?format=json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -o austin-plumbers.json
 ```
