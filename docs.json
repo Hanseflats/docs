@@ -433,7 +433,8 @@
           "api/google-maps/create",
           "api/google-maps/results",
           "api/google-maps/status",
-          "api/google-maps/download"
+          "api/google-maps/download",
+          "api/google-maps/json"
         ]
       },
       {
