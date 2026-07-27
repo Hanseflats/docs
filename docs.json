@@ -389,13 +389,6 @@
             ]
           },
           {
-            "group": "Utility",
-            "pages": [
-              "api/social/utility",
-              "api/social/utility/overview"
-            ]
-          },
-          {
             "group": "X (Twitter)",
             "pages": [
               "api/social/twitter",
