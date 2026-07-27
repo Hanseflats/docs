@@ -426,6 +426,17 @@
         "icon": "atom-simple"
       },
       {
+        "group": "Google Maps",
+        "icon": "map-location",
+        "pages": [
+          "api/google-maps",
+          "api/google-maps/create",
+          "api/google-maps/results",
+          "api/google-maps/status",
+          "api/google-maps/download"
+        ]
+      },
+      {
         "group": "Enrichments",
         "pages": [
           "api/find-company-website",

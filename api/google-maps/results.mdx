@@ -1,0 +1,67 @@
+---
+title: "Google Maps results"
+sidebarTitle: "Results"
+description: "Page structured businesses and contact buckets from a completed scrape."
+---
+
+```text
+GET https://app.lens.ly/api/v1/google-maps/scrapes/{id}/results?cursor=0&limit=100
+```
+
+Returns `409` while the scrape is still running.
+
+## Query params
+
+| Param | Default | Description |
+| --- | --- | --- |
+| `cursor` | `0` | Offset into the business list |
+| `limit` | `100` | Page size (max `100`) |
+
+## Response
+
+```json
+{
+  "scrape_id": "uuid",
+  "status": "completed",
+  "businesses": [
+    {
+      "place_id": "ChIJ…",
+      "title": "Acme Plumbing",
+      "website": "https://acmeplumbing.com",
+      "address": "123 Main St, Austin, TX",
+      "category": "Plumber",
+      "rating": 4.8,
+      "reviews_count": 120,
+      "google_maps_url": "https://maps.google.com/…",
+      "zip_code": "78701",
+      "owner": {
+        "first_name": "Jane",
+        "last_name": "Doe"
+      },
+      "emails": {
+        "personal": ["jane@gmail.com"],
+        "business": ["jane@acmeplumbing.com"],
+        "role": ["info@acmeplumbing.com"],
+        "first": "jane@gmail.com",
+        "first_type": "personal"
+      },
+      "phones": {
+        "business": "+1 512-555-0100",
+        "mobile": null,
+        "first": "+1 512-555-0100"
+      },
+      "enrichment": {
+        "method": "revenuebase",
+        "enriched_at": "2026-07-27T12:07:00Z"
+      }
+    }
+  ],
+  "cursor": 0,
+  "next_cursor": 100,
+  "limit": 100,
+  "total": 48,
+  "credits_used": 24
+}
+```
+
+Follow `next_cursor` until it is `null`.
