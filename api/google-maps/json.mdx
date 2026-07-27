@@ -1,0 +1,57 @@
+---
+title: "Download JSON"
+sidebarTitle: "Download JSON"
+description: "Export the full Google Maps scrape as one JSON payload."
+---
+
+```text
+GET https://app.lens.ly/api/v1/google-maps/scrapes/{id}/json
+```
+
+Pass the scrape id from create/status. Returns the **entire** dataset as `application/json` (not paginated).
+
+For CSV, use [Download CSV](/api/google-maps/download).
+
+## Response
+
+```json
+{
+  "scrape_id": "uuid",
+  "status": "completed",
+  "keyword": "plumber",
+  "city": "Austin",
+  "state": "TX",
+  "total": 48,
+  "credits_used": 24,
+  "businesses": [
+    {
+      "place_id": "ChIJ…",
+      "title": "Acme Plumbing",
+      "website": "https://acmeplumbing.com",
+      "owner": { "first_name": "Jane", "last_name": "Doe" },
+      "emails": {
+        "personal": ["jane@gmail.com"],
+        "business": ["jane@acmeplumbing.com"],
+        "role": ["info@acmeplumbing.com"],
+        "first": "jane@gmail.com",
+        "first_type": "personal"
+      },
+      "phones": {
+        "business": "+1 512-555-0100",
+        "mobile": null,
+        "first": "+1 512-555-0100"
+      }
+    }
+  ]
+}
+```
+
+Same business shape as [Results](/api/google-maps/results), but all rows in one response.
+
+## Example
+
+```bash
+curl -L "https://app.lens.ly/api/v1/google-maps/scrapes/SCRAPE_ID/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -o austin-plumbers.json
+```
