@@ -1,7 +1,7 @@
 ---
 title: "Competitor Clients"
 sidebarTitle: "Competitor clients"
-description: "Enter a competitor domain (e.g. hubspot.com). Discover their clients from review platforms, hidden-tech disclosures, case-study pages, and Google AI Mode — then match your buyer personas at those companies."
+description: "Enter a competitor domain (e.g. hubspot.com). We find their clients from reviews, case studies, and a few quieter AI-powered signals — then match your buyer personas at those companies."
 tag: "NEW"
 ---
 
@@ -10,9 +10,9 @@ Launch via the [Audiences API](/api/audiences) with `play_slug: "competitor-clie
 Enter a competitor domain. We discover client companies from:
 
 1. **Reviews** — G2 / TrustRadius reviewers (employer companies)
-2. **Hidden tech** — subprocessors / DPA / trust / ATS disclosures of the competitor tool
+2. **Hidden tech** — we find companies quietly using the competitor (a few secret sauce AI methods)
 3. **Case studies** — customers / case-study pages on the competitor site
-4. **AI clients** — Google AI Mode “who are their customers?” extraction
+4. **AI clients** — AI-assisted “who are their customers?” extraction
 
 When you pass `personas`, we remap contacts: if a reviewer title matches your persona we keep them; otherwise we look up the right persona at that client company (e.g. keep Figma as a client, but find marketing leadership when the reviewer was Ops).
 
