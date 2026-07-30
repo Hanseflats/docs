@@ -1,0 +1,100 @@
+---
+title: "Competitor Clients"
+sidebarTitle: "Competitor clients"
+description: "Enter a competitor domain (e.g. hubspot.com). Discover their clients from review platforms, hidden-tech disclosures, case-study pages, and Google AI Mode — then match your buyer personas at those companies."
+tag: "NEW"
+---
+
+Launch via the [Audiences API](/api/audiences) with `play_slug: "competitor-clients"`.
+
+Enter a competitor domain. We discover client companies from:
+
+1. **Reviews** — G2 / TrustRadius reviewers (employer companies)
+2. **Hidden tech** — subprocessors / DPA / trust / ATS disclosures of the competitor tool
+3. **Case studies** — customers / case-study pages on the competitor site
+4. **AI clients** — Google AI Mode “who are their customers?” extraction
+
+When you pass `personas`, we remap contacts: if a reviewer title matches your persona we keep them; otherwise we look up the right persona at that client company (e.g. keep Figma as a client, but find marketing leadership when the reviewer was Ops).
+
+LinkedIn company followers are not included yet.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/audiences
+```
+
+## Source params
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `competitor_domain` | Yes | Competitor website/domain to find clients of. Example: `hubspot.com` |
+| `personas` | No | Buyer job titles to match at client companies. When set, `include_personas` is inferred true. Example: `VP Marketing, Head of Demand Gen, CMO` |
+| `include_personas` | No | true to match contacts by job title. Default: false (or true when personas is non-empty). Example: `false` |
+| `sources` | No | Comma-separated discovery sources. Default: `reviews,hidden_tech,case_studies,ai_clients`. Example: `reviews,case_studies` |
+| `max_clients` | No | Cap on unique client companies (defaults to `number_of_leads`). Example: `100` |
+
+Also pass top-level audience fields:
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `play_slug` | Yes | Must be `competitor-clients` |
+| `number_of_leads` | No | Target volume (default `100`) |
+| `title` | No | Display name |
+| `cadence` | No | `daily`, `weekly`, or `monthly` for recurring runs |
+| `delivery_webhook_url` | No | Webhook for delivery |
+
+Inspect the live schema anytime:
+
+```bash
+curl https://app.lens.ly/api/v1/audiences/plays/competitor-clients \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/audiences \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: competitor-clients-1" \
+  -d '{
+  "play_slug": "competitor-clients",
+  "source_params": {
+    "competitor_domain": "hubspot.com",
+    "personas": "VP Marketing, Head of Demand Gen, CMO",
+    "sources": "reviews,hidden_tech,case_studies,ai_clients",
+    "max_clients": 100
+  },
+  "number_of_leads": 100,
+  "title": "HubSpot clients — marketing personas"
+}'
+```
+
+## Response
+
+```json
+{
+  "audience": {
+    "id": "a1b2c3d4-...",
+    "title": "HubSpot clients — marketing personas",
+    "play_slug": "competitor-clients",
+    "status": "pending"
+  },
+  "status": "triggered"
+}
+```
+
+Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=companies` or `type=leads`.
+
+## Credits
+
+**1 credit per company** found; **\+1** if a buyer persona is matched. Charged as results are found, not at launch.
+
+## Notes
+
+- `competitor_domain` is required.
+- `personas` required when `include_personas=true` (also inferred when `personas` is non-empty).
+- Companies are deduped by domain across all sources; the competitor domain itself is excluded.
+- Lead `source_vars` include `discovery_sources`, `original_reviewer_title`, and `remapped`.
+- Billing mode: company (1 / company; \+1 per persona match when personas on).
