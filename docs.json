@@ -48,6 +48,7 @@
           "api/accelerator-alumni-companies",
           "api/bombora-crunchbase-surge",
           "api/audience-company-lookalikes",
+          "api/competitor-clients",
           "api/competitor-reviews",
           "api/edgar-pain-companies",
           "api/companies-running-google-ads",
