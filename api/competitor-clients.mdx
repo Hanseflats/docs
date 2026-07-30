@@ -1,35 +1,27 @@
 ---
 title: "Competitor Clients"
 sidebarTitle: "Competitor clients"
-description: "Enter a competitor domain (e.g. hubspot.com). We find their client companies from reviews, case studies, and a few quieter AI-powered signals."
+description: "Enter a competitor domain (e.g. hubspot.com). We find companies that are clients of that competitor."
 tag: "NEW"
 ---
 
 Launch via the [Audiences API](/api/audiences) with `play_slug: "competitor-clients"`.
 
-Enter a competitor domain. We discover **client companies** from:
+Enter a competitor domain (e.g. `hubspot.com`). We return **client companies** of that competitor.
 
-1. **Reviews** — G2 / TrustRadius reviewers (employer companies)
-2. **Hidden tech** — we find companies quietly using the competitor (a few secret sauce AI methods)
-3. **Case studies** — customers / case-study pages on the competitor site
-4. **AI clients** — AI-assisted “who are their customers?” extraction
-
-This play returns companies only. Persona matching is paused for now.
-
-LinkedIn company followers are not included yet.
+This play is **one-shot** (not recurring) and returns companies only.
 
 ## Endpoint
 
-```text
+```bash
 POST https://app.lens.ly/api/v1/audiences
 ```
 
-## Source params
+## Params
 
 | Parameter | Required | Description |
 | --- | --- | --- |
 | `competitor_domain` | Yes | Competitor website/domain to find clients of. Example: `hubspot.com` |
-| `sources` | No | Comma-separated discovery sources. Default: `reviews,hidden_tech,case_studies,ai_clients`. Example: `reviews,case_studies` |
 | `max_clients` | No | Cap on unique client companies (defaults to `number_of_leads`). Example: `100` |
 
 Also pass top-level audience fields:
@@ -39,7 +31,6 @@ Also pass top-level audience fields:
 | `play_slug` | Yes | Must be `competitor-clients` |
 | `number_of_leads` | No | Target company count (default `100`) |
 | `title` | No | Display name |
-| `cadence` | No | `daily`, `weekly`, or `monthly` for recurring runs |
 | `delivery_webhook_url` | No | Webhook for delivery |
 
 Inspect the live schema anytime:
@@ -60,7 +51,6 @@ curl -X POST https://app.lens.ly/api/v1/audiences \
   "play_slug": "competitor-clients",
   "source_params": {
     "competitor_domain": "hubspot.com",
-    "sources": "reviews,hidden_tech,case_studies,ai_clients",
     "max_clients": 100
   },
   "number_of_leads": 100,
@@ -87,9 +77,9 @@ Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/
 
 ## Streaming results (SSE)
 
-Create still returns immediately. To show companies on a frontend as they are found, open the stream URL from the launch response:
+Create still returns immediately. To show companies as they are found, open the stream URL from the launch response:
 
-```text
+```bash
 GET /api/v1/audiences/{id}/stream
 ```
 
@@ -99,7 +89,7 @@ Events:
 
 | Event | Payload |
 | --- | --- |
-| `company` | `{ company: { id, name, domain, url, discovery_sources, ... } }` |
+| `company` | `{ company: { id, name, domain, url, ... } }` |
 | `status` | `{ status, companies_total, leads_total }` |
 | `done` | `{ status, companies_total, leads_total }` |
 | `error` | `{ error }` |
@@ -130,7 +120,7 @@ while (true) {
 }
 ```
 
-Companies are upserted after each discovery source finishes, so the stream starts emitting before the whole run completes.
+Companies stream in as the run progresses; the stream closes when the audience completes.
 
 ## Credits
 
@@ -139,5 +129,6 @@ Companies are upserted after each discovery source finishes, so the stream start
 ## Notes
 
 - `competitor_domain` is required.
-- Companies are deduped by domain across all sources; the competitor domain itself is excluded.
+- Companies are deduped by domain; the competitor domain itself is excluded.
+- One-shot only — do not pass `cadence`.
 - Billing mode: company (1 / company).
