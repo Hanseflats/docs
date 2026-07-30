@@ -1,20 +1,20 @@
 ---
 title: "Competitor Clients"
 sidebarTitle: "Competitor clients"
-description: "Enter a competitor domain (e.g. hubspot.com). We find their clients from reviews, case studies, and a few quieter AI-powered signals — then match your buyer personas at those companies."
+description: "Enter a competitor domain (e.g. hubspot.com). We find their client companies from reviews, case studies, and a few quieter AI-powered signals."
 tag: "NEW"
 ---
 
 Launch via the [Audiences API](/api/audiences) with `play_slug: "competitor-clients"`.
 
-Enter a competitor domain. We discover client companies from:
+Enter a competitor domain. We discover **client companies** from:
 
 1. **Reviews** — G2 / TrustRadius reviewers (employer companies)
 2. **Hidden tech** — we find companies quietly using the competitor (a few secret sauce AI methods)
 3. **Case studies** — customers / case-study pages on the competitor site
 4. **AI clients** — AI-assisted “who are their customers?” extraction
 
-When you pass `personas`, we remap contacts: if a reviewer title matches your persona we keep them; otherwise we look up the right persona at that client company (e.g. keep Figma as a client, but find marketing leadership when the reviewer was Ops).
+This play returns companies only. Persona matching is paused for now.
 
 LinkedIn company followers are not included yet.
 
@@ -29,8 +29,6 @@ POST https://app.lens.ly/api/v1/audiences
 | Parameter | Required | Description |
 | --- | --- | --- |
 | `competitor_domain` | Yes | Competitor website/domain to find clients of. Example: `hubspot.com` |
-| `personas` | No | Buyer job titles to match at client companies. When set, `include_personas` is inferred true. Example: `VP Marketing, Head of Demand Gen, CMO` |
-| `include_personas` | No | true to match contacts by job title. Default: false (or true when personas is non-empty). Example: `false` |
 | `sources` | No | Comma-separated discovery sources. Default: `reviews,hidden_tech,case_studies,ai_clients`. Example: `reviews,case_studies` |
 | `max_clients` | No | Cap on unique client companies (defaults to `number_of_leads`). Example: `100` |
 
@@ -39,7 +37,7 @@ Also pass top-level audience fields:
 | Parameter | Required | Description |
 | --- | --- | --- |
 | `play_slug` | Yes | Must be `competitor-clients` |
-| `number_of_leads` | No | Target volume (default `100`) |
+| `number_of_leads` | No | Target company count (default `100`) |
 | `title` | No | Display name |
 | `cadence` | No | `daily`, `weekly`, or `monthly` for recurring runs |
 | `delivery_webhook_url` | No | Webhook for delivery |
@@ -62,12 +60,11 @@ curl -X POST https://app.lens.ly/api/v1/audiences \
   "play_slug": "competitor-clients",
   "source_params": {
     "competitor_domain": "hubspot.com",
-    "personas": "VP Marketing, Head of Demand Gen, CMO",
     "sources": "reviews,hidden_tech,case_studies,ai_clients",
     "max_clients": 100
   },
   "number_of_leads": 100,
-  "title": "HubSpot clients — marketing personas"
+  "title": "HubSpot clients"
 }'
 ```
 
@@ -77,15 +74,16 @@ curl -X POST https://app.lens.ly/api/v1/audiences \
 {
   "audience": {
     "id": "a1b2c3d4-...",
-    "title": "HubSpot clients — marketing personas",
+    "title": "HubSpot clients",
     "play_slug": "competitor-clients",
     "status": "pending"
   },
-  "status": "triggered"
+  "status": "triggered",
+  "stream_url": "/api/v1/audiences/a1b2c3d4-.../stream"
 }
 ```
 
-Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=companies` or `type=leads`.
+Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=companies`.
 
 ## Streaming results (SSE)
 
@@ -108,16 +106,38 @@ Events:
 
 Optional query: `?after=<ISO timestamp>` to resume after a cursor.
 
+```js
+const res = await fetch(`https://app.lens.ly/api/v1/audiences/${id}/stream`, {
+  headers: { Authorization: `Bearer ${API_KEY}` },
+});
+const reader = res.body.getReader();
+const decoder = new TextDecoder();
+let buf = '';
+while (true) {
+  const { done, value } = await reader.read();
+  if (done) break;
+  buf += decoder.decode(value, { stream: true });
+  const parts = buf.split('\n\n');
+  buf = parts.pop() || '';
+  for (const chunk of parts) {
+    const event = /event: (\w+)/.exec(chunk)?.[1];
+    const dataLine = chunk.split('\n').find((l) => l.startsWith('data: '));
+    if (!event || !dataLine) continue;
+    const data = JSON.parse(dataLine.slice(6));
+    if (event === 'company') console.log(data.company);
+    if (event === 'done') break;
+  }
+}
+```
+
 Companies are upserted after each discovery source finishes, so the stream starts emitting before the whole run completes.
 
 ## Credits
 
-**1 credit per company** found; **\+1** if a buyer persona is matched. Charged as results are found, not at launch.
+**1 credit per company** found. Charged as results are found, not at launch.
 
 ## Notes
 
 - `competitor_domain` is required.
-- `personas` required when `include_personas=true` (also inferred when `personas` is non-empty).
 - Companies are deduped by domain across all sources; the competitor domain itself is excluded.
-- Lead `source_vars` include `discovery_sources`, `original_reviewer_title`, and `remapped`.
-- Billing mode: company (1 / company; \+1 per persona match when personas on).
+- Billing mode: company (1 / company).
