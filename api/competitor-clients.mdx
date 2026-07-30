@@ -87,6 +87,29 @@ curl -X POST https://app.lens.ly/api/v1/audiences \
 
 Poll with `GET /api/v1/audiences/{id}`. Export with `GET /api/v1/audiences/{id}/export?type=companies` or `type=leads`.
 
+## Streaming results (SSE)
+
+Create still returns immediately. To show companies on a frontend as they are found, open the stream URL from the launch response:
+
+```text
+GET /api/v1/audiences/{id}/stream
+```
+
+Same auth as other v1 routes (`Authorization: Bearer` / `x-api-key`). Prefer `fetch` \+ `ReadableStream` — browser `EventSource` cannot send auth headers.
+
+Events:
+
+| Event | Payload |
+| --- | --- |
+| `company` | `{ company: { id, name, domain, url, discovery_sources, ... } }` |
+| `status` | `{ status, companies_total, leads_total }` |
+| `done` | `{ status, companies_total, leads_total }` |
+| `error` | `{ error }` |
+
+Optional query: `?after=<ISO timestamp>` to resume after a cursor.
+
+Companies are upserted after each discovery source finishes, so the stream starts emitting before the whole run completes.
+
 ## Credits
 
 **1 credit per company** found; **\+1** if a buyer persona is matched. Charged as results are found, not at launch.
