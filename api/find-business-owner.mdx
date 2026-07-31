@@ -3,12 +3,11 @@ title: "Find business owner"
 description: "Find business owners/founders for local SMBs, with optional website and email enrichment."
 ---
 
-
 Find business owners/founders for local SMBs, with optional website and email enrichment.
 
 ## Endpoint
 
-```
+```text
 POST https://app.lens.ly/api/v1/company/find-owner
 ```
 
@@ -16,12 +15,12 @@ POST https://app.lens.ly/api/v1/company/find-owner
 
 | Parameter | Required | Description |
 | --- | --- | --- |
-| `company_name` | No | Business name (or company_website) |
-| `company_website` | No | Website (or company_name) |
+| `company_name` | No | Business name (or company\_website) |
+| `company_website` | No | Website (or company\_name) |
 | `location` | Yes | City, state, or address |
 | `business_type` | No | e.g. Restaurant |
-| `find_website` | No | +1 credit |
-| `find_email` | No | +2 credits; requires webhook_url |
+| `find_website` | No | \+1 credit |
+| `find_email` | No | \+2 credits; requires webhook\_url |
 | `webhook_url` | No | Required when enrichment enabled |
 
 ## Example request
@@ -48,9 +47,9 @@ curl -X POST https://app.lens.ly/api/v1/company/find-owner \
 
 ## Credits
 
-Base 1 credit; +website +1; +email +2.
+Base 1 credit; \+website \+1; \+email \+2.
 
-Charged against your prepaid Billing balance at **3¢ per credit**. Same ledger as Playbooks Enrichments.
+Charged against your prepaid Billing balance at **1¢ per credit**. Same ledger as Playbooks Enrichments.
 
 ## Errors
 

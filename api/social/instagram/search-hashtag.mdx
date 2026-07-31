@@ -4,7 +4,7 @@ sidebarTitle: "Search / Hashtag"
 description: "Search Hashtag Posts"
 ---
 
-Finds public Instagram posts for a hashtag using Google Search, then returns post details such as caption, play count when available, like count, comment count, owner, and post time. Results depend on what Google has indexed, so this is best-effort and not a complete Instagram-native hashtag search. Pass media_type=reels if you only want reels. Use date_posted for recent posts and pass the returned cursor to fetch the next page.
+Finds public Instagram posts for a hashtag using Google Search, then returns post details such as caption, play count when available, like count, comment count, owner, and post time. Results depend on what Google has indexed, so this is best-effort and not a complete Instagram-native hashtag search. Pass media\_type=reels if you only want reels. Use date\_posted for recent posts and pass the returned cursor to fetch the next page.
 
 ## Endpoint
 
@@ -32,6 +32,6 @@ curl "https://app.lens.ly/api/v1/social/v1/instagram/search/hashtag?hashtag=exam
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Instagram](/api/social/instagram).

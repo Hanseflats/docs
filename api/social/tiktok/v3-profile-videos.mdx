@@ -4,7 +4,7 @@ sidebarTitle: "Profile / Videos"
 description: "Profile Videos"
 ---
 
-Fetches videos posted by a TikTok user, sortable by latest or most popular — use this to get a creator's video feed or TikToks. Returns `aweme_list`, an array of video objects each containing `aweme_id`, `desc` (caption), `statistics` (play_count, digg_count/likes, comment_count, share_count, collect_count/saves), and `video` (download URLs, duration, cover image). Paginate with `max_cursor` from the previous response. If a profile should have videos but returns none, try `region=US` or another relevant two-letter country code.
+Fetches videos posted by a TikTok user, sortable by latest or most popular — use this to get a creator's video feed or TikToks. Returns `aweme_list`, an array of video objects each containing `aweme_id`, `desc` (caption), `statistics` (play\_count, digg\_count/likes, comment\_count, share\_count, collect\_count/saves), and `video` (download URLs, duration, cover image). Paginate with `max_cursor` from the previous response. If a profile should have videos but returns none, try `region=US` or another relevant two-letter country code.
 
 ## Endpoint
 
@@ -21,7 +21,7 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | `handle` | Yes | TikTok handle |
 | `user_id` | No | TikTok user id. Use this for faster responses. |
 | `sort_by` | No | What to sort by Enum: latest, popular. |
-| `max_cursor` | No | Cursor to get more videos. Get 'max_cursor' from previous response. |
+| `max_cursor` | No | Cursor to get more videos. Get 'max\_cursor' from previous response. |
 | `region` | No | Region (country) for the proxy. Defaults to GB. If a profile should have videos but returns none, try US or another relevant two-letter country code. |
 | `trim` | No | Set to true for a trimmed down version of the response |
 
@@ -34,6 +34,6 @@ curl "https://app.lens.ly/api/v1/social/v3/tiktok/profile/videos?handle=example"
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Tiktok](/api/social/tiktok).

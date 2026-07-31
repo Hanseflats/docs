@@ -16,7 +16,7 @@ description: "Make your first API call in minutes."
     ```
   </Step>
   <Step title="Call an enrichment">
-    This example is **1 credit per domain** (3¢/credit). Two domains → 2 credits.
+    This example is **3 credits per domain** (1¢/credit). Two domains → 6 credits.
 
     ```bash
     curl -X POST https://app.lens.ly/api/v1/company/google-ad-spend \
@@ -41,7 +41,7 @@ Insufficient prepaid balance. Open `payment.setup_url` (or call [Billing Setup](
     "status": "needs_setup",
     "setup_url": "https://checkout.stripe.com/…",
     "min_topup_cents": 1000,
-    "credit_cost_cents": 3
+    "credit_cost_cents": 1
   }
 }
 ```

@@ -19,7 +19,7 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | Parameter | Required | Description |
 | --- | --- | --- |
 | `url` | Yes | Twitch clip URL |
-| `cache_max_age` | No | If we have a response in the cache that is this many days old or newer, return the cached response (0 credits, with 'cached': true and a 'cached_at' timestamp). Otherwise, scrape a live result (1 credit). [See the Caching page for details.](https://docs.scrapecreators.com/caching) Enum: 1d, 3d, 7d, 14d, 30d. |
+| `cache_max_age` | No | If we have a response in the cache that is this many days old or newer, return the cached response (0 credits, with 'cached': true and a 'cached\_at' timestamp). Otherwise, scrape a live result (1 credit). [See the Caching page for details.](https://docs.scrapecreators.com/caching) Enum: 1d, 3d, 7d, 14d, 30d. |
 
 ## Example
 
@@ -30,6 +30,6 @@ curl "https://app.lens.ly/api/v1/social/v1/twitch/clip?url=https://example.com" 
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Twitch](/api/social/twitch).

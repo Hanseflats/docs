@@ -4,7 +4,7 @@ sidebarTitle: "User / Reels"
 description: "Reels"
 ---
 
-Returns a paginated list of a user's public Instagram reels (short-form videos). Each reel includes its shortcode, play count, like count, comment count, video versions with download URLs, thumbnail image, and owner info. Note that reel captions are not returned by this endpoint. Play counts are Instagram-only views and exclude cross-posted Facebook views. Supports cursor-based pagination via max_id; providing a user_id instead of a handle yields faster responses.
+Returns a paginated list of a user's public Instagram reels (short-form videos). Each reel includes its shortcode, play count, like count, comment count, video versions with download URLs, thumbnail image, and owner info. Note that reel captions are not returned by this endpoint. Play counts are Instagram-only views and exclude cross-posted Facebook views. Supports cursor-based pagination via max\_id; providing a user\_id instead of a handle yields faster responses.
 
 ## Endpoint
 
@@ -19,8 +19,8 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | Parameter | Required | Description |
 | --- | --- | --- |
 | `user_id` | No | Instagram user id. Use this for faster response times. |
-| `handle` | No | Instagram handle. Use user_id for faster response times. |
-| `max_id` | No | Max id to get more reels. Get 'max_id' from previous response. |
+| `handle` | No | Instagram handle. Use user\_id for faster response times. |
+| `max_id` | No | Max id to get more reels. Get 'max\_id' from previous response. |
 | `trim` | No | Set to true for a trimmed down version of the response |
 
 ## Example
@@ -32,6 +32,6 @@ curl "https://app.lens.ly/api/v1/social/v1/instagram/user/reels" \
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Instagram](/api/social/instagram).

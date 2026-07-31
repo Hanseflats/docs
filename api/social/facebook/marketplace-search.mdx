@@ -4,7 +4,7 @@ sidebarTitle: "Marketplace / Search"
 description: "Marketplace Search"
 ---
 
-Searches Facebook Marketplace listings by keyword and lat/lng. Supports pagination with the returned cursor. Pass the cursor value back as-is. When sort_by is creation_time_descend, Facebook can still return slightly different ordering between identical requests. For alerting/new-item workflows, scrape multiple pages and dedupe by listing id instead of relying on page 1 item order being identical every run.
+Searches Facebook Marketplace listings by keyword and lat/lng. Supports pagination with the returned cursor. Pass the cursor value back as-is. When sort\_by is creation\_time\_descend, Facebook can still return slightly different ordering between identical requests. For alerting/new-item workflows, scrape multiple pages and dedupe by listing id instead of relying on page 1 item order being identical every run.
 
 ## Endpoint
 
@@ -25,10 +25,10 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | `min_price` | No | Minimum listing price |
 | `max_price` | No | Maximum listing price |
 | `count` | No | Number of listings to return |
-| `sort_by` | No | Sort order Enum: suggested, distance_ascend, creation_time_descend, price_ascend, price_descend. |
-| `delivery_method` | No | Delivery filter Enum: all, local_pickup, shipping. |
-| `condition` | No | Condition filter Enum: new, used_like_new, used_good, used_fair. |
-| `date_listed` | No | Date listed filter Enum: all, 1, 7, 30, last_24_hours, last_7_days, last_30_days. |
+| `sort_by` | No | Sort order Enum: suggested, distance\_ascend, creation\_time\_descend, price\_ascend, price\_descend. |
+| `delivery_method` | No | Delivery filter Enum: all, local\_pickup, shipping. |
+| `condition` | No | Condition filter Enum: new, used\_like\_new, used\_good, used\_fair. |
+| `date_listed` | No | Date listed filter Enum: all, 1, 7, 30, last\_24\_hours, last\_7\_days, last\_30\_days. |
 | `availability` | No | Availability filter Enum: available, sold, all. |
 | `cursor` | No | Opaque pagination cursor returned from the previous response. Pass it back as-is. |
 
@@ -41,6 +41,6 @@ curl "https://app.lens.ly/api/v1/social/v1/facebook/marketplace/search?query=exa
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Facebook](/api/social/facebook).

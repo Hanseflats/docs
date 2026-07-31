@@ -4,7 +4,7 @@ sidebarTitle: "Search / Top"
 description: "Top Search"
 ---
 
-Searches TikTok's 'Top' results by query — returns both videos and photo carousels, unlike keyword search which only returns videos. Returns `items`, an array of objects each with `id`, `desc` (caption), `content_type` (video or photo carousel), `statistics` (play_count, digg_count/likes, comment_count, share_count), `video` info, and `images` for carousels. Paginate with `cursor`. TikTok may return duplicate results.
+Searches TikTok's 'Top' results by query — returns both videos and photo carousels, unlike keyword search which only returns videos. Returns `items`, an array of objects each with `id`, `desc` (caption), `content_type` (video or photo carousel), `statistics` (play\_count, digg\_count/likes, comment\_count, share\_count), `video` info, and `images` for carousels. Paginate with `cursor`. TikTok may return duplicate results.
 
 ## Endpoint
 
@@ -33,6 +33,6 @@ curl "https://app.lens.ly/api/v1/social/v1/tiktok/search/top?query=example" \
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Tiktok](/api/social/tiktok).

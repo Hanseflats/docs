@@ -4,7 +4,7 @@ sidebarTitle: "Profile"
 description: "Profile"
 ---
 
-Fetches public profile data for a TikTok user by their handle or user_id — useful for looking up a creator's identity, bio, and account stats. Returns a `user` object (display name, avatar URLs, bio/signature, verification status, bio link) and a `stats` object (followerCount, followingCount, heartCount/total likes, videoCount). This only returns profile metadata, not the user's actual videos or followers list.
+Fetches public profile data for a TikTok user by their handle or user\_id — useful for looking up a creator's identity, bio, and account stats. Returns a `user` object (display name, avatar URLs, bio/signature, verification status, bio link) and a `stats` object (followerCount, followingCount, heartCount/total likes, videoCount). This only returns profile metadata, not the user's actual videos or followers list.
 
 ## Endpoint
 
@@ -18,9 +18,9 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 
 | Parameter | Required | Description |
 | --- | --- | --- |
-| `handle` | No | TikTok handle. You can pass handle or user_id. |
+| `handle` | No | TikTok handle. You can pass handle or user\_id. |
 | `user_id` | No | TikTok user id. |
-| `cache_max_age` | No | If we have a response in the cache that is this many days old or newer, return the cached response (0 credits, with 'cached': true and a 'cached_at' timestamp). Otherwise, scrape a live result (1 credit). [See the Caching page for details.](https://docs.scrapecreators.com/caching) Enum: 1d, 3d, 7d, 14d, 30d. |
+| `cache_max_age` | No | If we have a response in the cache that is this many days old or newer, return the cached response (0 credits, with 'cached': true and a 'cached\_at' timestamp). Otherwise, scrape a live result (1 credit). [See the Caching page for details.](https://docs.scrapecreators.com/caching) Enum: 1d, 3d, 7d, 14d, 30d. |
 
 ## Example
 
@@ -31,6 +31,6 @@ curl "https://app.lens.ly/api/v1/social/v1/tiktok/profile" \
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Tiktok](/api/social/tiktok).

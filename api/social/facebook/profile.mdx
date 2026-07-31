@@ -4,7 +4,7 @@ sidebarTitle: "Profile"
 description: "Profile"
 ---
 
-Retrieves public Facebook page details including category, address, email, phone, website, services, priceRange, rating, likeCount, and followerCount. Also returns adLibrary status with the page's ad activity and pageId. Optionally includes businessHours when get_business_hours is set to true. If Facebook shows an 18+ content gate, the response is still 200 with account_status: "age-restricted" and isPrivate: true. If Facebook shows a private content gate, the response is still 200 with account_status: "private" and isPrivate: true. If the page is not found, the response is 404 with accountDoesNotExist: true and isPrivate: false. Set include_gated_profile=true to also return limited public fields (such as id, name, category, likeCount, profilePicSmall, and links) when a profile is gated or age-restricted. This option only affects gated/age-restricted profiles — public profiles still return the normal full response.
+Retrieves public Facebook page details including category, address, email, phone, website, services, priceRange, rating, likeCount, and followerCount. Also returns adLibrary status with the page's ad activity and pageId. Optionally includes businessHours when get\_business\_hours is set to true. If Facebook shows an 18\+ content gate, the response is still 200 with account\_status: "age-restricted" and isPrivate: true. If Facebook shows a private content gate, the response is still 200 with account\_status: "private" and isPrivate: true. If the page is not found, the response is 404 with accountDoesNotExist: true and isPrivate: false. Set include\_gated\_profile=true to also return limited public fields (such as id, name, category, likeCount, profilePicSmall, and links) when a profile is gated or age-restricted. This option only affects gated/age-restricted profiles — public profiles still return the normal full response.
 
 ## Endpoint
 
@@ -21,7 +21,7 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | `url` | Yes | Facebook profile URL |
 | `get_business_hours` | No | Get the business's hours |
 | `include_gated_profile` | No | When true, returns limited public fields for gated or age-restricted profiles. Ignored for normal public profiles — those still return the full response. |
-| `cache_max_age` | No | If we have a response in the cache that is this many days old or newer, return the cached response (0 credits, with 'cached': true and a 'cached_at' timestamp). Otherwise, scrape a live result (1 credit). [See the Caching page for details.](https://docs.scrapecreators.com/caching) Enum: 1d, 3d, 7d, 14d, 30d. |
+| `cache_max_age` | No | If we have a response in the cache that is this many days old or newer, return the cached response (0 credits, with 'cached': true and a 'cached\_at' timestamp). Otherwise, scrape a live result (1 credit). [See the Caching page for details.](https://docs.scrapecreators.com/caching) Enum: 1d, 3d, 7d, 14d, 30d. |
 
 ## Example
 
@@ -32,6 +32,6 @@ curl "https://app.lens.ly/api/v1/social/v1/facebook/profile?url=https://example.
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Facebook](/api/social/facebook).

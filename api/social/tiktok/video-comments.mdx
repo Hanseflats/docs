@@ -4,7 +4,7 @@ sidebarTitle: "Video / Comments"
 description: "Comments"
 ---
 
-Fetches comments on a TikTok video by URL — useful for reading audience reactions, replies, and engagement. Returns `comments`, an array where each comment includes `text`, `digg_count` (likes), `reply_comment_total`, `create_time`, and a `user` object with the commenter's nickname and unique_id; also returns `total` comment count. Paginate with `cursor` from the previous response.
+Fetches comments on a TikTok video by URL — useful for reading audience reactions, replies, and engagement. Returns `comments`, an array where each comment includes `text`, `digg_count` (likes), `reply_comment_total`, `create_time`, and a `user` object with the commenter's nickname and unique\_id; also returns `total` comment count. Paginate with `cursor` from the previous response.
 
 ## Endpoint
 
@@ -31,6 +31,6 @@ curl "https://app.lens.ly/api/v1/social/v1/tiktok/video/comments?url=https://exa
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Tiktok](/api/social/tiktok).

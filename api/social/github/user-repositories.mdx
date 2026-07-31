@@ -19,9 +19,9 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | Parameter | Required | Description |
 | --- | --- | --- |
 | `handle` | No | GitHub username/handle of the user you want the repositories for |
-| `url` | No | GitHub user URL, e.g. https://github.com/kentcdodds. |
+| `url` | No | GitHub user URL, e.g. [https://github.com/kentcdodds](https://github.com/kentcdodds). |
 | `type` | No | Repository type. Defaults to owner. GitHub also supports all and member. Enum: owner, all, member. |
-| `sort` | No | Sort by created, updated, pushed, or full_name. Defaults to updated. Enum: created, updated, pushed, full_name. |
+| `sort` | No | Sort by created, updated, pushed, or full\_name. Defaults to updated. Enum: created, updated, pushed, full\_name. |
 | `direction` | No | Sort direction: ascending or descending. Enum: asc, desc. |
 | `cursor` | No | Cursor from the previous response. Defaults to 1. |
 
@@ -34,6 +34,6 @@ curl "https://app.lens.ly/api/v1/social/v1/github/user/repositories" \
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Github](/api/social/github).

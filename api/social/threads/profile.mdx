@@ -4,7 +4,7 @@ sidebarTitle: "Profile"
 description: "Profile"
 ---
 
-Retrieves a Threads user's public profile including username, full_name, biography, profile_pic_url, follower_count, is_verified, bio_links, and hd_profile_pic_versions. Also indicates whether the account is a threads-only user via is_threads_only_user.
+Retrieves a Threads user's public profile including username, full\_name, biography, profile\_pic\_url, follower\_count, is\_verified, bio\_links, and hd\_profile\_pic\_versions. Also indicates whether the account is a threads-only user via is\_threads\_only\_user.
 
 ## Endpoint
 
@@ -19,7 +19,7 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | Parameter | Required | Description |
 | --- | --- | --- |
 | `handle` | Yes | Threads username |
-| `cache_max_age` | No | If we have a response in the cache that is this many days old or newer, return the cached response (0 credits, with 'cached': true and a 'cached_at' timestamp). Otherwise, scrape a live result (1 credit). [See the Caching page for details.](https://docs.scrapecreators.com/caching) Enum: 1d, 3d, 7d, 14d, 30d. |
+| `cache_max_age` | No | If we have a response in the cache that is this many days old or newer, return the cached response (0 credits, with 'cached': true and a 'cached\_at' timestamp). Otherwise, scrape a live result (1 credit). [See the Caching page for details.](https://docs.scrapecreators.com/caching) Enum: 1d, 3d, 7d, 14d, 30d. |
 
 ## Example
 
@@ -30,6 +30,6 @@ curl "https://app.lens.ly/api/v1/social/v1/threads/profile?handle=example" \
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Threads](/api/social/threads).

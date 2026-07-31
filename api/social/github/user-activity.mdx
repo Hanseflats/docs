@@ -19,7 +19,7 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | Parameter | Required | Description |
 | --- | --- | --- |
 | `handle` | No | GitHub handle |
-| `url` | No | GitHub user URL, e.g. https://github.com/kentcdodds. |
+| `url` | No | GitHub user URL, e.g. [https://github.com/kentcdodds](https://github.com/kentcdodds). |
 | `year` | No | When provided, returns profile contribution activity for that year. Defaults to the current year. |
 | `cursor` | No | Cursor from the previous response. Pages backward by month through the selected year. |
 
@@ -32,6 +32,6 @@ curl "https://app.lens.ly/api/v1/social/v1/github/user/activity" \
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Github](/api/social/github).

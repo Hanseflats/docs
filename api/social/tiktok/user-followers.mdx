@@ -4,7 +4,7 @@ sidebarTitle: "User / Followers"
 description: "Followers"
 ---
 
-Retrieves the follower list of a TikTok account by handle or user_id — useful for seeing who follows a creator or getting subscriber data. Returns `followers`, an array of user objects each with `nickname`, `unique_id`, `uid`, `follower_count`, `following_count`, and avatar URLs; also returns `total` follower count. Paginate with `min_time` from the previous response.
+Retrieves the follower list of a TikTok account by handle or user\_id — useful for seeing who follows a creator or getting subscriber data. Returns `followers`, an array of user objects each with `nickname`, `unique_id`, `uid`, `follower_count`, `following_count`, and avatar URLs; also returns `total` follower count. Paginate with `min_time` from the previous response.
 
 ## Endpoint
 
@@ -20,7 +20,7 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | --- | --- | --- |
 | `handle` | No | TikTok handle |
 | `user_id` | No | User id. Use this for faster response times. |
-| `min_time` | No | Used to paginate. Get 'min_time' from previous response. |
+| `min_time` | No | Used to paginate. Get 'min\_time' from previous response. |
 | `trim` | No | Set to true to get a trimmed response |
 
 ## Example
@@ -32,6 +32,6 @@ curl "https://app.lens.ly/api/v1/social/v1/tiktok/user/followers" \
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Tiktok](/api/social/tiktok).

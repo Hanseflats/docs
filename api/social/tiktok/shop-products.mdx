@@ -20,7 +20,7 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | --- | --- | --- |
 | `url` | Yes | The TikTok Shop store URL. |
 | `cursor` | No | Cursor parameter from the previous response to retrieve the next page of products. Omit for the first page. |
-| `sort_by` | No | Sort products by best-selling items (`top`) or newest products (`new_releases`). Defaults to `top`. Enum: top, new_releases. |
+| `sort_by` | No | Sort products by best-selling items (`top`) or newest products (`new_releases`). Defaults to `top`. Enum: top, new\_releases. |
 | `region` | No | Region to get shop products from. Defaults to US if not provided. Non-US regions are not reliable right now and may return `not_found` or limited catalog data even when the shop appears in search. Sorry for the inconvenience. Enum: US, GB, DE, FR, IT, ID, MY, MX, PH, SG, ES, TH, VN, BR, JP, IE. |
 
 ## Example
@@ -32,6 +32,6 @@ curl "https://app.lens.ly/api/v1/social/v1/tiktok/shop/products?url=https://exam
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Tiktok](/api/social/tiktok).

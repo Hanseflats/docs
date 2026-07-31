@@ -4,7 +4,7 @@ sidebarTitle: "Product"
 description: "Product Details"
 ---
 
-Fetches full details for a specific US TikTok Shop product by its URL, including stock levels and affiliate videos. Returns `product_info` with `product_base` (title, images, sold_count, price), `skus` (variants with exact `stock` counts), and `product_detail_review` (product_rating, review_count, sample reviews); also returns `shop_info` (shop_name, shop_rating, followers_count) and `related_videos` (affiliate TikToks promoting the product). This endpoint currently supports the US region only.
+Fetches full details for a specific US TikTok Shop product by its URL, including stock levels and affiliate videos. Returns `product_info` with `product_base` (title, images, sold\_count, price), `skus` (variants with exact `stock` counts), and `product_detail_review` (product\_rating, review\_count, sample reviews); also returns `shop_info` (shop\_name, shop\_rating, followers\_count) and `related_videos` (affiliate TikToks promoting the product). This endpoint currently supports the US region only.
 
 ## Endpoint
 
@@ -30,6 +30,6 @@ curl "https://app.lens.ly/api/v1/social/v1/tiktok/product?url=https://example.co
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Tiktok](/api/social/tiktok).

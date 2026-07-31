@@ -4,7 +4,7 @@ sidebarTitle: "Search / Hashtag"
 description: "Search by Hashtag"
 ---
 
-Searches for TikTok videos under a specific hashtag — useful for finding content by topic or trend. Returns `aweme_list`, an array of video objects each with `aweme_id`, `desc` (caption), `statistics` (play_count, digg_count/likes, comment_count, share_count), `video` info, and `author` details. Paginate with `cursor` from the previous response. TikTok may return duplicate results.
+Searches for TikTok videos under a specific hashtag — useful for finding content by topic or trend. Returns `aweme_list`, an array of video objects each with `aweme_id`, `desc` (caption), `statistics` (play\_count, digg\_count/likes, comment\_count, share\_count), `video` info, and `author` details. Paginate with `cursor` from the previous response. TikTok may return duplicate results.
 
 ## Endpoint
 
@@ -32,6 +32,6 @@ curl "https://app.lens.ly/api/v1/social/v1/tiktok/search/hashtag?hashtag=example
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Tiktok](/api/social/tiktok).

@@ -4,7 +4,7 @@ sidebarTitle: "Ad Library / Search"
 description: "Ad Library Search"
 ---
 
-Searches TikTok Creative Center Top Ads by default. Pass advertiser_name to search TikTok's public Ads Library by advertiser name instead. Supports cursor pagination for both modes.
+Searches TikTok Creative Center Top Ads by default. Pass advertiser\_name to search TikTok's public Ads Library by advertiser name instead. Supports cursor pagination for both modes.
 
 ## Endpoint
 
@@ -22,12 +22,12 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | `period` | No | Time window for Top Ads. Enum: 7, 30, 180. |
 | `query` | No | Optional keyword to search ad titles/content. |
 | `advertiser_name` | No | Search the public TikTok Ads Library by advertiser name. When this is passed, the endpoint uses library.tiktok.com/ads instead of Creative Center Top Ads. |
-| `order_by` | No | Sort metric. Defaults to for_you. Enum: for_you, impression, play_2s_rate, play_6s_rate, cvr, ctr, like. |
-| `industry` | No | Industry filter. Enum: apparel_accessories, appliances, apps, baby_kids_maternity, beauty_personal_care, business_services, ecommerce_non_app, education, financial_services, food_beverage, games, health, home_improvement, household_products, life_services, news_entertainment, pets, sports_outdoor, tech_electronics, travel, vehicle_transportation. |
-| `objective` | No | Campaign objective filter. Enum: app_installs, conversions, lead_generation, product_sales, reach, traffic, video_views. |
-| `duration` | No | Video duration filter. Enum: under_10s, 10_20s, 20_30s, 30_40s, 40_50s, over_50s. |
-| `likes` | No | Likes percentile filter. Enum: top_1_20, top_21_40, top_41_60, top_61_80, top_81_100. |
-| `ad_format` | No | Ad format filter. Enum: spark_ads, non_spark_ads. |
+| `order_by` | No | Sort metric. Defaults to for\_you. Enum: for\_you, impression, play\_2s\_rate, play\_6s\_rate, cvr, ctr, like. |
+| `industry` | No | Industry filter. Enum: apparel\_accessories, appliances, apps, baby\_kids\_maternity, beauty\_personal\_care, business\_services, ecommerce\_non\_app, education, financial\_services, food\_beverage, games, health, home\_improvement, household\_products, life\_services, news\_entertainment, pets, sports\_outdoor, tech\_electronics, travel, vehicle\_transportation. |
+| `objective` | No | Campaign objective filter. Enum: app\_installs, conversions, lead\_generation, product\_sales, reach, traffic, video\_views. |
+| `duration` | No | Video duration filter. Enum: under\_10s, 10\_20s, 20\_30s, 30\_40s, 40\_50s, over\_50s. |
+| `likes` | No | Likes percentile filter. Enum: top\_1\_20, top\_21\_40, top\_41\_60, top\_61\_80, top\_81\_100. |
+| `ad_format` | No | Ad format filter. Enum: spark\_ads, non\_spark\_ads. |
 | `ad_language` | No | Ad language filter. Enum: en, es, ar, vi, th, de, id, pt, fr, ms, nl, ja, it, ro, zh-Hant, ko. |
 | `cursor` | No | Page number to fetch. Use the cursor returned from the previous response, like 3 for page 3. |
 
@@ -40,6 +40,6 @@ curl "https://app.lens.ly/api/v1/social/v1/tiktok/ad-library/search" \
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Tiktok](/api/social/tiktok).
