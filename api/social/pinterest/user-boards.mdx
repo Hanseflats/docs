@@ -4,7 +4,7 @@ sidebarTitle: "User / Boards"
 description: "User Boards"
 ---
 
-Fetches a paginated list of boards for a Pinterest user, returning each board's name, url, description, pin_count, follower_count, owner info, cover_images, and created_at. Supports pagination via cursor and a trim option for lighter responses.
+Fetches a paginated list of boards for a Pinterest user, returning each board's name, url, description, pin\_count, follower\_count, owner info, cover\_images, and created\_at. Supports pagination via cursor and a trim option for lighter responses.
 
 ## Endpoint
 
@@ -18,7 +18,7 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 
 | Parameter | Required | Description |
 | --- | --- | --- |
-| `handle` | Yes | The username of the user to get boards for. (e.g. broadstbullycom from https://www.pinterest.com/broadstbullycom/) |
+| `handle` | Yes | The username of the user to get boards for. (e.g. broadstbullycom from [https://www.pinterest.com/broadstbullycom/](https://www.pinterest.com/broadstbullycom/)) |
 | `trim` | No | Set to true for a trimmed down version of the response |
 
 ## Example
@@ -30,6 +30,6 @@ curl "https://app.lens.ly/api/v1/social/v1/pinterest/user/boards?handle=example"
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Pinterest](/api/social/pinterest).

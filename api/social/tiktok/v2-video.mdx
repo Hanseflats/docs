@@ -4,7 +4,7 @@ sidebarTitle: "Video"
 description: "Video Info"
 ---
 
-Fetches detailed data for a single TikTok video by URL, including its metadata, engagement stats, and optionally its transcript/captions. Returns `aweme_detail` with `desc` (caption), `statistics` (play_count, digg_count/likes, comment_count, share_count, collect_count), `video` URLs, `author` info, and `music` info; also returns `transcript` in WEBVTT format if `get_transcript=true`. For no-watermark video URLs, use `aweme_detail.video.download_no_watermark_addr.url_list[0]` when it exists. If it is missing and `aweme_detail.video.has_watermark` is false, use `aweme_detail.video.play_addr.url_list[0]` instead. If `has_watermark` is true and `download_no_watermark_addr` is missing, TikTok did not return a no-watermark URL for that video.
+Fetches detailed data for a single TikTok video by URL, including its metadata, engagement stats, and optionally its transcript/captions. Returns `aweme_detail` with `desc` (caption), `statistics` (play\_count, digg\_count/likes, comment\_count, share\_count, collect\_count), `video` URLs, `author` info, and `music` info; also returns `transcript` in WEBVTT format if `get_transcript=true`. For no-watermark video URLs, use `aweme_detail.video.download_no_watermark_addr.url_list[0]` when it exists. If it is missing and `aweme_detail.video.has_watermark` is false, use `aweme_detail.video.play_addr.url_list[0]` instead. If `has_watermark` is true and `download_no_watermark_addr` is missing, TikTok did not return a no-watermark URL for that video.
 
 ## Endpoint
 
@@ -23,7 +23,7 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | `region` | No | Region of the proxy. Sometimes you'll need to specify the region if you're not getting a response. Commonly for videos from the Phillipines, in which case you'd use 'PH'. Use 2 letter country codes like US, GB, FR, etc |
 | `trim` | No | Set to true to get a trimmed response |
 | `download_media` | No | Set to true to download the video/images and get back permanent Supabase URLs. Costs 10 credits if media is found, 1 credit otherwise. |
-| `cache_max_age` | No | If we have a response in the cache that is this many days old or newer, return the cached response (0 credits, with 'cached': true and a 'cached_at' timestamp). Otherwise, scrape a live result (1 credit). [See the Caching page for details.](https://docs.scrapecreators.com/caching) Enum: 1d, 3d, 7d, 14d, 30d. |
+| `cache_max_age` | No | If we have a response in the cache that is this many days old or newer, return the cached response (0 credits, with 'cached': true and a 'cached\_at' timestamp). Otherwise, scrape a live result (1 credit). [See the Caching page for details.](https://docs.scrapecreators.com/caching) Enum: 1d, 3d, 7d, 14d, 30d. |
 
 ## Example
 
@@ -34,6 +34,6 @@ curl "https://app.lens.ly/api/v1/social/v2/tiktok/video?url=https://example.com"
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Tiktok](/api/social/tiktok).

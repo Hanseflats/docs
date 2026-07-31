@@ -4,7 +4,7 @@ sidebarTitle: "Search / Posts"
 description: "Search Posts"
 ---
 
-Finds public LinkedIn posts, feed updates, and Pulse articles by keyword using Google Search, then returns post details such as description, author, media, images, like count, comment count, and published date when LinkedIn exposes them publicly. Results depend on what Google has indexed, so this is best-effort and not a complete LinkedIn-native search. Use date_posted for recent posts and pass the returned cursor to fetch the next page.
+Finds public LinkedIn posts, feed updates, and Pulse articles by keyword using Google Search, then returns post details such as description, author, media, images, like count, comment count, and published date when LinkedIn exposes them publicly. Results depend on what Google has indexed, so this is best-effort and not a complete LinkedIn-native search. Use date\_posted for recent posts and pass the returned cursor to fetch the next page.
 
 ## Endpoint
 
@@ -31,6 +31,6 @@ curl "https://app.lens.ly/api/v1/social/v1/linkedin/search/posts?query=example" 
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Linkedin](/api/social/linkedin).

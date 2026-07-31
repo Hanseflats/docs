@@ -4,7 +4,7 @@ sidebarTitle: "Video / Transcript"
 description: "Transcript"
 ---
 
-Retrieves the captions, subtitles, or transcript of a YouTube video or short. Returns both a timestamped transcript array with start/end times and a plain-text version in transcript_only_text. Supports specifying a language code. Note: the video must be under 2 minutes for transcript extraction to work.
+Retrieves the captions, subtitles, or transcript of a YouTube video or short. Returns both a timestamped transcript array with start/end times and a plain-text version in transcript\_only\_text. Supports specifying a language code. Note: the video must be under 2 minutes for transcript extraction to work.
 
 ## Endpoint
 
@@ -20,7 +20,7 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | --- | --- | --- |
 | `url` | Yes | YouTube video or short URL |
 | `language` | No | 2 letter language code, ie 'en', 'es', 'fr' etc. If the transcript is not available in the language you specify, the transcript will be null. |
-| `cache_max_age` | No | If we have a response in the cache that is this many days old or newer, return the cached response (0 credits, with 'cached': true and a 'cached_at' timestamp). Otherwise, scrape a live result (1 credit). [See the Caching page for details.](https://docs.scrapecreators.com/caching) Enum: 1d, 3d, 7d, 14d, 30d. |
+| `cache_max_age` | No | If we have a response in the cache that is this many days old or newer, return the cached response (0 credits, with 'cached': true and a 'cached\_at' timestamp). Otherwise, scrape a live result (1 credit). [See the Caching page for details.](https://docs.scrapecreators.com/caching) Enum: 1d, 3d, 7d, 14d, 30d. |
 
 ## Example
 
@@ -31,6 +31,6 @@ curl "https://app.lens.ly/api/v1/social/v1/youtube/video/transcript?url=https://
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Youtube](/api/social/youtube).

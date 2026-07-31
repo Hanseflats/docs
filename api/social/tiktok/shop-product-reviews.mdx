@@ -4,7 +4,7 @@ sidebarTitle: "Shop / Product / Reviews"
 description: "Product Reviews"
 ---
 
-Fetches customer reviews for a TikTok Shop product by URL or product_id. Returns `product_reviews`, an array of review objects each with `rating`, `display_text`, `review_timestamp_fmt`, `review_user` (name, avatar), and `sku_specification` (variant purchased); also returns `total_reviews` count and `rating_distribution`. Paginate with `page`.
+Fetches customer reviews for a TikTok Shop product by URL or product\_id. Returns `product_reviews`, an array of review objects each with `rating`, `display_text`, `review_timestamp_fmt`, `review_user` (name, avatar), and `sku_specification` (variant purchased); also returns `total_reviews` count and `rating_distribution`. Paginate with `page`.
 
 ## Endpoint
 
@@ -18,7 +18,7 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 
 | Parameter | Required | Description |
 | --- | --- | --- |
-| `url` | No | The URL of the product (required if product_id is not provided) |
+| `url` | No | The URL of the product (required if product\_id is not provided) |
 | `product_id` | No | The ID of the product (required if url is not provided) |
 | `region` | No | The region of the product. US is the reliable region right now; non-US regions should not be considered reliable and may return limited or inconsistent review data. Sorry for the inconvenience. |
 | `page` | No | The page number of the reviews |
@@ -32,6 +32,6 @@ curl "https://app.lens.ly/api/v1/social/v1/tiktok/shop/product/reviews" \
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Tiktok](/api/social/tiktok).

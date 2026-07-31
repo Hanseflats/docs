@@ -4,7 +4,7 @@ sidebarTitle: "Company / Ads"
 description: "Company Ads"
 ---
 
-Fetches public ads for a company from the Google Ad Transparency Library by domain or advertiser_id. Each ad includes advertiserId, creativeId, format, adUrl, advertiserName, domain, firstShown, and lastShown. Costs 25 credits per request when get_ad_details=true; without it, only advertiserId and creativeId are returned at 1 credit.
+Fetches public ads for a company from the Google Ad Transparency Library by domain or advertiser\_id. Each ad includes advertiserId, creativeId, format, adUrl, advertiserName, domain, firstShown, and lastShown. Costs 25 credits per request when get\_ad\_details=true; without it, only advertiserId and creativeId are returned at 1 credit.
 
 ## Endpoint
 
@@ -24,7 +24,7 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | `region` | No | The region to search for. Defaults to anywhere |
 | `start_date` | No | Start date to search for. Format: YYYY-MM-DD |
 | `end_date` | No | End date to search for. Format: YYYY-MM-DD |
-| `platform` | No | Platform to search for. Enum: google_maps, google_play, google_search, google_shopping, youtube. |
+| `platform` | No | Platform to search for. Enum: google\_maps, google\_play, google\_search, google\_shopping, youtube. |
 | `format` | No | Ad format to search for. Enum: text, image, video. |
 | `get_ad_details` | No | Set to true to get the ad details. Will cost 25 credits. |
 | `cursor` | No | Cursor to paginate through results |
@@ -38,6 +38,6 @@ curl "https://app.lens.ly/api/v1/social/v1/google/company/ads" \
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Google](/api/social/google).

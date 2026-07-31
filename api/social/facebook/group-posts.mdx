@@ -4,7 +4,7 @@ sidebarTitle: "Group / Posts"
 description: "Facebook Group Posts"
 ---
 
-Fetches posts from a public Facebook group, limited to 3 posts per page due to API limitations. Each post includes id, text, url, reactionCount, commentCount, publishTime, videoDetails, and topComments. Supports sorting by TOP_POSTS, RECENT_ACTIVITY, CHRONOLOGICAL, or CHRONOLOGICAL_LISTINGS, with cursor-based pagination.
+Fetches posts from a public Facebook group, limited to 3 posts per page due to API limitations. Each post includes id, text, url, reactionCount, commentCount, publishTime, videoDetails, and topComments. Supports sorting by TOP\_POSTS, RECENT\_ACTIVITY, CHRONOLOGICAL, or CHRONOLOGICAL\_LISTINGS, with cursor-based pagination.
 
 ## Endpoint
 
@@ -20,7 +20,7 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | --- | --- | --- |
 | `url` | No | The URL of the group |
 | `group_id` | No | The ID of the group |
-| `sort_by` | No | How to sort the posts Enum: TOP_POSTS, RECENT_ACTIVITY, CHRONOLOGICAL, CHRONOLOGICAL_LISTINGS. |
+| `sort_by` | No | How to sort the posts Enum: TOP\_POSTS, RECENT\_ACTIVITY, CHRONOLOGICAL, CHRONOLOGICAL\_LISTINGS. |
 | `cursor` | No | The cursor to paginate to the next page |
 
 ## Example
@@ -32,6 +32,6 @@ curl "https://app.lens.ly/api/v1/social/v1/facebook/group/posts" \
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Facebook](/api/social/facebook).

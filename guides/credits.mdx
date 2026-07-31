@@ -3,17 +3,18 @@ title: "Credits & pricing"
 description: "How prepaid billing credits work."
 ---
 
-Each enrichment credit costs **3¢**. Enrichment APIs, scrapers, Social API, and Playbooks Enrichments share the same prepaid Billing balance.
+Each enrichment credit costs **1¢**. Dollar rates for enrichments stay the same as before (most calls use **3 credits = 3¢**). Enrichment APIs, scrapers, Social API, and Playbooks Enrichments share the same prepaid Billing balance.
 
 | API | Credits |
 | --- | --- |
-| Most company lookups | 1 per call |
-| Lookalikes | 1 × companies returned (max 500) |
-| Find emails | 1 per domain with emails found |
-| Find employee | 0 / 1 / 2 (none / found / \+email) |
-| Scrapers | 1–10 per page/request (see [Scrapers](/api/scrapers)) |
-| [Social API](/api/social) | **0.5** per upstream credit (~**2¢** typical); cache hits **free** |
-| [Google Ads creatives](/api/google-ads-creatives) | Social pricing — ~**12.5** when `get_ad_details=true` (default); **0.5** for IDs-only |
-| [LinkedIn / Meta ads creatives](/api/linkedin-ads-creatives) | Social pricing — typically **0.5** per call |
+| Most company lookups | 3 per call |
+| Lookalikes | 3 × companies returned (max 500) |
+| Find emails | 3 per domain with emails found |
+| Find employee | 0 / 3 / 6 (none / found / \+email) |
+| Scrapers | 3–30 per page/request (see [Scrapers](/api/scrapers)) |
+| [Social API](/api/social) | **2** per upstream credit (~**2¢** typical); cache hits **free** |
+| Google Maps | **2** per unique business |
+| [Google Ads creatives](/api/google-ads-creatives) | Social pricing — ~**50** when `get_ad_details=true` (default); **2** for IDs-only |
+| [LinkedIn / Meta ads creatives](/api/linkedin-ads-creatives) | Social pricing — typically **2** per call |
 
 Check balance via [Get credits](/guides/get-credits) or [Billing status](/agents/billing-status).

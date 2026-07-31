@@ -23,7 +23,7 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | `sort` | No | Sort by latest or popular Enum: latest, popular. |
 | `continuationToken` | No | Continuation token to get more videos. Get 'continuationToken' from previous response. |
 | `is_paid_promotions` | No | Set to 'true' to search YouTube's public paid product placement / sponsorship / endorsement search surface. This returns normal YouTube videos where the creator declared paid promotion. Cannot be combined with filter, uploadDate, sortBy, type, duration, or includeExtras. |
-| `includeExtras` | No | This will get you the like + comment count and the description. To get the full details of the video, use the /v1/youtube/video endpoint. Honestly, if you use this param, the error rate is higher. We might deprecate this param in the future. |
+| `includeExtras` | No | This will get you the like \+ comment count and the description. To get the full details of the video, use the /v1/youtube/video endpoint. Honestly, if you use this param, the error rate is higher. We might deprecate this param in the future. |
 
 ## Example
 
@@ -34,6 +34,6 @@ curl "https://app.lens.ly/api/v1/social/v1/youtube/channel-videos" \
 
 ## Credits
 
-**0.5 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
+**2 Lens credits** per upstream credit charged (~**2¢** typical). Cache hits are **free**.
 
 See [Social API overview](/api/social) and [Youtube](/api/social/youtube).
