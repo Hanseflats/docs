@@ -95,105 +95,200 @@
           {
             "group": "LinkedIn",
             "pages": [
-              "api/linkedin-profile",
               "api/linkedin-jobs",
               "api/social/linkedin",
-              "api/linkedin-ads-creatives",
-              "api/social/linkedin/ad",
-              "api/social/linkedin/ads-search",
-              "api/social/linkedin/company",
-              "api/social/linkedin/company-posts",
-              "api/social/linkedin/post",
-              "api/social/linkedin/post-transcript",
-              "api/social/linkedin/profile",
-              "api/social/linkedin/search-posts"
+              {
+                "group": "Ads",
+                "pages": [
+                  "api/social/linkedin/ad",
+                  "api/social/linkedin/ads-search",
+                  "api/linkedin-ads-creatives"
+                ]
+              },
+              {
+                "group": "Profiles & companies",
+                "pages": [
+                  "api/social/linkedin/company",
+                  "api/social/linkedin/company-posts",
+                  "api/linkedin-profile",
+                  "api/social/linkedin/profile"
+                ]
+              },
+              {
+                "group": "Posts",
+                "pages": [
+                  "api/social/linkedin/post",
+                  "api/social/linkedin/post-transcript",
+                  "api/social/linkedin/search-posts"
+                ]
+              }
             ]
           },
           {
             "group": "Facebook",
             "pages": [
               "api/social/facebook",
-              "api/meta-ads-creatives",
-              "api/social/facebook/adLibrary-ad",
-              "api/social/facebook/adLibrary-ad-transcript",
-              "api/social/facebook/adLibrary-company-ads",
-              "api/social/facebook/adLibrary-search-ads",
-              "api/social/facebook/adLibrary-search-companies",
-              "api/social/facebook/event-details",
-              "api/social/facebook/events",
-              "api/social/facebook/events-search",
-              "api/social/facebook/group",
-              "api/social/facebook/group-posts",
-              "api/social/facebook/marketplace-item",
-              "api/social/facebook/marketplace-location-search",
-              "api/social/facebook/marketplace-search",
-              "api/social/facebook/post",
-              "api/social/facebook/post-comment-replies",
-              "api/social/facebook/post-comments",
-              "api/social/facebook/post-transcript",
-              "api/social/facebook/profile",
-              "api/social/facebook/profile-events",
-              "api/social/facebook/profile-photos",
-              "api/social/facebook/profile-posts",
-              "api/social/facebook/profile-reels"
+              {
+                "group": "Ads",
+                "pages": [
+                  "api/meta-ads-creatives",
+                  "api/social/facebook/adLibrary-ad",
+                  "api/social/facebook/adLibrary-ad-transcript",
+                  "api/social/facebook/adLibrary-company-ads",
+                  "api/social/facebook/adLibrary-search-ads",
+                  "api/social/facebook/adLibrary-search-companies"
+                ]
+              },
+              {
+                "group": "Posts",
+                "pages": [
+                  "api/social/facebook/post",
+                  "api/social/facebook/post-comments",
+                  "api/social/facebook/post-comment-replies",
+                  "api/social/facebook/post-transcript"
+                ]
+              },
+              {
+                "group": "Marketplace",
+                "pages": [
+                  "api/social/facebook/marketplace-item",
+                  "api/social/facebook/marketplace-location-search",
+                  "api/social/facebook/marketplace-search"
+                ]
+              },
+              {
+                "group": "Groups",
+                "pages": [
+                  "api/social/facebook/group",
+                  "api/social/facebook/group-posts"
+                ]
+              },
+              {
+                "group": "Events",
+                "pages": [
+                  "api/social/facebook/event-details",
+                  "api/social/facebook/events",
+                  "api/social/facebook/events-search"
+                ]
+              },
+              {
+                "group": "Profiles",
+                "pages": [
+                  "api/social/facebook/profile",
+                  "api/social/facebook/profile-posts",
+                  "api/social/facebook/profile-photos",
+                  "api/social/facebook/profile-reels",
+                  "api/social/facebook/profile-events"
+                ]
+              }
             ]
           },
           {
             "group": "Instagram",
             "pages": [
               "api/social/instagram",
-              "api/social/instagram/audio-reels",
-              "api/social/instagram/basic-profile",
-              "api/social/instagram/post",
-              "api/social/instagram/profile",
-              "api/social/instagram/reels-trending",
-              "api/social/instagram/search-hashtag",
-              "api/social/instagram/search-profiles",
-              "api/social/instagram/user-embed",
-              "api/social/instagram/user-highlight-detail",
-              "api/social/instagram/user-highlights",
-              "api/social/instagram/user-reels",
-              "api/social/instagram/v2-media-transcript",
-              "api/social/instagram/v2-post-comments",
-              "api/social/instagram/v2-reels-search",
-              "api/social/instagram/v2-user-posts"
+              {
+                "group": "Profiles",
+                "pages": [
+                  "api/social/instagram/profile",
+                  "api/social/instagram/basic-profile",
+                  "api/social/instagram/v2-user-posts",
+                  "api/social/instagram/user-highlights",
+                  "api/social/instagram/user-highlight-detail",
+                  "api/social/instagram/user-embed",
+                  "api/social/instagram/user-reels",
+                  "api/social/instagram/audio-reels"
+                ]
+              },
+              {
+                "group": "Search",
+                "pages": [
+                  "api/social/instagram/v2-reels-search",
+                  "api/social/instagram/search-hashtag",
+                  "api/social/instagram/search-profiles"
+                ]
+              },
+              {
+                "group": "Posts & reels",
+                "pages": [
+                  "api/social/instagram/post",
+                  "api/social/instagram/v2-post-comments",
+                  "api/social/instagram/reels-trending",
+                  "api/social/instagram/v2-media-transcript"
+                ]
+              }
             ]
           },
           {
             "group": "Google",
             "pages": [
-              "api/google-ads",
-              "api/google-ad-spend",
-              "api/google-play",
-              "api/google-ads-creatives",
               "api/social/google",
-              "api/social/google/ad",
-              "api/social/google/adLibrary-advertisers-search",
-              "api/social/google/company-ads",
-              "api/social/google/search"
+              {
+                "group": "Ads",
+                "pages": [
+                  "api/google-ads",
+                  "api/google-ads-creatives",
+                  "api/google-ad-spend"
+                ]
+              },
+              {
+                "group": "Social",
+                "pages": [
+                  "api/social/google/ad",
+                  "api/social/google/adLibrary-advertisers-search",
+                  "api/social/google/company-ads",
+                  "api/social/google/search"
+                ]
+              },
+              {
+                "group": "Apps",
+                "pages": [
+                  "api/google-play"
+                ]
+              }
             ]
           },
           {
             "group": "YouTube",
             "pages": [
-              "api/youtube-ads",
               "api/social/youtube",
-              "api/social/youtube/channel",
-              "api/social/youtube/channel-videos",
-              "api/social/youtube/channel-community-posts",
-              "api/social/youtube/channel-lives",
-              "api/social/youtube/channel-playlists",
-              "api/social/youtube/channel-shorts",
-              "api/social/youtube/community-post",
-              "api/social/youtube/playlist",
-              "api/social/youtube/search",
-              "api/social/youtube/search-hashtag",
-              "api/social/youtube/shorts-trending",
-              "api/social/youtube/video",
-              "api/social/youtube/video-comment-replies",
-              "api/social/youtube/video-comments",
-              "api/social/youtube/video-sponsors",
-              "api/social/youtube/video-transcript"
+              {
+                "group": "Channels",
+                "pages": [
+                  "api/social/youtube/channel-videos",
+                  "api/social/youtube/channel-community-posts",
+                  "api/social/youtube/channel",
+                  "api/social/youtube/channel-lives",
+                  "api/social/youtube/channel-shorts",
+                  "api/social/youtube/community-post",
+                  "api/social/youtube/playlist",
+                  "api/social/youtube/channel-playlists"
+                ]
+              },
+              {
+                "group": "Ads",
+                "pages": [
+                  "api/youtube-ads"
+                ]
+              },
+              {
+                "group": "Videos",
+                "pages": [
+                  "api/social/youtube/video",
+                  "api/social/youtube/video-comments",
+                  "api/social/youtube/video-sponsors",
+                  "api/social/youtube/video-comment-replies",
+                  "api/social/youtube/video-transcript"
+                ]
+              },
+              {
+                "group": "Search",
+                "pages": [
+                  "api/social/youtube/search",
+                  "api/social/youtube/shorts-trending",
+                  "api/social/youtube/search-hashtag"
+                ]
+              }
             ]
           },
           {
