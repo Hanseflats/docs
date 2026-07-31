@@ -1,0 +1,76 @@
+---
+title: "Google Ads creatives"
+sidebarTitle: "Google Ads creatives"
+description: "Full Google Ads Transparency creatives — headlines, descriptions, and destination URLs."
+---
+
+Full Google Ads Transparency creatives — headlines, descriptions, and destination URLs. Use the cheaper [Google Ads](/api/google-ads) endpoint when you only need a running yes/no.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/company/google-ads/creatives
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `domain` | No\* | Company domain (\*or pass `advertiser_id`) |
+| `advertiser_id` | No | Google advertiser ID |
+| `region` | No | 2-letter region (default `US`) |
+| `format` | No | `text` \| `image` \| `video` |
+| `get_ad_details` | No | Default `true`. Set `false` for IDs-only (cheaper). |
+| `cursor` | No | Pagination cursor |
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/company/google-ads/creatives \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"domain":"notion.so","format":"text"}'
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "library": "google",
+    "resolved_domain": "notion.so",
+    "get_ad_details": true,
+    "ad_count": 3,
+    "ads": [
+      {
+        "creativeId": "CR…",
+        "format": "text",
+        "variations": [
+          {
+            "headline": "Notion Workspace",
+            "description": "Notion is an AI-powered workspace…",
+            "destinationUrl": "www.notion.so/"
+          }
+        ]
+      }
+    ]
+  },
+  "credits_used": 12.5
+}
+```
+
+## Credits
+
+Social pricing: **0.5** Lens credit per upstream credit. With `get_ad_details=true` (default) typically **~12.5** credits. Set `get_ad_details=false` for IDs-only at ~0.5 credits.
+
+Single creative by URL: `POST /api/v1/company/google-ads/ad` with `{ "url": "…" }` (~0.5 credits).
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance |
+| `503` | Upstream temporarily unavailable |

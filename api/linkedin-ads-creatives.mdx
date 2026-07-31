@@ -1,0 +1,71 @@
+---
+title: "LinkedIn Ads creatives"
+sidebarTitle: "LinkedIn Ads creatives"
+description: "Search the LinkedIn Ad Library for company creatives — headline, body, CTA, destination URL."
+---
+
+Search the LinkedIn Ad Library for company creatives — headline, body, CTA, destination URL, and impressions when available.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/company/linkedin-ads/creatives
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `company` | No\* | Company name (e.g. `Notion`) |
+| `domain` | No\* | Used to derive a company name if `company` is omitted |
+| `company_id` | No | LinkedIn company ID |
+| `keyword` | No | Keyword search |
+| `countries` | No | Comma-separated, e.g. `US,CA` |
+| `pagination_token` | No | Next-page token |
+
+\* Provide at least one of `company`, `domain`, `company_id`, or `keyword`.
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/company/linkedin-ads/creatives \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"company":"Notion","countries":"US"}'
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "library": "linkedin",
+    "company": "Notion",
+    "ad_count": 3,
+    "ads": [
+      {
+        "id": "1511454266",
+        "headline": "Build with AI without surprise costs",
+        "description": "AI experiments are easy to start…",
+        "cta": "Sign Up",
+        "url": "https://www.linkedin.com/ad-library/detail/1511454266"
+      }
+    ]
+  },
+  "credits_used": 0.5
+}
+```
+
+## Credits
+
+Social pricing: typically **0.5** Lens credits per call. Single ad: `POST /api/v1/company/linkedin-ads/ad` with `{ "url": "…" }`.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance |
+| `503` | Upstream temporarily unavailable |

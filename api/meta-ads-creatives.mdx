@@ -1,0 +1,74 @@
+---
+title: "Meta Ads creatives"
+sidebarTitle: "Meta Ads creatives"
+description: "Facebook/Instagram Ad Library creatives — body, images/videos, CTA, and link URL."
+---
+
+Fetch Facebook/Instagram Ad Library creatives for a company — ad body, images/videos, CTA, and link URL.
+
+## Endpoint
+
+```text
+POST https://app.lens.ly/api/v1/company/meta-ads/creatives
+```
+
+## Request parameters
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `company` | No\* | Page / company name |
+| `domain` | No\* | Used to derive a company name if `company` is omitted |
+| `page_id` | No\* | Meta Ad Library page ID |
+| `status` | No | `ACTIVE` (default) \| `INACTIVE` \| `ALL` |
+| `country` | No | 2-letter country code |
+| `cursor` | No | Pagination cursor |
+
+\* Provide at least one of `company`, `domain`, or `page_id`.
+
+## Example request
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/company/meta-ads/creatives \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"company":"Notion","status":"ACTIVE"}'
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "library": "meta",
+    "company": "Notion",
+    "ad_count": 1,
+    "ads": [
+      {
+        "ad_archive_id": "2075387186736547",
+        "is_active": true,
+        "snapshot": {
+          "body": { "text": "Notion has everything you need…" },
+          "cta_text": "Sign up",
+          "display_format": "IMAGE",
+          "link_url": "http://fb.me/"
+        }
+      }
+    ]
+  },
+  "credits_used": 0.5
+}
+```
+
+## Credits
+
+Social pricing: typically **0.5** Lens credits per call. Single ad: `POST /api/v1/company/meta-ads/ad` with `{ "id": "…" }` or `{ "url": "…" }`.
+
+## Errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid or missing request fields |
+| `401` | Invalid API key |
+| `402` | Insufficient billing balance |
+| `503` | Upstream temporarily unavailable |
