@@ -7,7 +7,7 @@ Search Indeed job listings into structured JSON. Optional company-domain resolut
 
 ## Endpoint
 
-```text
+```
 POST https://app.lens.ly/api/v1/scrapers/indeed
 ```
 
@@ -24,7 +24,7 @@ POST https://app.lens.ly/api/v1/scrapers/indeed
 | `find_persona` | No | Find a persona at the resolved company domain |
 | `persona_titles` | No | Required with `find_persona`; max 3 |
 | `find_email` | No | Find email (see Email enrichment) |
-| `email_provider` | No | `findymail` or `leadmagic` for BYO sync path |
+| `email_provider` | No | `findymail`, `leadmagic`, `prospeo`, `ai_ark`, or `blitzapi` for BYO sync (see [BYO finders](/guides/byo-email-finders)) |
 | `email_api_key` | No | Request override (not persisted) |
 | `webhook_url` | No | Delivery webhook for async jobs |
 | `delivery` | No | `chunks` (default), `item`, or `complete_only` |
@@ -70,6 +70,6 @@ Async / poll / results / webhook shapes: [Scrapers overview](/api/scrapers).
 
 ## Credits
 
-**1 credit per page**. Domain resolution is included when enrich flags require it. `find_persona` / email enrichment add \+1 each when found.
+**1 credit per page**. Domain resolution is included when enrich flags require it. `find_persona` / email enrichment add +1 each when found.
 
-Charged against your prepaid Billing balance at **1¢ per credit**.
+Charged against your prepaid Billing balance at **3¢ per credit**.

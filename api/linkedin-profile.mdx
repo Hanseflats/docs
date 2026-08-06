@@ -1,6 +1,5 @@
 ---
 title: "LinkedIn profile"
-sidebarTitle: "LinkedIn profile"
 description: "Scrape a LinkedIn person or company profile as structured JSON. Person mode supports find_email (BYO sync or async bulk)."
 ---
 
@@ -11,7 +10,7 @@ Two modes:
 
 ## Endpoint
 
-```text
+```
 POST https://app.lens.ly/api/v1/scrapers/linkedin-profile
 ```
 
@@ -24,7 +23,7 @@ POST https://app.lens.ly/api/v1/scrapers/linkedin-profile
 | `mode` | No | `profile` (default) or `company` |
 | `premium` | No | Use premium proxies for harder person profiles |
 | `find_email` | No | Person mode only — see Email enrichment below |
-| `email_provider` | No | `findymail` or `leadmagic` for **sync BYO** (single profile) |
+| `email_provider` | No | `findymail`, `leadmagic`, `prospeo`, `ai_ark`, or `blitzapi` for **sync BYO** ([guide](/guides/byo-email-finders)) |
 | `email_api_key` | No | Request override; or save via email-finders integration |
 | `find_persona` | No | Company mode — personas at company domain |
 | `persona_titles` | With `find_persona` | Job titles (max 3) |
@@ -36,10 +35,10 @@ Same rules as other scrapers ([overview](/api/scrapers#email-enrichment)):
 
 | Path | How | Credits |
 | --- | --- | --- |
-| **Sync / single** | `find_email` \+ `email_provider` (`leadmagic` uses LinkedIn URL; `findymail` uses name \+ employer domain) | 0 email credits |
-| **Async / bulk** | `find_email` without `email_provider` → people email waterfall | \+1 per email found |
+| **Sync / single** | `find_email` + `email_provider` (and optional `find_phone` for Prospeo / AI Ark / BlitzAPI) | 0 email/phone credits |
+| **Async / bulk** | `find_email` without `email_provider` → people email waterfall | +1 per email found |
 
-LeadMagic BYO is a natural fit for person profiles because `linkedin_url` is always set on the row.
+LeadMagic, Prospeo, AI Ark, and BlitzAPI all accept LinkedIn URL on person profiles. Findymail uses name + employer domain. Details: [BYO email & phone finders](/guides/byo-email-finders).
 
 ## Example — person profile
 
@@ -50,7 +49,7 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-profile \
   -d '{"url":"https://www.linkedin.com/in/rbranson"}'
 ```
 
-## Example — person \+ BYO email (sync)
+## Example — person + BYO email (sync)
 
 ```bash
 curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-profile \
@@ -63,7 +62,7 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-profile \
   }'
 ```
 
-## Example — person \+ async email
+## Example — person + async email
 
 ```bash
 curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-profile \
@@ -75,7 +74,7 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-profile \
   }'
 ```
 
-## Example — company \+ persona
+## Example — company + persona
 
 ```bash
 curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-profile \
@@ -90,6 +89,6 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-profile \
 
 ## Credits
 
-**30 credits** per successful profile (person or company). Enrichment adds \+1 per email / persona / domain found when applicable. Charged at **1¢ per credit**.
+**10 credits** per successful profile (person or company). Enrichment adds +1 per email / persona / domain found when applicable. Charged at **3¢ per credit**.
 
 Response shapes (sync, async, poll, results, webhooks): [Scrapers overview](/api/scrapers).

@@ -1,14 +1,13 @@
 ---
 title: "Scrapers overview"
-sidebarTitle: "Overview"
 description: "Structured scrapers API — sync JSON or async jobs with poll, results, and webhooks."
 ---
 
 Scrape review sites, job boards, app stores, and more into structured JSON.
 
-Social platforms (Instagram, TikTok, Reddit, …) use the [Social API](/api/social) — expand a platform in the sidebar for each endpoint. Those calls are `GET /api/v1/social/...` at **0.5 credits** per upstream credit (cache hits free).
+Local businesses by keyword + city use the separate [Google Maps API](/api/google-maps) (`/api/v1/google-maps/scrapes`).
 
-```text
+```
 POST https://app.lens.ly/api/v1/scrapers/{slug}
 ```
 
@@ -19,11 +18,11 @@ Auth: `Authorization: Bearer YOUR_API_KEY` or `x-api-key`.
 | Slug | Typical input |
 | --- | --- |
 | `trustradius`, `trustpilot`, `g2`, `capterra`, `glassdoor`, `producthunt`, `trustmrr` | Website or product/reviews URL |
-| `indeed`, `upwork`, `linkedin-jobs` | Search `query` (\+ `location` / `geoid`) or job URL |
+| `indeed`, `upwork`, `linkedin-jobs` | Search `query` (+ `location` / `geoid`) or job URL |
 | `linkedin-profile` | Person or company LinkedIn URL / id |
 | `yc`, `wellfound`, `crunchbase` | Company slug / search query / permalink |
-| `github` | `owner` \+ `repo`, or user/repo URL |
-| [Reddit](/api/social/reddit) | Other socials: search / subreddit / post URL |
+| `github` | `owner` + `repo`, or user/repo URL |
+| `reddit` | `subreddit` / `query` |
 | `substack` | `subdomain` or newsletter URL |
 | `google-play`, `appstore` | `app_id` or store URL |
 
@@ -43,7 +42,9 @@ Optional `webhook_url` (HTTPS only) for push delivery. See [Webhooks](/guides/we
 
 ## Credits
 
-Per-slug page costs are on each scraper page (typically **3–6 credits/page**). Enrichment adds **\+3** per LinkedIn/email/persona found when applicable. Charged at **1¢ per credit** against your prepaid Billing balance.
+Per-slug page costs are on each scraper page (typically **1–2 credits/page**). Enrichment adds **+1** per LinkedIn/email/persona found when applicable. Charged at **3¢ per credit** against prepaid Billing.
+
+Without a card on file, the estimated credits for a scrape (pages + enrich reserve) must fit your balance. With a card on file (pay-as-you-go), you may exceed prepaid balance — we charge the shortfall after the job (failed charges set past due and block the API).
 
 Limits (multi-tenant): sync ~10 POSTs/min, async create ~10/min, poll/results ~120/min; max **3** concurrent scraper jobs per user; `max_pages` capped at **20**.
 
@@ -202,23 +203,25 @@ HTTP **502**. Credits are not charged for empty scrapes.
 
 | Mode | How | Credits |
 | --- | --- | --- |
-| Sync | BYO Findymail or LeadMagic (`email_provider` \+ `email_api_key`, or saved integrations) | 0 email credits |
-| Async bulk (`find_email`) | Full people waterfall (below) | \+1 per LinkedIn found, \+1 per domain resolved, \+1 per email found |
+| Sync | BYO finder (`email_provider` + key): Findymail, LeadMagic, Prospeo, AI Ark, or BlitzAPI | 0 email/phone credits |
+| Async bulk (`find_email`) | Full people waterfall (below) | +1 per LinkedIn found, +1 per domain resolved, +1 per email found |
+
+`email_provider` values: `findymail`, `leadmagic`, `prospeo`, `ai_ark`, `blitzapi`. Prospeo, AI Ark, and BlitzAPI also support `find_phone` (BYO only). Full setup: [BYO email & phone finders](/guides/byo-email-finders).
 
 **`find_email` includes LinkedIn resolve** when a row has no `linkedin_url` (you do not need `find_linkedin` for email). Use `find_linkedin` alone when you only want profiles.
 
 ### Async people waterfall (per named person)
 
-1. Resolve LinkedIn if missing
-2. Match email by LinkedIn URL
-3. If still missing: resolve employer website from company name → match name \+ domain
-4. Last resort: match name \+ company name
+1. Resolve LinkedIn if missing  
+2. Match email by LinkedIn URL  
+3. If still missing: resolve employer website from company name → match name + domain  
+4. Last resort: match name + company name  
 
 Anonymous / “Verified User” rows are skipped. Some scrapers reject `find_email` (Reddit, Product Hunt reviews, Trustpilot reviews) — see each slug page.
 
-Save BYO keys: `PUT /api/v1/integrations/email-finders`.
+Save BYO keys: `PUT /api/v1/integrations/email-finders` — see [BYO email & phone finders](/guides/byo-email-finders).
 
 ## Next
 
 - Per-slug params and credit rates: pages under **Scrapers** in the sidebar
-- [Webhooks](/guides/webhooks#scraper-webhooks) · [Errors](/guides/errors) · [Credits](/guides/credits)
+- [BYO email & phone finders](/guides/byo-email-finders) · [Webhooks](/guides/webhooks#scraper-webhooks) · [Errors](/guides/errors) · [Credits](/guides/credits)

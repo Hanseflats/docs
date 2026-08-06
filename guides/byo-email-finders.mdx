@@ -1,0 +1,64 @@
+---
+title: "BYO email & phone finders"
+description: "Save your own Findymail, LeadMagic, Prospeo, AI Ark, or BlitzAPI keys for sync scraper contact enrichment."
+---
+
+Bring your own (BYO) provider keys so scraper `find_email` / `find_phone` runs **synchronously** and charges **0 Lens email/phone credits**. The provider bills your account instead.
+
+## Providers
+
+| `email_provider` | Email | Phone | Typical input |
+| --- | --- | --- | --- |
+| `findymail` | Yes | No | Name + employer domain |
+| `leadmagic` | Yes | No | Person LinkedIn URL |
+| `prospeo` | Yes | Yes | LinkedIn **or** name + company/domain |
+| `ai_ark` | Yes | Yes | LinkedIn (email); LinkedIn or domain+name (phone) |
+| `blitzapi` | Yes | Yes (US) | Person LinkedIn URL |
+
+## Save keys
+
+```bash
+curl -X PUT https://app.lens.ly/api/v1/integrations/email-finders \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prospeo_api_key": "…",
+    "ai_ark_api_key": "…",
+    "blitzapi_api_key": "…"
+  }'
+```
+
+Accepted body fields (any subset):
+
+- `findymail_api_key`
+- `leadmagic_api_key`
+- `prospeo_api_key`
+- `ai_ark_api_key`
+- `blitzapi_api_key`
+
+`GET` returns which providers are configured (keys masked). `DELETE ?provider=prospeo|ai_ark|blitzapi|findymail|leadmagic|all` clears keys.
+
+You can also paste keys in the dashboard under **Integrations → Contact finders (BYO)**.
+
+## Use on a scraper
+
+```bash
+curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-profile \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://www.linkedin.com/in/example",
+    "find_email": true,
+    "find_phone": true,
+    "email_provider": "prospeo"
+  }'
+```
+
+Notes:
+
+- Sync path requires `email_provider` plus a saved or request `email_api_key`.
+- Omit `email_provider` on `find_email` to run the async Lens/RevenueBase waterfall (charged).
+- `find_phone` is **always BYO** — use `prospeo`, `ai_ark`, or `blitzapi`.
+- Async jobs cannot accept `email_api_key` in the body; save the key first.
+
+See [Scrapers overview](/api/scrapers#email-enrichment) for the async people waterfall.

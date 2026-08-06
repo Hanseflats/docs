@@ -1,6 +1,5 @@
 ---
 title: "TrustRadius"
-sidebarTitle: "TrustRadius"
 description: "Scrape TrustRadius product reviews as structured JSON. Pass a website or TrustRadius URL."
 ---
 
@@ -8,7 +7,7 @@ Scrape TrustRadius product reviews into structured JSON. Pass a company website 
 
 ## Endpoint
 
-```text
+```
 POST https://app.lens.ly/api/v1/scrapers/trustradius
 ```
 
@@ -19,9 +18,9 @@ POST https://app.lens.ly/api/v1/scrapers/trustradius
 | `url` | Yes | Company website **or** TrustRadius product/reviews URL |
 | `page` | No | Start page (default `1`) |
 | `max_pages` | No | Pages to scrape (default `1`). `>1` runs async |
-| `find_linkedin` | No | Resolve reviewer LinkedIn (\+1 credit per success) |
+| `find_linkedin` | No | Resolve reviewer LinkedIn (+1 credit per success) |
 | `find_email` | No | Find reviewer email (see Email enrichment) |
-| `email_provider` | No | `findymail` or `leadmagic` for BYO sync path |
+| `email_provider` | No | `findymail`, `leadmagic`, `prospeo`, `ai_ark`, or `blitzapi` for BYO sync (see [BYO finders](/guides/byo-email-finders)) |
 | `email_api_key` | No | Request override (not persisted) |
 | `webhook_url` | No | Delivery webhook for async jobs |
 | `delivery` | No | `chunks` (default), `item`, or `complete_only` |
@@ -32,16 +31,19 @@ POST https://app.lens.ly/api/v1/scrapers/trustradius
 - **Sync** — `max_pages === 1` and either no `find_email` or BYO email key. Response: `{ data, credits_used, meta }`.
 - **Async** — multi-page or bulk `find_email`. Response `202`: `{ job_id, status, poll }`.
 
-Poll: `GET /api/v1/scrapers/jobs/{id}`<br />Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
+Poll: `GET /api/v1/scrapers/jobs/{id}`  
+Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
 
 ## Email enrichment
 
 | Mode | How | Credits |
 | --- | --- | --- |
-| Sync | BYO Findymail or LeadMagic key | 0 email credits |
-| Async bulk | Bulk email enrichment (LinkedIn → name\+domain) | \+1 per email found |
+| Sync | BYO finder key (Findymail, LeadMagic, Prospeo, AI Ark, BlitzAPI) | 0 email credits |
+| Async bulk (`find_email`) | LinkedIn resolve → LinkedIn email match → website resolve → name+domain → name+company | +1 per LinkedIn / domain / email found |
 
-Save BYO keys: `PUT /api/v1/integrations/email-finders` with `{ "findymail_api_key": "…" }`.
+`find_email` includes LinkedIn resolve. Anonymous “Verified User” reviewers are skipped.
+
+Save BYO keys: see [BYO email & phone finders](/guides/byo-email-finders).
 
 ## Example request
 
@@ -86,9 +88,9 @@ Async / poll / results / webhook shapes: [Scrapers overview](/api/scrapers).
 
 ## Credits
 
-**1 credit per page** scraped. Website discovery is included. LinkedIn, domain resolve, and email each add \+1 when found.
+**1 credit per page** scraped. Website discovery is included. LinkedIn, domain resolve, and email each add +1 when found.
 
-Charged against your prepaid Billing balance at **1¢ per credit**.
+Charged against your prepaid Billing balance at **3¢ per credit**.
 
 ## Errors
 

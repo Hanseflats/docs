@@ -568,6 +568,7 @@
         "group": "Guides",
         "pages": [
           "guides/get-credits",
+          "guides/byo-email-finders",
           "guides/webhooks",
           "guides/platform-support",
           "guides/errors",

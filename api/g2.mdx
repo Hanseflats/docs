@@ -1,6 +1,5 @@
 ---
 title: "G2"
-sidebarTitle: "G2"
 description: "Scrape G2 product reviews as structured JSON. Pass a website or G2 URL."
 ---
 
@@ -8,7 +7,7 @@ Scrape G2 product reviews into structured JSON. Pass a company website (we resol
 
 ## Endpoint
 
-```text
+```
 POST https://app.lens.ly/api/v1/scrapers/g2
 ```
 
@@ -19,9 +18,9 @@ POST https://app.lens.ly/api/v1/scrapers/g2
 | `url` | Yes | Company website **or** G2 product/reviews URL |
 | `page` | No | Start page (default `1`) |
 | `max_pages` | No | Pages to scrape (default `1`). `>1` runs async |
-| `find_linkedin` | No | Resolve reviewer LinkedIn (\+1 credit per success) |
+| `find_linkedin` | No | Resolve reviewer LinkedIn (+1 credit per success) |
 | `find_email` | No | Find reviewer email (see Email enrichment) |
-| `email_provider` | No | `findymail` or `leadmagic` for BYO sync path |
+| `email_provider` | No | `findymail`, `leadmagic`, `prospeo`, `ai_ark`, or `blitzapi` for BYO sync (see [BYO finders](/guides/byo-email-finders)) |
 | `email_api_key` | No | Request override (not persisted) |
 | `webhook_url` | No | Delivery webhook for async jobs |
 | `delivery` | No | `chunks` (default), `item`, or `complete_only` |
@@ -32,16 +31,17 @@ POST https://app.lens.ly/api/v1/scrapers/g2
 - **Sync** — `max_pages === 1` and either no `find_email` or BYO email key. Response: `{ data, credits_used, meta }`.
 - **Async** — multi-page or bulk `find_email`. Response `202`: `{ job_id, status, poll }`.
 
-Poll: `GET /api/v1/scrapers/jobs/{id}`<br />Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
+Poll: `GET /api/v1/scrapers/jobs/{id}`  
+Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
 
 ## Email enrichment
 
 | Mode | How | Credits |
 | --- | --- | --- |
-| Sync | BYO Findymail or LeadMagic key | 0 email credits |
-| Async bulk (`find_email`) | LinkedIn resolve → email match → website resolve → name\+domain → name\+company | \+1 per LinkedIn / domain / email found |
+| Sync | BYO finder key (Findymail, LeadMagic, Prospeo, AI Ark, BlitzAPI) | 0 email credits |
+| Async bulk (`find_email`) | LinkedIn resolve → email match → website resolve → name+domain → name+company | +1 per LinkedIn / domain / email found |
 
-Save BYO keys: `PUT /api/v1/integrations/email-finders` with `{ "findymail_api_key": "…" }`.
+Save BYO keys: see [BYO email & phone finders](/guides/byo-email-finders).
 
 ## Example request
 
@@ -58,9 +58,9 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/g2 \
 
 ## Credits
 
-**2 credits per page** scraped. Website discovery is included. `find_linkedin` and email enrichment add \+1 each when found.
+**2 credits per page** scraped. Website discovery is included. `find_linkedin` and email enrichment add +1 each when found.
 
-Charged against your prepaid Billing balance at **1¢ per credit**.
+Charged against your prepaid Billing balance at **3¢ per credit**.
 
 ## Errors
 
