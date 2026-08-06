@@ -1,13 +1,15 @@
 ---
 title: "BYO email & phone finders"
-description: "Save your own Findymail, LeadMagic, Prospeo, AI Ark, or BlitzAPI keys for sync scraper contact enrichment."
+description: "Save your own Findymail, LeadMagic, Prospeo, AI Ark, or BlitzAPI keys and run an ordered sync waterfall for scraper contact enrichment."
 ---
 
 Bring your own (BYO) provider keys so scraper `find_email` / `find_phone` runs **synchronously** and charges **0 Lens email/phone credits**. The provider bills your account instead.
 
+You can use a single provider or an **ordered waterfall** — we try each provider in sequence until email and/or phone is found.
+
 ## Providers
 
-| `email_provider` | Email | Phone | Typical input |
+| Provider | Email | Phone | Typical input |
 | --- | --- | --- | --- |
 | `findymail` | Yes | No | Name + employer domain |
 | `leadmagic` | Yes | No | Person LinkedIn URL |
@@ -15,7 +17,7 @@ Bring your own (BYO) provider keys so scraper `find_email` / `find_phone` runs *
 | `ai_ark` | Yes | Yes | LinkedIn (email); LinkedIn or domain+name (phone) |
 | `blitzapi` | Yes | Yes (US) | Person LinkedIn URL |
 
-## Save keys
+## Save keys + default order
 
 ```bash
 curl -X PUT https://app.lens.ly/api/v1/integrations/email-finders \
@@ -24,23 +26,23 @@ curl -X PUT https://app.lens.ly/api/v1/integrations/email-finders \
   -d '{
     "prospeo_api_key": "…",
     "ai_ark_api_key": "…",
-    "blitzapi_api_key": "…"
+    "blitzapi_api_key": "…",
+    "byok_provider_order": ["prospeo", "ai_ark", "blitzapi"]
   }'
 ```
 
 Accepted body fields (any subset):
 
-- `findymail_api_key`
-- `leadmagic_api_key`
-- `prospeo_api_key`
-- `ai_ark_api_key`
-- `blitzapi_api_key`
+- `findymail_api_key`, `leadmagic_api_key`, `prospeo_api_key`, `ai_ark_api_key`, `blitzapi_api_key`
+- `byok_provider_order` — ordered unique list (max 5). Pass `[]` to clear.
 
-`GET` returns which providers are configured (keys masked). `DELETE ?provider=prospeo|ai_ark|blitzapi|findymail|leadmagic|all` clears keys.
+`GET` returns masked keys plus `byok_provider_order`. `DELETE ?provider=…|all` clears keys (`all` also clears the order).
 
-You can also paste keys in the dashboard under **Integrations → Contact finders (BYO)**.
+Dashboard: **Integrations → Contact finders (BYO)** — add keys and reorder the default waterfall.
 
-## Use on a scraper
+## Waterfall on a scraper
+
+**Per-request override** (preferred for API callers):
 
 ```bash
 curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-profile \
@@ -50,15 +52,31 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-profile \
     "url": "https://www.linkedin.com/in/example",
     "find_email": true,
     "find_phone": true,
-    "email_provider": "prospeo"
+    "email_providers": ["prospeo", "ai_ark", "blitzapi"]
   }'
 ```
 
-Notes:
+**Single-provider shorthand** (still supported):
 
-- Sync path requires `email_provider` plus a saved or request `email_api_key`.
-- Omit `email_provider` on `find_email` to run the async Lens/RevenueBase waterfall (charged).
-- `find_phone` is **always BYO** — use `prospeo`, `ai_ark`, or `blitzapi`.
-- Async jobs cannot accept `email_api_key` in the body; save the key first.
+```json
+{ "find_email": true, "email_provider": "prospeo" }
+```
+
+**Saved default:** omit both fields — if `byok_provider_order` is set and keys exist, sync uses that order. If there is no order/keys, `find_email` runs the async Lens/RevenueBase path (charged).
+
+### How resolution works
+
+1. Request `email_providers` (if set)
+2. Else request `email_provider`
+3. Else saved `byok_provider_order` (providers without a saved key are skipped)
+4. Else empty → async RB email (when `find_email`)
+
+Per record we walk the list: stop email attempts after the first hit; stop phone after the first hit. Phone skips Findymail/LeadMagic. Winning sources are tagged `byo_<provider>`.
+
+### Notes
+
+- `email_api_key` in the body is only allowed with a **single** provider (not multi-provider waterfalls). Save keys for waterfalls.
+- `find_phone` needs at least one phone-capable provider (`prospeo` / `ai_ark` / `blitzapi`) with a key in the resolved list.
+- Async jobs cannot accept `email_api_key` in the body.
 
 See [Scrapers overview](/api/scrapers#email-enrichment) for the async people waterfall.
