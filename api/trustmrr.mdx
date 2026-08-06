@@ -1,5 +1,6 @@
 ---
 title: "TrustMRR"
+sidebarTitle: "TrustMRR"
 description: "Scrape TrustMRR startup, category, founder, or list pages as structured JSON."
 ---
 
@@ -7,7 +8,7 @@ Scrape TrustMRR startup, category, founder, or list pages into structured JSON. 
 
 ## Endpoint
 
-```
+```text
 POST https://app.lens.ly/api/v1/scrapers/trustmrr
 ```
 
@@ -31,8 +32,7 @@ POST https://app.lens.ly/api/v1/scrapers/trustmrr
 - **Sync** — single page, no `find_persona`, and either no `find_email` or BYO email key.
 - **Async** — multi-page, `find_persona`, or async bulk email. Response `202` with `job_id`.
 
-Poll: `GET /api/v1/scrapers/jobs/{id}`  
-Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
+Poll: `GET /api/v1/scrapers/jobs/{id}`<br />Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
 
 ## Example request
 
@@ -50,7 +50,7 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/trustmrr \
 
 **1 credit per page** scraped. Website discovery is included. Persona / LinkedIn / email enrichment add credits when found.
 
-Charged against your prepaid Billing balance at **3¢ per credit**.
+Charged against your prepaid Billing balance at **1¢ per credit**.
 
 ## Errors
 
@@ -60,5 +60,3 @@ Charged against your prepaid Billing balance at **3¢ per credit**.
 | `401` | Invalid API key |
 | `402` | Insufficient billing balance |
 | `404` | Page not found |
-
-Response shapes (sync, async, poll, results, webhooks): [Scrapers overview](/api/scrapers).

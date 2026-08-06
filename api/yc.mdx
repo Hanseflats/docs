@@ -1,13 +1,14 @@
 ---
 title: "Y Combinator"
+sidebarTitle: "Y Combinator"
 description: "Search YC companies or scrape a company page. Optional find_persona for decision-makers."
 ---
 
-Search the YC company directory or scrape a single YC company page into structured JSON. Use `find_persona` + `persona_titles` on company scrapes to pull decision-makers.
+Search the YC company directory or scrape a single YC company page into structured JSON. Use `find_persona` \+ `persona_titles` on company scrapes to pull decision-makers.
 
 ## Endpoint
 
-```
+```text
 POST https://app.lens.ly/api/v1/scrapers/yc
 ```
 
@@ -40,8 +41,7 @@ POST https://app.lens.ly/api/v1/scrapers/yc
 - **Sync** — single page, no `find_persona`, and either no `find_email` or BYO email key.
 - **Async** — multi-page, `find_persona`, or async bulk email. Response `202` with `job_id`.
 
-Poll: `GET /api/v1/scrapers/jobs/{id}`  
-Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
+Poll: `GET /api/v1/scrapers/jobs/{id}`<br />Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
 
 ## Example — search
 
@@ -57,7 +57,7 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/yc \
   }'
 ```
 
-## Example — company + persona
+## Example — company \+ persona
 
 ```bash
 curl -X POST https://app.lens.ly/api/v1/scrapers/yc \
@@ -74,7 +74,7 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/yc \
 
 **1 credit per page** (search page or company scrape). `find_persona` / `find_linkedin` / email enrichment add credits when found.
 
-Charged against your prepaid Billing balance at **3¢ per credit**.
+Charged against your prepaid Billing balance at **1¢ per credit**.
 
 ## Errors
 
@@ -84,5 +84,3 @@ Charged against your prepaid Billing balance at **3¢ per credit**.
 | `401` | Invalid API key |
 | `402` | Insufficient billing balance |
 | `404` | Company not found |
-
-Response shapes (sync, async, poll, results, webhooks): [Scrapers overview](/api/scrapers).

@@ -1,5 +1,6 @@
 ---
 title: "LinkedIn jobs"
+sidebarTitle: "LinkedIn jobs"
 description: "Search LinkedIn job listings or fetch a job overview as structured JSON. Optional find_persona / find_email on hiring companies."
 ---
 
@@ -7,7 +8,7 @@ Search LinkedIn jobs into structured JSON, or fetch a single job by id. Optional
 
 ## Endpoint
 
-```
+```text
 POST https://app.lens.ly/api/v1/scrapers/linkedin-jobs
 ```
 
@@ -41,7 +42,7 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-jobs \
   }'
 ```
 
-## Example — search + persona
+## Example — search \+ persona
 
 ```bash
 curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-jobs \
@@ -66,6 +67,6 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/linkedin-jobs \
 
 ## Credits
 
-**2 credits per page** (search page or job overview). Domain resolution is included when enrich flags require it. `find_persona` / email enrichment add +1 each when found. Charged at **3¢ per credit**.
+**2 credits per page** (search page or job overview). Domain resolution is included when enrich flags require it. `find_persona` / email enrichment add \+1 each when found. Charged at **1¢ per credit**.
 
 Response shapes (sync, async, poll, results, webhooks): [Scrapers overview](/api/scrapers).

@@ -1,5 +1,6 @@
 ---
 title: "Glassdoor"
+sidebarTitle: "Glassdoor"
 description: "Scrape Glassdoor company reviews as structured JSON. Optional keyword (KH) pain pages."
 ---
 
@@ -7,7 +8,7 @@ Scrape Glassdoor company reviews into structured JSON. Pass a company website or
 
 ## Endpoint
 
-```
+```text
 POST https://app.lens.ly/api/v1/scrapers/glassdoor
 ```
 
@@ -19,7 +20,7 @@ POST https://app.lens.ly/api/v1/scrapers/glassdoor
 | `keyword` | No | Builds a KH reviews URL from the resolved employer handle |
 | `page` | No | Start page (default `1`) |
 | `max_pages` | No | Pages to scrape (default `1`). `>1` runs async |
-| `find_linkedin` | No | Resolve reviewer LinkedIn (+1 credit per success) |
+| `find_linkedin` | No | Resolve reviewer LinkedIn (\+1 credit per success) |
 | `find_email` | No | Find reviewer email (see Email enrichment) |
 | `email_provider` | No | `findymail`, `leadmagic`, `prospeo`, `ai_ark`, or `blitzapi` for BYO sync (see [BYO finders](/guides/byo-email-finders)) |
 | `email_api_key` | No | Request override (not persisted) |
@@ -32,15 +33,14 @@ POST https://app.lens.ly/api/v1/scrapers/glassdoor
 - **Sync** — `max_pages === 1` and either no `find_email` or BYO email key. Response: `{ data, credits_used, meta }`.
 - **Async** — multi-page or bulk `find_email`. Response `202`: `{ job_id, status, poll }`.
 
-Poll: `GET /api/v1/scrapers/jobs/{id}`  
-Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
+Poll: `GET /api/v1/scrapers/jobs/{id}`<br />Results: `GET /api/v1/scrapers/jobs/{id}/results?cursor=&limit=100`
 
 ## Email enrichment
 
 | Mode | How | Credits |
 | --- | --- | --- |
 | Sync | BYO finder key (Findymail, LeadMagic, Prospeo, AI Ark, BlitzAPI) | 0 email credits |
-| Async bulk (`find_email`) | Keyword reviews: full people waterfall. Overview: use `find_persona` on company domain | +1 per LinkedIn / domain / email / persona found |
+| Async bulk (`find_email`) | Keyword reviews: full people waterfall. Overview: use `find_persona` on company domain | \+1 per LinkedIn / domain / email / persona found |
 
 ## Example request
 
@@ -69,9 +69,9 @@ curl -X POST https://app.lens.ly/api/v1/scrapers/glassdoor \
 
 ## Credits
 
-**2 credits per page** scraped. Website → employer resolution is included. `find_linkedin` and email enrichment add +1 each when found.
+**2 credits per page** scraped. Website → employer resolution is included. `find_linkedin` and email enrichment add \+1 each when found.
 
-Charged against your prepaid Billing balance at **3¢ per credit**.
+Charged against your prepaid Billing balance at **1¢ per credit**.
 
 ## Errors
 
@@ -81,5 +81,3 @@ Charged against your prepaid Billing balance at **3¢ per credit**.
 | `401` | Invalid API key |
 | `402` | Insufficient billing balance |
 | `404` | Employer / page not found |
-
-Response shapes (sync, async, poll, results, webhooks): [Scrapers overview](/api/scrapers).
